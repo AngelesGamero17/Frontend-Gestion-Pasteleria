@@ -25,6 +25,8 @@ class Dashboard extends React.Component {
       <React.Fragment>
         <Header></Header>
         <div className="container">
+          <br />
+          <br />
           <table className="table table-hover">
             <thead>
               <tr>
@@ -32,11 +34,10 @@ class Dashboard extends React.Component {
                 <th scope="col">NOMBRE</th>
                 <th scope="col">APELLIDO</th>
                 <th scope="col">EMAIL</th>
-                <th scope="col">FECHA DE NACIMENTO</th>
-                <th scope="col">DIRECCION</th>
-                <th scope="col">TELEFONO</th>
+                <th scope="col">DIRECCIÓN</th>
+                <th scope="col">TELÉFONO</th>
                 <th scope="col">INGRESO</th>
-                <th scope="col">TIPO DE EMPLEADO</th>
+                <th scope="col">TIPO_EMPLEADO</th>
               </tr>
             </thead>
             <tbody>
@@ -47,7 +48,6 @@ class Dashboard extends React.Component {
                     <td>{value.nomEmp}</td>
                     <td>{value.apellEmp}</td>
                     <td>{value.email}</td>
-                    <td>{value.fecNac}</td>
                     <td>{value.direccEmp}</td>
                     <td>{value.telefono}</td>
                     <td>{value.ingreso}</td>
@@ -63,4 +63,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+export default Dashboard; 
