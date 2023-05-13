@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar ANgeles Gamero xdxd y abregu le llega al pincho </h3>
+          <h3>Bienvenidos a la Pasteleria  </h3>
         </div>
 
         

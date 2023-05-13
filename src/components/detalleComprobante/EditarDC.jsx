@@ -4,12 +4,12 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class fechaProduccionEditar extends React.Component {
+class EditarDC extends React.Component {
   state = {
     form: {
-      insumo: "",
-      produccion: "",
-      cantidad: "",
+      producto: "",
+      fechaProduccion: "",
+      estado: "",
     },
     error: false,
     errorMsg: "",
@@ -29,7 +29,7 @@ class fechaProduccionEditar extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "fechaProduccion/" + id;
+    const urlApi = Apiurl + "detalleComprobante/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
     axios
@@ -54,7 +54,7 @@ class fechaProduccionEditar extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "fechaProduccion/" + id;
+    const urlApi = Apiurl + "detalleComprobante/" + id;
     const token = localStorage.getItem("token");
     axios
       .delete(urlApi, {
@@ -65,14 +65,14 @@ class fechaProduccionEditar extends React.Component {
       .then((response) => {
         console.log(response);
         // Mostrar alerta de éxito
-        alert("El fechaProduccion ha sido eliminado correctamente");
-        // Redirigir a la lista de empleados
-        window.location.href = "/fechaProduccion/VisFecPro";
+        alert("El detalleComprobante ha sido eliminado correctamente");
+        // Redirigir a la lista de insumo
+        window.location.href = "/detalleComprobante/VisDetaComp";
       })
       .catch((error) => {
         console.log(error);
         // Mostrar alerta de error
-        alert("Ha ocurrido un error al eliminar el fechaProduccion ");
+        alert("Ha ocurrido un error al eliminar el detalleComprobante");
       });
   };
   
@@ -86,17 +86,17 @@ class fechaProduccionEditar extends React.Component {
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
-      const urlApi = Apiurl + "fechaProduccion/" + id; // Usamos el id en la URL de la API
+      const urlApi = Apiurl + "detalleComprobante/" + id; // Usamos el id en la URL de la API
       axios
         .get(urlApi)
         .then((response) => {
-          const fechaProduccion = response.data;
-          if (fechaProduccion) {
+          const detalleComprobante = response.data;
+          if (detalleComprobante) {
             this.setState({
               form: {
-                insumo: fechaProduccion.insumo,
-                produccion: fechaProduccion.produccion,
-                cantidad: fechaProduccion.cantidad,
+                producto: detalleComprobante.producto,
+                fechaProduccion: detalleComprobante.fechaProduccion,
+                estado: detalleComprobante.estado,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -115,21 +115,21 @@ class fechaProduccionEditar extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar fechaProduccion</h3>
+          <h3>Editar detalleComprobante</h3>
         </div>
         <div className="container">
           <br />
           <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> INSUMO</label>
+                <label className="col-md-2 control-label">PRODUCTO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="insumo"
-                    placeholder="insumo"
+                    name="producto"
+                    placeholder="producto"
                     type="text"
-                    value={form.insumo}
+                    value={form.producto}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -138,14 +138,14 @@ class fechaProduccionEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> PRODUCCION</label>
+                <label className="col-md-2 control-label"> FECHA - PRODUCCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="produccion"
-                    placeholder="produccion"
+                    name="fechaProduccion"
+                    placeholder="fechaProduccion"
                     type="text"
-                    value={form.produccion}
+                    value={form.fechaProduccion}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -154,14 +154,14 @@ class fechaProduccionEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> CANTIDAD</label>
+                <label className="col-md-2 control-label"> ESTADO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="cantidad"
-                    placeholder="cantidad"
+                    name="estado"
+                    placeholder="estado"
                     type="text"
-                    value={form.cantidad}
+                    value={form.estado}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -184,7 +184,7 @@ class fechaProduccionEditar extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/fechaProduccion/VisFecPro">Salir</a>
+            <a className="btn btn-dark" href="/detalleComprobante/VisDetaComp">Salir</a>
             
           </form>
         </div>
@@ -193,4 +193,4 @@ class fechaProduccionEditar extends React.Component {
   }
 }
 
-export default fechaProduccionEditar;
+export default EditarDC;

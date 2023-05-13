@@ -29,17 +29,16 @@ import VisComprobante from './components/Comprobante/VisComprobante';
 import ComprobanteNuevo from './components/Comprobante/Nuevo';
 import ComprobanteEditar from './components/Comprobante/Editar';
 import VisDetaComp from './components/detalleComprobante/VisDetaComp';
-import detalleCompNuevo from './components/detalleComprobante/Nuevo'; 
-import detalleComprobanteEditar from './components/detalleComprobante/Editar';
-
+import EditarDC from './components/detalleComprobante/EditarDC';
+import NuevoDC from './components/detalleComprobante/NuevoDC';
 import VisFecPro from './components/fechaProduccion/VisFecPro';
-import fechaProduccionEditar from './components/fechaProduccion/Editar';
-import fechaProduccionNuevo from './components/fechaProduccion/Nuevo';
-
-
+import EditarFP from './components/fechaProduccion/EditarFP';
+import NuevoFP from './components/fechaProduccion/NuevoFP';
+import VisFaProduc from './components/familiaProducto/VisFaProduc';
+import EditarFAP from './components/familiaProducto/EditarFAP';
+import NuevoFAP from './components/familiaProducto/NuevoFAP';  
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 
 function App() {
   return (
@@ -72,12 +71,15 @@ function App() {
         <Route path='/Comprobante/VisComprobante' element={<VisComprobante/>} />
         <Route path='/Comprobante/Nuevo' element={<ComprobanteNuevo />} />
         <Route path='/Comprobante/Editar/:id' element={<ComprobanteEditar />} />
-        <Route path='/detalleComprobante/VisDetaCop' element={<VisDetaComp/>}/>
-        <Route path='/detalleComprobante/Nuevo' element={<detalleCompNuevo/>} />
-        <Route path='/detalleComprobante/Editar/:id' element={<detalleComprobanteEditar/>} />
+        <Route path='/detalleComprobante/VisDetaComp' element={<VisDetaComp/>}/>
+        <Route path='/detalleComprobante/Editar/:id' element={<EditarDC/>}/>
+        <Route path='/detalleComprobante/Nuevo' element={<NuevoDC/>} />
         <Route path='/fechaProduccion/VisFecPro' element={<VisFecPro/>} />
-        <Route path='/fechaProduccion/Editar/:id' element={<fechaProduccionEditar/>} />
-        <Route path='/fechaProduccion/Nuevo' element={<fechaProduccionNuevo/>} />
+        <Route path='/fechaProduccion/Editar/:id' element={<EditarFP/>}/>
+        <Route path='/fechaProduccion/Nuevo' element={<NuevoFP/>} />
+        <Route path='/familiaProducto/VisFaProduc' element={<VisFaProduc/>} />
+        <Route path='/familiaProducto/Editar/:id' element={<EditarFAP/>}/>
+        <Route path='/familiaProducto/Nuevo' element={<NuevoFAP/>} />
 
       </Routes>
     </Router>

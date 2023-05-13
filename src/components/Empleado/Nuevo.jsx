@@ -30,6 +30,7 @@ class EmpleadoNuevo extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        alert("Nose registro empleado correctamente.");
       });
   };
 

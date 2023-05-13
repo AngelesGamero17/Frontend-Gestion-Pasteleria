@@ -4,13 +4,11 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class detalleComprobanteEditar extends React.Component {
+class EditarFAP extends React.Component {
   state = {
     form: {
-      producto: "",
-      fechaProduccion: "",
-      estado: "",
-    },
+        descripcion: "",
+    }, 
     error: false,
     errorMsg: "",
   };
@@ -29,7 +27,7 @@ class detalleComprobanteEditar extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "detalleComprobante/" + id;
+    const urlApi = Apiurl + "familiaProducto/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
     axios
@@ -54,7 +52,7 @@ class detalleComprobanteEditar extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "detalleComprobante/" + id;
+    const urlApi = Apiurl + "familiaProducto/" + id;
     const token = localStorage.getItem("token");
     axios
       .delete(urlApi, {
@@ -65,14 +63,14 @@ class detalleComprobanteEditar extends React.Component {
       .then((response) => {
         console.log(response);
         // Mostrar alerta de éxito
-        alert("El detalleComprobante ha sido eliminado correctamente");
+        alert("El familiaProducto ha sido eliminado correctamente");
         // Redirigir a la lista de empleados
-        window.location.href = "/detalleComprobante/VisDetaComp";
+        window.location.href = "/familiaProducto/VisFaProduc";
       })
       .catch((error) => {
         console.log(error);
         // Mostrar alerta de error
-        alert("Ha ocurrido un error al eliminar el detalleComprobante");
+        alert("Ha ocurrido un error al eliminar el familiaProducto ");
       });
   };
   
@@ -86,17 +84,15 @@ class detalleComprobanteEditar extends React.Component {
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
-      const urlApi = Apiurl + "detalleComprobante/" + id; // Usamos el id en la URL de la API
+      const urlApi = Apiurl + "familiaProducto/" + id; // Usamos el id en la URL de la API
       axios
         .get(urlApi)
         .then((response) => {
-          const detalleComprobante = response.data;
-          if (detalleComprobante) {
+          const familiaProducto = response.data;
+          if (familiaProducto) {
             this.setState({
               form: {
-                producto: detalleComprobante.producto,
-                fechaProduccion: detalleComprobante.fechaProduccion,
-                estado: detalleComprobante.estado,
+                descripcion: familiaProducto.descripcion,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -115,53 +111,21 @@ class detalleComprobanteEditar extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar detalleComprobante</h3>
+          <h3>Editar familiaProducto</h3>
         </div>
         <div className="container">
           <br />
           <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> PRODUCTO</label>
+                <label className="col-md-2 control-label"> DESCRIPCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="producto"
-                    placeholder="producto"
+                    name="descripcion"
+                    placeholder="descripcion"
                     type="text"
-                    value={form.producto}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> FECHA - PRODUCCION</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="fechaProduccion"
-                    placeholder="fechaProduccion"
-                    type="text"
-                    value={form.fechaProduccion}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> ESTADO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="estado"
-                    placeholder="estado"
-                    type="text"
-                    value={form.estado}
+                    value={form.descripcion}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -184,7 +148,7 @@ class detalleComprobanteEditar extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/detalleComprobante/VisDetaComp">Salir</a>
+            <a className="btn btn-dark" href="/familiaProducto/VisFaProduc">Salir</a>
             
           </form>
         </div>
@@ -193,4 +157,4 @@ class detalleComprobanteEditar extends React.Component {
   }
 }
 
-export default detalleComprobanteEditar;
+export default EditarFAP;

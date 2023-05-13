@@ -38,6 +38,9 @@ class Header extends React.Component{
                   <li className="nav-item">
                     <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
                   </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
+                  </li>
                 </ul>
               </div>
             </div>

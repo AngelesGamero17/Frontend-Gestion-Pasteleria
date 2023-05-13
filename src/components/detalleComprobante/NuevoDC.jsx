@@ -4,7 +4,7 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class detalleCompNuevo extends React.Component {
+class NuevoDC extends React.Component {
   state = {
     form: {
       producto: "",
@@ -13,21 +13,26 @@ class detalleCompNuevo extends React.Component {
     },
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post(Apiurl + "detalleComprobante", this.state.form)
-      .then((res) => {
-        console.log(res);
-        alert("Se registro empleado correctamente.");
-        window.location.href = "/detalleComprobante/VisDetaComp";
-        // Aquí puedes redireccionar al usuario a otra página después de registrar el detalleComprobante
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  handleSubmit = (e) => { const token = localStorage.getItem("token"); 
+  e.preventDefault();
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`// Reemplace "token" con su token de autenticación
+    }
   };
-
+  axios
+    .post(Apiurl + "detalleComprobante", this.state.form, config)
+    .then((res) => {
+      console.log(res);
+      alert("Se registro detalleComprobante correctamente.");
+      window.location.href = "/detalleComprobante/VisDetaComp"; 
+      // Aquí puedes redireccionar al usuario a otra página después de registrar el insumo
+    })
+    .catch((error) => {
+      console.log(error); 
+      alert("No se pudo registrar detalleComprobante");
+    });
+};
   manejadorChange = async (e) => {
     await this.setState({
       form: {
@@ -45,7 +50,7 @@ class detalleCompNuevo extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar detalleComprobante</h3>
+          <h3>Registrar detalleComprobante</h3>
         </div>
         <div className="container">
           <br />
@@ -110,4 +115,4 @@ class detalleCompNuevo extends React.Component {
   }
 }
 
-export default detalleCompNuevo;
+export default NuevoDC;
