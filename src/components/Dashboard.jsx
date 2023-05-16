@@ -9,11 +9,8 @@ class Dashboard extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <div className="container">
-          <h3>Bienvenidos a la Pasteleria  </h3>
-        </div>
 
-        
+
       </React.Fragment>
     );
   }
