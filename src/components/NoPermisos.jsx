@@ -1,6 +1,4 @@
 import React from "react";
-
-//template
 import Header from "../template/Header";
 
 class NoPermisos extends React.Component {
@@ -9,8 +7,7 @@ class NoPermisos extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <h1>NO tienes permiso autorizado , para realizar esta accion</h1>
-
+        <img src="https://png.pngtree.com/png-vector/20220723/ourmid/pngtree-login-access-denied-vector-illustration-png-image_6041364.png" class="d-block w-100" alt="No autorizado"></img>
 
       </React.Fragment>
     );

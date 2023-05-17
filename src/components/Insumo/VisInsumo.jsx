@@ -5,7 +5,14 @@ import axios from "axios";
 
 class VisInsumo extends React.Component {
   state = {
-    insumo: [],
+    insumos: [],
+    searchQuery: "",
+    searchFields: ["nombreInsumo","cantidadInsumo","fecCompra", "tipoInsumo","precioInsumo"],
+  };
+
+  //buscador
+  handleSearch = (event) => {
+    this.setState({ searchQuery: event.target.value });
   };
 
   clickInsumo(id) {
@@ -20,14 +27,23 @@ class VisInsumo extends React.Component {
     let url = Apiurl + "insumo";
     axios.get(url).then((response) => {
       this.setState({
-        insumo: response.data,
+        insumos: response.data,
       });
     });
   }
   render() {
+
+    const { searchQuery, searchFields, insumos } = this.state;
+
+    const filtroInsumo = insumos.filter((insumo) =>
+    searchFields.some((field) =>
+      insumo[field] && insumo[field].toString().toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
+<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -64,6 +80,15 @@ class VisInsumo extends React.Component {
         <div className="container">
           <br />
           <br />
+
+          <input
+              type="text"
+              placeholder="Buscar"
+              value={searchQuery}
+              onChange={this.handleSearch}
+              className="form-control"
+          />
+
           <table className="table table-hover">
             <thead>
               <tr>
@@ -76,7 +101,8 @@ class VisInsumo extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.insumo.map((value, index) => {
+
+            {filtroInsumo.map((value, index) => {
                 return (
                   <tr key={index} onClick={() => this.clickInsumo(value.ID)}>
                     <th scope="row">{value.ID}</th>

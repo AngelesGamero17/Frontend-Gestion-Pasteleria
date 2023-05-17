@@ -2,7 +2,8 @@ import React from 'react';
 //css
 import '../assets/css/Login.css';
 //imagenes
-import logo from '../assets/img/logo.png';
+import logo2 from '../assets/img/logo2.jpg';
+import fondologin from '../assets/img/fondologin.png';
 //servicios
 import { Apiurl } from '../services/apirest';
 //libreriass
@@ -68,13 +69,24 @@ class Login extends React.Component {
   render() {
     return (
       <React.Fragment>
+      <div
+      style={{
+        backgroundImage: 'url(' + fondologin + ')',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        width: '100%',
+        height: '100vh'
+      }}
+    >
+
 
         <div className="wrapper fadeInDown">
           <div id="formContent">
 
             <div className="fadeIn first">
               <br></br>
-              <img src={logo} width="100px" alt="User Icon" />
+              <img src={logo2} width="100px" alt="User Icon" />
               <br></br>
             </div>
 
@@ -93,6 +105,9 @@ class Login extends React.Component {
 
           </div>
         </div>
+      
+    </div>
+
       </React.Fragment>
 
     );

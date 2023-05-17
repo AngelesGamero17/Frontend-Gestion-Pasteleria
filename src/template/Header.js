@@ -3,8 +3,8 @@ class Header extends React.Component{
     render(){
         return(
 
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <a className="nav-link" href="./Dashboard">Inicio</a>
+<nav className="navbar navbar-expand-lg navbar navbar-light bg-warning">
+              <a className="nav-link" href="/Dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                 <li className="nav-item">

@@ -27,7 +27,7 @@ class VisEmpleado extends React.Component {
   render() {
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
+<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">

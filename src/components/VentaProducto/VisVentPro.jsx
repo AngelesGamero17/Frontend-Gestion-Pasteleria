@@ -6,6 +6,12 @@ import axios from "axios";
 class VisVentPro extends React.Component {
   state = {
     ventaProducto: [],
+    searchQuery: "",
+    searchFields: ["idCliente","idEmpleado","descripcion", "precioTotal","fechaVenta"],
+  };
+  //buscador
+  handleSearch = (event) => {
+    this.setState({ searchQuery: event.target.value });
   };
 
   clickVentPro(id) {
@@ -25,9 +31,16 @@ class VisVentPro extends React.Component {
     });
   }
   render() {
+    const { searchQuery, searchFields, ventaProducto } = this.state;
+
+    const filtroVentaProducto = ventaProducto.filter((ventaProductos) =>
+    searchFields.some((field) =>
+    ventaProductos[field] && ventaProductos[field].toString().toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
+<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -63,6 +76,15 @@ class VisVentPro extends React.Component {
         <div className="container">
           <br />
           <br />
+
+          <input
+              type="text"
+              placeholder="Buscar"
+              value={searchQuery}
+              onChange={this.handleSearch}
+              className="form-control"
+          />
+
           <table className="table table-hover">
             <thead>
               <tr>
@@ -75,7 +97,7 @@ class VisVentPro extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.ventaProducto.map((value, index) => {
+            {filtroVentaProducto.map((value, index) => {
                 return (
                   <tr key={index} onClick={() => this.clickVentPro(value.ID)}>
                     <th scope="row">{value.ID}</th>

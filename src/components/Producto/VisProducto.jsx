@@ -6,6 +6,13 @@ import axios from "axios";
 class VisProducto extends React.Component {
   state = {
     productos: [],
+    searchQuery: "",
+    searchFields: ["nombre","cantidad","precio", "fechaProduccion"],
+  };
+
+  //buscador
+  handleSearch = (event) => {
+    this.setState({ searchQuery: event.target.value });
   };
 
   clickProducto(id) {
@@ -25,9 +32,16 @@ class VisProducto extends React.Component {
     });
   }
   render() {
+    const { searchQuery, searchFields, productos } = this.state;
+
+    const filtroProductos = productos.filter((producto) =>
+    searchFields.some((field) =>
+      producto[field] && producto[field].toString().toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
+<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -59,9 +73,20 @@ class VisProducto extends React.Component {
                 </ul>
               </div>
             </div>
-          </nav>        <div className="container">
+
+          </nav>   
+            <div className="container">
           <br />
           <br />
+
+            <input
+                type="text"
+                placeholder="Buscar"
+                value={searchQuery}
+                onChange={this.handleSearch}
+                className="form-control"
+            />
+
           <table className="table table-hover">
             <thead>
               <tr>
@@ -73,7 +98,7 @@ class VisProducto extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.productos.map((value, index) => {
+              {filtroProductos.map((value, index) => {
                 return (
                   <tr key={index} onClick={() => this.clickProducto(value.ID)}>
                     <th scope="row">{value.ID}</th>

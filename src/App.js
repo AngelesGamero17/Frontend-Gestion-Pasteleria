@@ -38,13 +38,25 @@ function App() {
     <React.Fragment>
     <Router>
       <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/Dashboard' element={<Dashboard />} />
-        <Route path='/NoPermisos' element={<NoPermisos/>}/>
-        <Route path='/Cliente/VisCliente' element={<VisCliente/>} />
-        <Route path='/Cliente/Nuevo' element={<ClienteNuevo/>} />
-        <Route path='/Cliente/Editar/:id' element={<ClienteEditar />} />
-        
+
+      <Route path='/' element={<Login />} />
+      <Route path='/NoPermisos' element={<NoPermisos/>}/>
+
+      {(tipoEmpleado === 1 ||tipoEmpleado === 2 ||tipoEmpleado === 3)? (
+            <React.Fragment>
+            <Route path='/Dashboard' element={<Dashboard />} />
+            <Route path='/Cliente/VisCliente' element={<VisCliente/>} />
+            <Route path='/Cliente/Nuevo' element={<ClienteNuevo/>} />
+            <Route path='/Cliente/Editar/:id' element={<ClienteEditar />} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+            <Route path='/Dashboard' element={<NoPermisos/>} />
+            <Route path='/Cliente/VisCliente' element={<NoPermisos/>} />
+            <Route path='/Cliente/Nuevo' element={<NoPermisos/>} />
+            <Route path='/Cliente/Editar/:id' element={<NoPermisos/>} />
+            </React.Fragment>
+          )}
 
         {tipoEmpleado === 1? (
             <React.Fragment>
