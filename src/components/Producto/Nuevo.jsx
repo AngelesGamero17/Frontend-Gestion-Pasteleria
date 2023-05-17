@@ -7,10 +7,10 @@ import Header from "../../template/Header";
 class ProductoNuevo extends React.Component {
   state = {
     form: {
-      descripPro: "",
+      nombre: "",
+      cantidad: "",
       precio: "",
-      stock: "",
-      familiaProducto: "",
+      fechaProduccion: "",
     },
   };
 
@@ -58,14 +58,30 @@ class ProductoNuevo extends React.Component {
           <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> DESCRIPCION</label>
+                <label className="col-md-2 control-label">NOMBRE</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="descripPro"
-                    placeholder="descripPro"
+                    name="nombre"
+                    placeholder="nombre"
                     type="text"
-                    value={this.state.form.descripPro}
+                    value={this.state.form.nombre}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">CANTIDAD</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="cantidad"
+                    placeholder="cantidad"
+                    type="text"
+                    value={this.state.form.cantidad}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -80,7 +96,7 @@ class ProductoNuevo extends React.Component {
                     className="form-control"
                     name="precio"
                     placeholder="precio"
-                    type="text"
+                    type="number"
                     value={this.state.form.precio}
                     onChange={this.manejadorChange}
                   />
@@ -90,30 +106,14 @@ class ProductoNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> STOCK</label>
+                <label className="col-md-2 control-label">FECHA - PRODUCCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="stock"
-                    placeholder="stock"
-                    type="number"
-                    value={this.state.form.stock}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label">FAMILIA - PRODUCTO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="familiaProducto"
-                    placeholder="familiaProducto"
+                    name="fechaProduccion"
+                    placeholder="fechaProduccion"
                     type="text"
-                    value={this.state.form.familiaProducto}
+                    value={this.state.form.fechaProduccion}
                     onChange={this.manejadorChange}
                   />
                 </div>

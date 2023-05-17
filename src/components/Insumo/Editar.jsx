@@ -8,8 +8,7 @@ class InsumoEditar extends React.Component {
   state = {
     form: {
       nombreInsumo: "",
-      stkInsumo: "",
-      fechaVen: "",
+      cantidadInsumo: "",
       fecCompra: "",
       tipoInsumo: "",
       precioInsumo: "",
@@ -99,8 +98,7 @@ class InsumoEditar extends React.Component {
             this.setState({
               form: {
                 nombreInsumo: insumo.nombreInsumo,
-                stkInsumo: insumo.stkInsumo,
-                fechaVen: insumo.fechaVen,
+                cantidadInsumo: insumo.cantidadInsumo,
                 fecCompra: insumo.fecCompra,
                 tipoInsumo: insumo.tipoInsumo,
                 precioInsumo: insumo.precioInsumo,
@@ -145,30 +143,14 @@ class InsumoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> STOCK</label>
+                <label className="col-md-2 control-label"> CANTIDAD- INSUMO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="stkInsumo"
-                    placeholder="stkInsumo"
+                    name="cantidadInsumo"
+                    placeholder="cantidadInsumo"
                     type="text"
-                    value={form.stkInsumo}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> FECHA - VENCIMIENTO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="fechaVen"
-                    placeholder="fechaVen"
-                    type="text"
-                    value={form.fechaVen}
+                    value={form.cantidadInsumo}
                     onChange={this.manejadorChange}
                   />
                 </div>

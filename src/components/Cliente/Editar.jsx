@@ -8,10 +8,8 @@ class ClienteEditar extends React.Component {
   state = {
     form: {
       nomCli: "",
-      apellCli: "",
       direCli: "",
       telefono: "",
-      Email: "",
       dni: "",
     },
     error: false,
@@ -98,10 +96,8 @@ class ClienteEditar extends React.Component {
             this.setState({
               form: {
                 nomCli:cliente.nomCli,
-                apellCli:cliente.apellCli,
                 direCli: cliente.direCli,
                 telefono: cliente.telefono,
-                Email: cliente.Email,
                 dni: cliente.dni,
                 token: localStorage.getItem("token"),
                 id: id,
@@ -144,22 +140,6 @@ class ClienteEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> APELLIDO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="apellCli"
-                    placeholder="apellCli"
-                    type="text"
-                    value={form.apellCli}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
                 <label className="col-md-2 control-label">DIRECCION</label>
                 <div className="col-md-10">
                   <input
@@ -184,22 +164,6 @@ class ClienteEditar extends React.Component {
                     placeholder="telefono"
                     type="text"
                     value={form.telefono}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label">EMAIL</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="Email"
-                    placeholder="Email"
-                    type="text"
-                    value={form.Email}
                     onChange={this.manejadorChange}
                   />
                 </div>

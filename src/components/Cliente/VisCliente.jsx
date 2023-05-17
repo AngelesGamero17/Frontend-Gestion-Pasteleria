@@ -52,20 +52,12 @@ class VisCliente extends React.Component {
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
+                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Comprobante/VisComprobante">Comprobante</a>
+                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/detalleComprobante/VisDetaComp">Detalle - Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
-                  </li>
+                 
                 </ul>
               </div>
             </div>
@@ -80,10 +72,8 @@ class VisCliente extends React.Component {
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">NOMBRE</th>
-                <th scope="col">APELLIDO</th>
                 <th scope="col">DIRECCION</th>
                 <th scope="col">TELEFONO</th>
-                <th scope="col">EMAIL</th>
                 <th scope="col">DNI</th>
 
               </tr>
@@ -94,10 +84,8 @@ class VisCliente extends React.Component {
                   <tr key={index} onClick={() => this.clickCliente(value.ID)}>
                     <th scope="row">{value.ID}</th>
                     <td>{value.nomCli}</td>
-                    <td>{value.apellCli}</td>
                     <td>{value.direCli}</td>
                     <td>{value.telefono}</td>
-                    <td>{value.Email}</td>
                     <td>{value.dni}</td>
                   </tr>
                 );

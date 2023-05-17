@@ -4,12 +4,14 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class NuevoDC extends React.Component {
+class NuevoVP extends React.Component {
   state = {
     form: {
-      producto: "",
-      fechaProduccion: "",
-      estado: "",
+      idCliente: "",
+      idEmpleado: "",
+      descripcion: "",
+      precioTotal: "",
+      fechaVenta: "",
     },
   };
 
@@ -21,16 +23,16 @@ class NuevoDC extends React.Component {
     }
   };
   axios
-    .post(Apiurl + "detalleComprobante", this.state.form, config)
+    .post(Apiurl + "ventaProducto", this.state.form, config)
     .then((res) => {
       console.log(res);
-      alert("Se registro detalleComprobante correctamente.");
-      window.location.href = "/detalleComprobante/VisDetaComp"; 
+      alert("Se registro ventaProducto correctamente.");
+      window.location.href = "/VentaProducto/VisVentPro"; 
       // Aquí puedes redireccionar al usuario a otra página después de registrar el insumo
     })
     .catch((error) => {
       console.log(error); 
-      alert("No se pudo registrar detalleComprobante");
+      alert("No se pudo registrar ventaProducto");
     });
 };
   manejadorChange = async (e) => {
@@ -50,21 +52,21 @@ class NuevoDC extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Registrar detalleComprobante</h3>
+          <h3>Registrar ventaProducto</h3>
         </div>
         <div className="container">
           <br />
           <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> PRODUCTO</label>
+                <label className="col-md-2 control-label">CLIENTE</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="producto"
-                    placeholder="producto"
+                    name="idCliente"
+                    placeholder="idCliente"
                     type="text"
-                    value={this.state.form.producto}
+                    value={this.state.form.idCliente}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -73,14 +75,14 @@ class NuevoDC extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> FECHA - PRODUCCION</label>
+                <label className="col-md-2 control-label">EMPLEADO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="fechaProduccion"
-                    placeholder="fechaProduccion"
+                    name="idEmpleado"
+                    placeholder="idEmpleado"
                     type="text"
-                    value={this.state.form.fechaProduccion}
+                    value={this.state.form.idEmpleado}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -89,14 +91,46 @@ class NuevoDC extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> ESTADO</label>
+                <label className="col-md-2 control-label"> DESCRIPCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="estado"
-                    placeholder="estado"
+                    name="descripcion"
+                    placeholder="descripcion"
                     type="text"
-                    value={this.state.form.estado}
+                    value={this.state.form.descripcion}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label"> PRECIO - TOTAL</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="precioTotal"
+                    placeholder="precioTotal"
+                    type="text"
+                    value={this.state.form.precioTotal}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VENTA</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fechaVenta"
+                    placeholder="fechaVenta"
+                    type="text"
+                    value={this.state.form.fechaVenta}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -115,4 +149,4 @@ class NuevoDC extends React.Component {
   }
 }
 
-export default NuevoDC;
+export default NuevoVP;

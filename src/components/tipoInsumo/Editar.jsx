@@ -147,7 +147,7 @@ class tipoInsumoEditar extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/tipoEmpleado/VisTipoIns">Salir</a>
+            <a className="btn btn-dark" href="/tipoInsumo/VisTipoIns">Salir</a>
             
           </form>
         </div>

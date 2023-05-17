@@ -22,23 +22,16 @@ import TipoEmpEditar from './components/tipoEmpleado/Editar';
 import VisTipoIns from './components/tipoInsumo/VisTipoIns';
 import TipoInsumoNuevo from './components/tipoInsumo/Nuevo';
 import TipoInsumoEditar from './components/tipoInsumo/Editar';
-import VisProduccion from './components/Produccion/VisProduccion';
-import ProduccionNuevo from './components/Produccion/Nuevo';
-import ProduccionEditar from './components/Produccion/Editar';
-import VisComprobante from './components/Comprobante/VisComprobante';
-import ComprobanteNuevo from './components/Comprobante/Nuevo';
-import ComprobanteEditar from './components/Comprobante/Editar';
-import VisDetaComp from './components/detalleComprobante/VisDetaComp';
-import EditarDC from './components/detalleComprobante/EditarDC';
-import NuevoDC from './components/detalleComprobante/NuevoDC';
-import VisFecPro from './components/fechaProduccion/VisFecPro';
-import EditarFP from './components/fechaProduccion/EditarFP';
-import NuevoFP from './components/fechaProduccion/NuevoFP';
-import VisFaProduc from './components/familiaProducto/VisFaProduc';
-import EditarFAP from './components/familiaProducto/EditarFAP';
-import NuevoFAP from './components/familiaProducto/NuevoFAP';  
+import VisVentIns from './components/VentaInsumo/VisVentIns';
+import VentInsEditar from './components/VentaInsumo/Editar';
+import NuevoVI from './components/VentaInsumo/NuevoVI';
+import VisVentPro from './components/VentaProducto/VisVentPro';
+import EditarVP from './components/VentaProducto/EditarVP';
+import NuevoVP from './components/VentaProducto/NuevoVP';
+import NoPermisos from './components/NoPermisos';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+let tipoEmpleado = JSON.parse(localStorage.getItem('tipoEmpleado'));
 
 function App() {
   return (
@@ -47,40 +40,92 @@ function App() {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/Dashboard' element={<Dashboard />} />
-        <Route path='/Empleado/VisEmpleado' element={<VisEmpleado/>} />
-        <Route path='/Empleado/Nuevo' element={<EmpleadoNuevo/>} />
-        <Route path='/Empleado/Editar/:id' element={<EmpleadoEditar />} />
-        <Route path='/Producto/VisProducto' element={<VisProducto/>} />
-        <Route path='/Producto/Nuevo' element={<ProductoNuevo/>} />
-        <Route path='/Producto/Editar/:id' element={<ProductoEditar />} />
+        <Route path='/NoPermisos' element={<NoPermisos/>}/>
         <Route path='/Cliente/VisCliente' element={<VisCliente/>} />
         <Route path='/Cliente/Nuevo' element={<ClienteNuevo/>} />
         <Route path='/Cliente/Editar/:id' element={<ClienteEditar />} />
-        <Route path='/Insumo/VisInsumo' element={<VisInsumo/>} />
-        <Route path='/Insumo/Nuevo' element={<InsumoNuevo/>} />
-        <Route path='/Insumo/Editar/:id' element={<InsumoEditar />} />
-        <Route path='/tipoEmpleado/VisTipoEmp' element={<VisTipoEmp/>} />
-        <Route path='/tipoEmpleado/Nuevo' element={<TipoEmpNuevo />} />
-        <Route path='/tipoEmpleado/Editar/:id' element={<TipoEmpEditar />} />
-        <Route path='/tipoInsumo/VisTipoIns' element={<VisTipoIns/>} />
-        <Route path='/tipoInsumo/Nuevo' element={<TipoInsumoNuevo />} />
-        <Route path='/tipoInsumo/Editar/:id' element={<TipoInsumoEditar />} />
-        <Route path='/Produccion/VisProduccion' element={<VisProduccion/>} />
-        <Route path='/Produccion/Nuevo' element={<ProduccionNuevo />} />
-        <Route path='/Produccion/Editar/:id' element={<ProduccionEditar />} />
-        <Route path='/Comprobante/VisComprobante' element={<VisComprobante/>} />
-        <Route path='/Comprobante/Nuevo' element={<ComprobanteNuevo />} />
-        <Route path='/Comprobante/Editar/:id' element={<ComprobanteEditar />} />
-        <Route path='/detalleComprobante/VisDetaComp' element={<VisDetaComp/>}/>
-        <Route path='/detalleComprobante/Editar/:id' element={<EditarDC/>}/>
-        <Route path='/detalleComprobante/Nuevo' element={<NuevoDC/>} />
-        <Route path='/fechaProduccion/VisFecPro' element={<VisFecPro/>} />
-        <Route path='/fechaProduccion/Editar/:id' element={<EditarFP/>}/>
-        <Route path='/fechaProduccion/Nuevo' element={<NuevoFP/>} />
-        <Route path='/familiaProducto/VisFaProduc' element={<VisFaProduc/>} />
-        <Route path='/familiaProducto/Editar/:id' element={<EditarFAP/>}/>
-        <Route path='/familiaProducto/Nuevo' element={<NuevoFAP/>} />
+        
 
+        {tipoEmpleado === 1? (
+            <React.Fragment>
+              <Route path='/Empleado/Editar/:id' element={<EmpleadoEditar />} />
+              <Route path='/Empleado/Nuevo' element={<EmpleadoNuevo/>} />
+              <Route path='/Empleado/VisEmpleado' element={<VisEmpleado />} />
+              <Route path='/Producto/VisProducto' element={<VisProducto/>} />
+              <Route path='/Producto/Nuevo' element={<ProductoNuevo/>} />
+              <Route path='/Producto/Editar/:id' element={<ProductoEditar />} />
+              <Route path='/Insumo/VisInsumo' element={<VisInsumo/>} />
+              <Route path='/Insumo/Nuevo' element={<InsumoNuevo/>} />
+              <Route path='/Insumo/Editar/:id' element={<InsumoEditar />} />
+              <Route path='/tipoEmpleado/VisTipoEmp' element={<VisTipoEmp/>} />
+              <Route path='/tipoEmpleado/Nuevo' element={<TipoEmpNuevo />} />
+              <Route path='/tipoEmpleado/Editar/:id' element={<TipoEmpEditar />} />
+              <Route path='/tipoInsumo/VisTipoIns' element={<VisTipoIns/>} />
+              <Route path='/tipoInsumo/Nuevo' element={<TipoInsumoNuevo />} />
+              <Route path='/tipoInsumo/Editar/:id' element={<TipoInsumoEditar />} />
+              <Route path='/VentaInsumo/VisVentIns' element={<VisVentIns/>} />
+              <Route path='/VentaInsumo/Editar/:id' element={<VentInsEditar/>} />
+              <Route path='/VentaInsumo/Nuevo' element={<NuevoVI/>} />
+              <Route path='/VentaProducto/VisVentPro' element={<VisVentPro/>} />
+              <Route path='/VentaProducto/Editar/:id' element={<EditarVP />} />
+              <Route path='/VentaProducto/Nuevo' element={<NuevoVP/>} />
+              </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Route path='/Empleado/Editar/:id' element={<NoPermisos />} />
+              <Route path='/Empleado/Nuevo' element={<NoPermisos/>} />
+              <Route path='/Empleado/VisEmpleado' element={<NoPermisos />} />
+              <Route path='/tipoEmpleado/VisTipoEmp' element={<NoPermisos/>} />
+              <Route path='/tipoEmpleado/Nuevo' element={<NoPermisos/>} />
+              <Route path='/tipoEmpleado/Editar/:id' element={<NoPermisos/>} />
+            </React.Fragment>
+          )}
+
+        {tipoEmpleado === 2? (
+            <React.Fragment>
+              <Route path='/Insumo/VisInsumo' element={<VisInsumo/>} />
+              <Route path='/Insumo/Nuevo' element={<InsumoNuevo/>} />
+              <Route path='/Insumo/Editar/:id' element={<InsumoEditar />} />
+              <Route path='/tipoInsumo/VisTipoIns' element={<VisTipoIns/>} />
+              <Route path='/tipoInsumo/Nuevo' element={<TipoInsumoNuevo />} />
+              <Route path='/tipoInsumo/Editar/:id' element={<TipoInsumoEditar />} />
+              <Route path='/VentaInsumo/VisVentIns' element={<VisVentIns/>} />
+              <Route path='/VentaInsumo/Editar/:id' element={<VentInsEditar/>} />
+              <Route path='/VentaInsumo/Nuevo' element={<NuevoVI/>} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Route path='/Insumo/VisInsumo' element={<NoPermisos/>} />
+              <Route path='/Insumo/Nuevo' element={<NoPermisos/>} />
+              <Route path='/Insumo/Editar/:id' element={<NoPermisos />} />
+              <Route path='/tipoInsumo/VisTipoIns' element={<NoPermisos/>} />
+              <Route path='/tipoInsumo/Nuevo' element={<NoPermisos/>} />
+              <Route path='/tipoInsumo/Editar/:id' element={<NoPermisos/>} />
+              <Route path='/VentaInsumo/VisVentIns' element={<NoPermisos/>} />
+              <Route path='/VentaInsumo/Editar/:id' element={<NoPermisos />} />
+              <Route path='/VentaInsumo/Nuevo' element={<NoPermisos/>} />
+            </React.Fragment>
+          )}
+
+          {tipoEmpleado === 3? (
+            <React.Fragment>
+              <Route path='/Producto/VisProducto' element={<VisProducto/>} />
+              <Route path='/Producto/Nuevo' element={<ProductoNuevo/>} />
+              <Route path='/Producto/Editar/:id' element={<ProductoEditar />} />
+              <Route path='/VentaProducto/VisVentPro' element={<VisVentPro/>} />
+              <Route path='/VentaProducto/Editar/:id' element={<EditarVP />} />
+              <Route path='/VentaProducto/Nuevo' element={<NuevoVP/>} />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Route path='/Producto/VisProducto' element={<NoPermisos/>} />
+              <Route path='/Producto/Nuevo' element={<NoPermisos/>} />
+              <Route path='/Producto/Editar/:id' element={<NoPermisos />} />
+              <Route path='/VentaProducto/VisVentPro' element={<NoPermisos/>} />
+              <Route path='/VentaProducto/Editar/:id' element={<NoPermisos/>} />
+              <Route path='/VentaProducto/Nuevo' element={<NoPermisos/>} />
+            </React.Fragment>
+          )}
       </Routes>
     </Router>
   </React.Fragment>

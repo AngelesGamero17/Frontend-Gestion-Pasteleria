@@ -4,12 +4,14 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class EditarDC extends React.Component {
+class VentInsEditar extends React.Component {
   state = {
     form: {
-      producto: "",
-      fechaProduccion: "",
-      estado: "",
+      idCliente: "",
+      idEmpleado: "",
+      descripcion: "",
+      precioTotal: "",
+      fechaVenta: "",
     },
     error: false,
     errorMsg: "",
@@ -29,7 +31,7 @@ class EditarDC extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "detalleComprobante/" + id;
+    const urlApi = Apiurl + "ventaInsumo/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
     axios
@@ -54,7 +56,7 @@ class EditarDC extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "detalleComprobante/" + id;
+    const urlApi = Apiurl + "ventaInsumo/" + id;
     const token = localStorage.getItem("token");
     axios
       .delete(urlApi, {
@@ -65,14 +67,14 @@ class EditarDC extends React.Component {
       .then((response) => {
         console.log(response);
         // Mostrar alerta de éxito
-        alert("El detalleComprobante ha sido eliminado correctamente");
+        alert("El ventaInsumo ha sido eliminado correctamente");
         // Redirigir a la lista de insumo
-        window.location.href = "/detalleComprobante/VisDetaComp";
+        window.location.href = "/VentaInsumo/VisVentIns";
       })
       .catch((error) => {
         console.log(error);
         // Mostrar alerta de error
-        alert("Ha ocurrido un error al eliminar el detalleComprobante");
+        alert("Ha ocurrido un error al eliminar el ventaInsumo");
       });
   };
   
@@ -86,17 +88,19 @@ class EditarDC extends React.Component {
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
-      const urlApi = Apiurl + "detalleComprobante/" + id; // Usamos el id en la URL de la API
+      const urlApi = Apiurl + "ventaInsumo/" + id; // Usamos el id en la URL de la API
       axios
         .get(urlApi)
         .then((response) => {
-          const detalleComprobante = response.data;
-          if (detalleComprobante) {
+          const ventaInsumo = response.data;
+          if (ventaInsumo) {
             this.setState({
               form: {
-                producto: detalleComprobante.producto,
-                fechaProduccion: detalleComprobante.fechaProduccion,
-                estado: detalleComprobante.estado,
+                idCliente: ventaInsumo.idCliente,
+                idEmpleado: ventaInsumo.idEmpleado,
+                descripcion: ventaInsumo.descripcion,
+                precioTotal: ventaInsumo.precioTotal,
+                fechaVenta: ventaInsumo.fechaVenta,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -115,21 +119,21 @@ class EditarDC extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar detalleComprobante</h3>
+          <h3>Editar ventaInsumo</h3>
         </div>
         <div className="container">
           <br />
           <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">PRODUCTO</label>
+                <label className="col-md-2 control-label">CLIENTE</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="producto"
-                    placeholder="producto"
+                    name="idCliente"
+                    placeholder="idCliente"
                     type="text"
-                    value={form.producto}
+                    value={form.idCliente}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -138,14 +142,14 @@ class EditarDC extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> FECHA - PRODUCCION</label>
+                <label className="col-md-2 control-label">EMPLEADO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="fechaProduccion"
-                    placeholder="fechaProduccion"
+                    name="idEmpleado"
+                    placeholder="idEmpleado"
                     type="text"
-                    value={form.fechaProduccion}
+                    value={form.idEmpleado}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -154,19 +158,54 @@ class EditarDC extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> ESTADO</label>
+                <label className="col-md-2 control-label">DESCRIPCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="estado"
-                    placeholder="estado"
+                    name="descripcion"
+                    placeholder="descripcion"
                     type="text"
-                    value={form.estado}
+                    value={form.descripcion}
                     onChange={this.manejadorChange}
                   />
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">PRECIO - TOTAL</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="precioTotal"
+                    placeholder="precioTotal"
+                    type="text"
+                    value={form.precioTotal}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VENTA</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fechaVenta"
+                    placeholder="fechaVenta"
+                    type="text"
+                    value={form.fechaVenta}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+
 
             <br></br>
 
@@ -184,7 +223,7 @@ class EditarDC extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/detalleComprobante/VisDetaComp">Salir</a>
+            <a className="btn btn-dark" href="/VentaInsumo/VisVentIns">Salir</a>
             
           </form>
         </div>
@@ -193,4 +232,4 @@ class EditarDC extends React.Component {
   }
 }
 
-export default EditarDC;
+export default VentInsEditar;

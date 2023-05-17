@@ -7,10 +7,10 @@ import Header from "../../template/Header";
 class ProductoEditar extends React.Component {
   state = {
     form: {
-      descripPro: "",
+      nombre:"",
+      cantidad: "",
       precio: "",
-      stock: "",
-      familiaProducto: "",
+      fechaProduccion:""
     },
     error: false,
     errorMsg: "",
@@ -95,10 +95,10 @@ class ProductoEditar extends React.Component {
           if (producto) {
             this.setState({
               form: {
-                descripPro: producto.descripPro,
+                nombre: producto.nombre,
+                cantidad: producto.cantidad,
                 precio: producto.precio,
-                stock: producto.stock,
-                familiaProducto: producto.familiaProducto,
+                fechaProduccion: producto.fechaProduccion,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -124,14 +124,14 @@ class ProductoEditar extends React.Component {
           <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> DESCRIPCION</label>
+                <label className="col-md-2 control-label"> NOMBRE</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="descripPro"
-                    placeholder="descripPro"
+                    name="nombre"
+                    placeholder="nombre"
                     type="text"
-                    value={form.descripPro}
+                    value={form.nombre}
                     onChange={this.manejadorChange}
                   />
                 </div>
@@ -140,7 +140,23 @@ class ProductoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> PRECIO</label>
+                <label className="col-md-2 control-label">CANTIDAD</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="cantidad"
+                    placeholder="cantidad"
+                    type="text"
+                    value={form.cantidad}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">PRECIO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -156,30 +172,14 @@ class ProductoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> STOCK</label>
+                <label className="col-md-2 control-label">FECHA - PRODUCCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="stock"
-                    placeholder="stock"
+                    name="fechaProduccion"
+                    placeholder="fechaProduccion"
                     type="text"
-                    value={form.stock}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label">FAMILIA-PRODUCTO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="familiaProducto"
-                    placeholder="familiaProducto"
-                    type="text"
-                    value={form.familiaProducto}
+                    value={form.fechaProduccion}
                     onChange={this.manejadorChange}
                   />
                 </div>

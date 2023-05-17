@@ -4,11 +4,15 @@ import axios from "axios";
 //template
 import Header from "../../template/Header";
 
-class EditarFAP extends React.Component {
+class EditarVP extends React.Component {
   state = {
     form: {
-        descripcion: "",
-    }, 
+      idCliente: "",
+      idEmpleado: "",
+      descripcion: "",
+      precioTotal: "",
+      fechaVenta: "",
+    },
     error: false,
     errorMsg: "",
   };
@@ -27,7 +31,7 @@ class EditarFAP extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "familiaProducto/" + id;
+    const urlApi = Apiurl + "ventaProducto/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
     axios
@@ -52,7 +56,7 @@ class EditarFAP extends React.Component {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
-    const urlApi = Apiurl + "familiaProducto/" + id;
+    const urlApi = Apiurl + "ventaProducto/" + id;
     const token = localStorage.getItem("token");
     axios
       .delete(urlApi, {
@@ -63,14 +67,14 @@ class EditarFAP extends React.Component {
       .then((response) => {
         console.log(response);
         // Mostrar alerta de éxito
-        alert("El familiaProducto ha sido eliminado correctamente");
-        // Redirigir a la lista de empleados
-        window.location.href = "/familiaProducto/VisFaProduc";
+        alert("El ventaProducto ha sido eliminado correctamente");
+        // Redirigir a la lista de insumo
+        window.location.href = "/VentaProducto/VisVentPro";
       })
       .catch((error) => {
         console.log(error);
         // Mostrar alerta de error
-        alert("Ha ocurrido un error al eliminar el familiaProducto ");
+        alert("Ha ocurrido un error al eliminar el ventProducto");
       });
   };
   
@@ -84,15 +88,19 @@ class EditarFAP extends React.Component {
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
-      const urlApi = Apiurl + "familiaProducto/" + id; // Usamos el id en la URL de la API
+      const urlApi = Apiurl + "ventaProducto/" + id; // Usamos el id en la URL de la API
       axios
         .get(urlApi)
         .then((response) => {
-          const familiaProducto = response.data;
-          if (familiaProducto) {
+          const ventaInsumo = response.data;
+          if (ventaInsumo) {
             this.setState({
               form: {
-                descripcion: familiaProducto.descripcion,
+                idCliente: ventaInsumo.idCliente,
+                idEmpleado: ventaInsumo.idEmpleado,
+                descripcion: ventaInsumo.descripcion,
+                precioTotal: ventaInsumo.precioTotal,
+                fechaVenta: ventaInsumo.fechaVenta,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -111,14 +119,46 @@ class EditarFAP extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar familiaProducto</h3>
+          <h3>Editar ventaProducto</h3>
         </div>
         <div className="container">
           <br />
           <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> DESCRIPCION</label>
+                <label className="col-md-2 control-label">CLIENTE</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="idCliente"
+                    placeholder="idCliente"
+                    type="text"
+                    value={form.idCliente}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">EMPLEADO</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="idEmpleado"
+                    placeholder="idEmpleado"
+                    type="text"
+                    value={form.idEmpleado}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">DESCRIPCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -131,6 +171,41 @@ class EditarFAP extends React.Component {
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">PRECIO - TOTAL</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="precioTotal"
+                    placeholder="precioTotal"
+                    type="text"
+                    value={form.precioTotal}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VENTA</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fechaVenta"
+                    placeholder="fechaVenta"
+                    type="text"
+                    value={form.fechaVenta}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+
 
             <br></br>
 
@@ -148,7 +223,7 @@ class EditarFAP extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/familiaProducto/VisFaProduc">Salir</a>
+            <a className="btn btn-dark" href="/VentaProducto/VisVentPro">Salir</a>
             
           </form>
         </div>
@@ -157,4 +232,4 @@ class EditarFAP extends React.Component {
   }
 }
 
-export default EditarFAP;
+export default EditarVP;

@@ -3,12 +3,12 @@ import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 
-class VisComprobante extends React.Component {
+class VisVentPro extends React.Component {
   state = {
-    comprobante: [],
+    ventaProducto: [],
   };
 
-  clickComprobante(id) {
+  clickVentPro(id) {
     window.location.href = "./editar/" + id;
   }
 
@@ -17,10 +17,10 @@ class VisComprobante extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "comprobante";
+    let url = Apiurl + "ventaProducto";
     axios.get(url).then((response) => {
       this.setState({
-        comprobante: response.data,
+        ventaProducto: response.data,
       });
     });
   }
@@ -51,25 +51,15 @@ class VisComprobante extends React.Component {
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
+                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active" href="/Comprobante/VisComprobante">Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/detalleComprobante/VisDetaComp">Detalle - Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
+                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
                 </ul>
               </div>
             </div>
           </nav>
-
         <div className="container">
           <br />
           <br />
@@ -77,29 +67,29 @@ class VisComprobante extends React.Component {
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">EMPLEADO</th>
-                <th scope="col">FECHA - COMPROBANTE</th>
                 <th scope="col">CLIENTE</th>
-                <th scope="col">ESTADO - COMPROBANTE</th>
-                <th scope="col">DETALLE - COMPROBANTE</th>
+                <th scope="col">EMPLEADO</th>
+                <th scope="col">DESCRIPCION</th>
+                <th scope="col">PRECIO - TOTAL</th>
+                <th scope="col">FECHA - VENTA</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.comprobante.map((value, index) => {
+              {this.state.ventaProducto.map((value, index) => {
                 return (
-                  <tr key={index} onClick={() => this.clickComprobante(value.ID)}>
+                  <tr key={index} onClick={() => this.clickVentPro(value.ID)}>
                     <th scope="row">{value.ID}</th>
-                    <td>{value.empleado}</td>
-                    <td>{value.fechaComp}</td>
-                    <td>{value.cliente}</td>
-                    <td>{value.estadoComp}</td>
-                    <td>{value.detalleComprobante}</td>
+                    <td>{value.idCliente}</td>
+                    <td>{value.idEmpleado}</td>
+                    <td>{value.descripcion}</td>
+                    <td>{value.precioTotal}</td>
+                    <td>{value.fechaVenta}</td>
                   </tr>
                 );
               })}
 
               <br></br>
-              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar Comprobante</button>
+              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar ventaProducto</button>
 
             </tbody>
           </table>
@@ -109,4 +99,4 @@ class VisComprobante extends React.Component {
   }
 }
 
-export default VisComprobante; 
+export default VisVentPro; 

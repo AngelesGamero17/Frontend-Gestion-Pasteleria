@@ -8,10 +8,8 @@ class ClienteNuevo extends React.Component {
   state = {
     form: {
       nomCli: "",
-      apellCli: "",
       direCli: "",
       telefono: "",
-      Email: "",
       dni: "",
     },
   };
@@ -76,22 +74,6 @@ class ClienteNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> APELLIDO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="apellCli"
-                    placeholder="apellCli"
-                    type="text"
-                    value={this.state.form.apellCli}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
                 <label className="col-md-2 control-label"> DESCRIPCION</label>
                 <div className="col-md-10">
                   <input
@@ -122,21 +104,6 @@ class ClienteNuevo extends React.Component {
               </div>
             </div>
             
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label">EMAIL</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="Email"
-                    placeholder="Email"
-                    type="text"
-                    value={this.state.form.Email}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
 
             <div className="row">
               <div className="col-sm-12">

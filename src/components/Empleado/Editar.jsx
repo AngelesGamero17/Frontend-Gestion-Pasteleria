@@ -12,7 +12,6 @@ class EmpleadoEditar extends React.Component {
       email: "",
       direccEmp: "",
       telefono: "",
-      ingreso: "",
       tipoEmpleado: "",
       password: "",
     },
@@ -104,7 +103,6 @@ class EmpleadoEditar extends React.Component {
                 email: empleado.email,
                 direccEmp: empleado.direccEmp,
                 telefono: empleado.telefono,
-                ingreso: empleado.ingreso,
                 tipoEmpleado: empleado.tipoEmpleado,
                 password: empleado.password,
                 token: localStorage.getItem("token"),
@@ -220,22 +218,6 @@ class EmpleadoEditar extends React.Component {
                     placeholder="telefono"
                     type="text"
                     value={form.telefono}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> INGRESO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="ingreso"
-                    placeholder="ingreso"
-                    type="text"
-                    value={form.ingreso}
                     onChange={this.manejadorChange}
                   />
                 </div>

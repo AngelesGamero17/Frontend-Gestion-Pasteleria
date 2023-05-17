@@ -26,19 +26,10 @@ class Header extends React.Component{
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
+                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Comprobante/VisComprobante">Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/detalleComprobante/VisDetaComp">Detalle - Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
+                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
                 </ul>
               </div>

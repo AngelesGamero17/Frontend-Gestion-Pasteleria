@@ -38,9 +38,17 @@ class Login extends React.Component {
     axios
       .post(url, this.state.form)
       .then((response) => {
+        console.log(response.data);
         if (response.data.message === "Logueado correctamente") {
           localStorage.setItem("token", response.data.token);
-          window.location.href = "./Dashboard";
+          localStorage.setItem("id", response.data.data.id);
+          localStorage.setItem("tipoEmpleado", response.data.data.tipoEmpleado);
+          let empleadoID = response.data.data.id;
+          console.log(response.data.data.tipoEmpleado);
+          axios.get(Apiurl + "empleado/" + empleadoID).then((response) => {
+            // Redirigir al dashboard
+            window.location.href = "./Dashboard";
+          });
         } else {
           this.setState({
             error: true,

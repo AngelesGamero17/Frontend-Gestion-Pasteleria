@@ -1,14 +1,13 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 
-class VisDetaComp extends React.Component {
+class VisVentIns extends React.Component {
   state = {
-    detalleComprobante: [],
+    ventaInsumo: [],
   };
 
-  clickDetaComp(id) {
+  clickVentIns(id) {
     window.location.href = "./editar/" + id;
   }
 
@@ -17,10 +16,10 @@ class VisDetaComp extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "detalleComprobante";
+    let url = Apiurl + "ventaInsumo";
     axios.get(url).then((response) => {
       this.setState({
-        detalleComprobante: response.data,
+        ventaInsumo: response.data,
       });
     });
   }
@@ -51,19 +50,10 @@ class VisDetaComp extends React.Component {
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
+                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Comprobante/VisComprobante">Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link active" href="/detalleComprobante/VisDetaComp">Detalle - Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
+                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
                 </ul>
               </div>
@@ -76,25 +66,29 @@ class VisDetaComp extends React.Component {
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">PRODUCTO</th>
-                <th scope="col">FECHA - PRODUCCION</th>
-                <th scope="col">ESTADO</th>
+                <th scope="col">CLIENTE</th>
+                <th scope="col">EMPLEADO</th>
+                <th scope="col">DESCRIPCION</th>
+                <th scope="col">PRECIO - TOTAL</th>
+                <th scope="col">FECHA - VENTA</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.detalleComprobante.map((value, index) => {
+              {this.state.ventaInsumo.map((value, index) => {
                 return (
-                  <tr key={index} onClick={() => this.clickDetaComp(value.ID)}>
+                  <tr key={index} onClick={() => this.clickVentIns(value.ID)}>
                     <th scope="row">{value.ID}</th>
-                    <td>{value.producto}</td>
-                    <td>{value.fechaProduccion}</td>
-                    <td>{value.estado}</td>
+                    <td>{value.idCliente}</td>
+                    <td>{value.idEmpleado}</td>
+                    <td>{value.descripcion}</td>
+                    <td>{value.precioTotal}</td>
+                    <td>{value.fechaVenta}</td>
                   </tr>
                 );
               })}
 
               <br></br>
-              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar detalleComprobante</button>
+              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar ventaInsumo</button>
 
             </tbody>
           </table>
@@ -104,4 +98,4 @@ class VisDetaComp extends React.Component {
   }
 }
 
-export default VisDetaComp; 
+export default VisVentIns; 

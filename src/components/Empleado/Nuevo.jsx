@@ -13,7 +13,6 @@ class EmpleadoNuevo extends React.Component {
       password: "",
       direccEmp: "",
       telefono: "",
-      ingreso: "",
       tipoEmpleado: "",
     },
   };
@@ -147,22 +146,6 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="telefono"
                     type="text"
                     value={this.state.form.telefono}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> INGRESO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="ingreso"
-                    placeholder="ingreso"
-                    type="text"
-                    value={this.state.form.ingreso}
                     onChange={this.manejadorChange}
                   />
                 </div>

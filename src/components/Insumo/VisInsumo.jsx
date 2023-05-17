@@ -51,19 +51,10 @@ class VisInsumo extends React.Component {
                     <a className="nav-link active" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
+                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link " href="/Comprobante/VisComprobante">Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/detalleComprobante/VisDetaComp">Detalle - Comprobante</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/fechaProduccion/VisFecPro">Fecha - Produccion</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="/familiaProducto/VisFaProduc">FAMILIA - PRODUCTO</a>
+                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
                 </ul>
               </div>
@@ -78,8 +69,7 @@ class VisInsumo extends React.Component {
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">NOMBRE</th>
-                <th scope="col">STOCK</th>
-                <th scope="col">FECHA - VENCIMIENTO</th>
+                <th scope="col">CANTIDAD - INSUMO</th>
                 <th scope="col">FECHA - COMPRA</th>
                 <th scope="col">TIPO - INSUMO</th>
                 <th scope="col">PRECIO - INSUMO</th>
@@ -91,8 +81,7 @@ class VisInsumo extends React.Component {
                   <tr key={index} onClick={() => this.clickInsumo(value.ID)}>
                     <th scope="row">{value.ID}</th>
                     <td>{value.nombreInsumo}</td>
-                    <td>{value.stkInsumo}</td>
-                    <td>{value.fechaVen}</td>
+                    <td>{value.cantidadInsumo}</td>
                     <td>{value.fecCompra}</td>
                     <td>{value.tipoInsumo}</td>
                     <td>{value.precioInsumo}</td>

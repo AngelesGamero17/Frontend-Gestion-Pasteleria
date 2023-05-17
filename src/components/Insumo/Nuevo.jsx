@@ -8,8 +8,7 @@ class InsumoNuevo extends React.Component {
   state = {
     form: {
       nombreInsumo: "",
-      stkInsumo: "",
-      fechaVen: "",
+      cantidadInsumo: "",
       fecCompra: "",
       tipoInsumo: "",
       precioInsumo: "",
@@ -76,30 +75,14 @@ class InsumoNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> STOCK</label>
+                <label className="col-md-2 control-label">CANTIDAD -INSUMO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
-                    name="stkInsumo"
-                    placeholder="stkInsumo"
+                    name="cantidadInsumo"
+                    placeholder="cantidadInsumo"
                     type="text"
-                    value={this.state.form.stkInsumo}
-                    onChange={this.manejadorChange}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label"> FECHA - VENCIMIENTO</label>
-                <div className="col-md-10">
-                  <input
-                    className="form-control"
-                    name="fechaVen"
-                    placeholder="fechaVen"
-                    type="text"
-                    value={this.state.form.fechaVen}
+                    value={this.state.form.cantidadInsumo}
                     onChange={this.manejadorChange}
                   />
                 </div>
