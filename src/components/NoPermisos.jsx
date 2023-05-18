@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../template/Header";
+import accesoNegado from '../assets/img/accesoNegado.png';
 
 class NoPermisos extends React.Component {
  
@@ -7,8 +8,11 @@ class NoPermisos extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <img src="https://png.pngtree.com/png-vector/20220723/ourmid/pngtree-login-access-denied-vector-illustration-png-image_6041364.png" class="d-block w-100" alt="No autorizado"></img>
-
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <br />
+          <img src={accesoNegado} width="1500px" height="900px" alt="Img dashboard" />
+          <br />
+        </div>
       </React.Fragment>
     );
   }
