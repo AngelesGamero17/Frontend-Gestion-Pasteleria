@@ -29,6 +29,25 @@ class ProformaProducto extends React.Component {
     return total;
   }
 
+ ////borrar acciones de proforma
+ borrarProforma = (index) => {
+  // Obtener la proforma actual del estado
+  const { proforma } = this.state;
+
+  // Crear una copia de la proforma actual
+  const updatedProforma = [...proforma];
+
+  // Eliminar el elemento seleccionado por su índice
+  updatedProforma.splice(index, 1);
+
+  // Actualizar el estado con la nueva proforma
+  this.setState({ proforma: updatedProforma });
+
+  // Actualizar el localStorage con la nueva proforma
+  localStorage.setItem("proforma", JSON.stringify(updatedProforma));
+};
+
+
   render() {
     const { proforma, decodedValue } = this.state;
     const total = this.calcularTotal();
@@ -51,6 +70,7 @@ class ProformaProducto extends React.Component {
               <th>Precio</th>
               <th>Cantidad</th>
               <th>Costo Total</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +80,9 @@ class ProformaProducto extends React.Component {
                 <td>S/ {producto.precio}</td>
                 <td>{producto.cantidad}</td>
                 <td>S/ {(producto.precio * producto.cantidad).toFixed(2)}</td>
+                <td>
+                  <button className="btn btn-danger" onClick={() => this.borrarProforma(index)}>Eliminar</button>
+                </td>
               </tr>
             ))}
           </tbody>
