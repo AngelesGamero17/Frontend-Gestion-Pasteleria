@@ -50,21 +50,23 @@ class ProformaInsumo extends React.Component {
               <th>Nombre</th>
               <th>Precio</th>
               <th>Cantidad</th>
+              <th>Costo Total</th>
             </tr>
           </thead>
           <tbody>
             {proforma1.map((insumo, index) => (
               <tr key={index}>
                 <td>{insumo.nombre}</td>
-                <td>{insumo.precio}</td>
+                <td>S/ {insumo.precio}</td>
                 <td>{insumo.cantidad}</td>
+                <td>S/ {(insumo.precio * insumo.cantidad).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="2">Total</td>
-              <td>{total}</td>
+              <td colSpan="3">Total</td>
+              <td>S/ {(total).toFixed(2)}</td>
             </tr>
           </tfoot>
         </table>

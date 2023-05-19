@@ -11,7 +11,8 @@ class MostrarProductos extends React.Component {
     productos: [],
     searchQuery: "",
     searchFields: ["nombre", "cantidad", "precio", "fechaProduccion"],
-    showCards: false, // Track when to show the cards with animation
+    showCards: false,
+    cantidad:0, // Track when to show the cards with animation
   };
 
   // Buscador
@@ -30,7 +31,7 @@ class MostrarProductos extends React.Component {
   }
 
   // Función para agregar a la proforma
-  addToProforma = (value) => {
+  addToProforma = (value,cantidad) => {
     // Obtener los valores del objeto "value"
     const nombre = value.nombre;
     const precio = parseFloat(value.precio).toFixed(2);
@@ -42,14 +43,14 @@ class MostrarProductos extends React.Component {
     const proformaArray = proforma ? JSON.parse(proforma) : [];
 
     // Agregar el nuevo objeto a la proforma
-    const nuevoProducto = { nombre, precio };
+    const nuevoProducto = { nombre, precio, cantidad };
     proformaArray.push(nuevoProducto);
 
     // Guardar la proforma actualizada en el localStorage
     localStorage.setItem('proforma', JSON.stringify(proformaArray));
 
     // Redirigir a la página "/ProformaProducto"
-    window.location.href = "/ProfomaProducto";
+    window.location.href = "/ProformaProducto";
   };
 
   render() {
@@ -125,13 +126,17 @@ class MostrarProductos extends React.Component {
                     <p style={{ color: 'blue' }}>Precio:</p>
                     <p className="card-text">S/ {parseFloat(value.precio).toFixed(2)}</p>
                     <p style={{ color: 'blue' }}>Cantidad:</p>
-                    <input type="number"  />
+                    <input
+                      type="number"
+                      value={this.state.cantidad}
+                      onChange={(event) => this.setState({ cantidad: event.target.value })}
+                    />
                     <br/>
                     <br/>
                     <button
                       className="btn btn-primary btn-sm"
                       style={{ backgroundColor: "#ab3ed8", borderColor: "#bc4ed8" }}
-                      onClick={() => this.addToProforma(value)}
+                      onClick={() => this.addToProforma(value, this.state.cantidad)}
                     >
                       Agregar a la Proforma
                     </button>
