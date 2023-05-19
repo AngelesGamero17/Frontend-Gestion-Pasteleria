@@ -1,9 +1,10 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
+import LogoutButton from "../CerrarSesion";
 
 class VisVentPro extends React.Component {
+
   state = {
     ventaProducto: [],
     searchQuery: "",
@@ -12,6 +13,17 @@ class VisVentPro extends React.Component {
   //buscador
   handleSearch = (event) => {
     this.setState({ searchQuery: event.target.value });
+  };
+
+  //funcion Cerra SEsion
+  handleLogout = () => {
+    // Aquí puedes realizar las acciones necesarias para cerrar la sesión
+    localStorage.removeItem('token');
+    localStorage.removeItem('tipoEmpleado');
+    localStorage.removeItem('id');
+    window.location.href = "/";
+    // Ejemplo: Simplemente mostramos un mensaje en la consola
+    console.log('Sesión cerrada');
   };
 
   clickVentPro(id) {
@@ -71,6 +83,11 @@ class VisVentPro extends React.Component {
                   </li>
                 </ul>
               </div>
+              <ul className="navbar-nav">
+                <li>
+                  <LogoutButton onLogout={this.handleLogout} />
+                </li>
+              </ul>
             </div>
           </nav>
         <div className="container">

@@ -1,11 +1,21 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
-
+import LogoutButton from "../CerrarSesion";
 class VisTipoEmp extends React.Component {
   state = {
     tipoEmp: [],
+  };
+
+  //funcion Cerra SEsion
+  handleLogout = () => {
+    // Aquí puedes realizar las acciones necesarias para cerrar la sesión
+    localStorage.removeItem('token');
+    localStorage.removeItem('tipoEmpleado');
+    localStorage.removeItem('id');
+    window.location.href = "/";
+    // Ejemplo: Simplemente mostramos un mensaje en la consola
+    console.log('Sesión cerrada');
   };
 
   clickTipoEmpleado(id) {
@@ -58,6 +68,11 @@ class VisTipoEmp extends React.Component {
                   </li>
                 </ul>
               </div>
+              <ul className="navbar-nav">
+                <li>
+                  <LogoutButton onLogout={this.handleLogout} />
+                </li>
+              </ul>
             </div>
           </nav>
         <div className="container">

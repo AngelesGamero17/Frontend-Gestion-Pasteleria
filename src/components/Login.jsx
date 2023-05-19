@@ -80,16 +80,17 @@ class Login extends React.Component {
       }}
     >
 
+<a className="nav-link active btn btn-danger d-block mx-auto" href="./MostrarInsumo">
+    Volver a la Página Principal
+</a>
 
         <div className="wrapper fadeInDown">
           <div id="formContent">
-
             <div className="fadeIn first">
               <br></br>
               <img src={logo2} width="100px" alt="User Icon" />
               <br></br>
             </div>
-
 
             <form onSubmit={this.manejadorSubmit}>
               <input type="text" className="fadeIn second" name="email" placeholder="Email" onChange={this.manejadorChange} />
@@ -105,6 +106,7 @@ class Login extends React.Component {
 
           </div>
         </div>
+        
       
     </div>
 

@@ -11,6 +11,7 @@ class ProductoNuevo extends React.Component {
       cantidad: "",
       precio: "",
       fechaProduccion: "",
+      img: "",
     },
   };
 
@@ -114,6 +115,22 @@ class ProductoNuevo extends React.Component {
                     placeholder="fechaProduccion"
                     type="text"
                     value={this.state.form.fechaProduccion}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">IMG</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="img"
+                    placeholder="img"
+                    type="text"
+                    value={this.state.form.img}
                     onChange={this.manejadorChange}
                   />
                 </div>

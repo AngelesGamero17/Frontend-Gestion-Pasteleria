@@ -10,7 +10,8 @@ class ProductoEditar extends React.Component {
       nombre:"",
       cantidad: "",
       precio: "",
-      fechaProduccion:""
+      fechaProduccion:"",
+      img:""
     },
     error: false,
     errorMsg: "",
@@ -99,6 +100,7 @@ class ProductoEditar extends React.Component {
                 cantidad: producto.cantidad,
                 precio: producto.precio,
                 fechaProduccion: producto.fechaProduccion,
+                img: producto.img,
                 token: localStorage.getItem("token"),
                 id: id,
               },
@@ -186,13 +188,30 @@ class ProductoEditar extends React.Component {
               </div>
             </div>
 
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">IMG</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="img"
+                    placeholder="img"
+                    type="text"
+                    value={form.img}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+
             <br></br>
 
             <button
               type="submit"
               className="btn btn-primary"
               style={{ marginRight: "10px" }}
-              onClick={() => this.put()}>Editar
+              onClick={() => this.put()}>Guardar Cambios
               </button>
 
             <button

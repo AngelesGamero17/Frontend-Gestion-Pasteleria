@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
+import LogoutButton from "../CerrarSesion";
 
 class VisInsumo extends React.Component {
   state = {
@@ -13,6 +13,17 @@ class VisInsumo extends React.Component {
   //buscador
   handleSearch = (event) => {
     this.setState({ searchQuery: event.target.value });
+  };
+
+  //funcion Cerra SEsion
+  handleLogout = () => {
+    // Aquí puedes realizar las acciones necesarias para cerrar la sesión
+    localStorage.removeItem('token');
+    localStorage.removeItem('tipoEmpleado');
+    localStorage.removeItem('id');
+    window.location.href = "/";
+    // Ejemplo: Simplemente mostramos un mensaje en la consola
+    console.log('Sesión cerrada');
   };
 
   clickInsumo(id) {
@@ -37,7 +48,10 @@ class VisInsumo extends React.Component {
 
     const filtroInsumo = insumos.filter((insumo) =>
     searchFields.some((field) =>
-      insumo[field] && insumo[field].toString().toLowerCase().includes(searchQuery.toLowerCase())
+      insumo[field] && insumo[field]
+      .toString()
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
     )
   );
 
@@ -74,6 +88,11 @@ class VisInsumo extends React.Component {
                   </li>
                 </ul>
               </div>
+              <ul className="navbar-nav">
+                <li>
+                  <LogoutButton onLogout={this.handleLogout} />
+                </li>
+              </ul>
             </div>
           </nav>
 
@@ -98,6 +117,7 @@ class VisInsumo extends React.Component {
                 <th scope="col">FECHA - COMPRA</th>
                 <th scope="col">TIPO - INSUMO</th>
                 <th scope="col">PRECIO - INSUMO</th>
+                <th scope="col">IMG</th>
               </tr>
             </thead>
             <tbody>
@@ -111,6 +131,7 @@ class VisInsumo extends React.Component {
                     <td>{value.fecCompra}</td>
                     <td>{value.tipoInsumo}</td>
                     <td>{value.precioInsumo}</td>
+                    <td><img src={value.img}  alt="Img insumo" width="90px" height="90px"/></td>
                   </tr>
                 );
               })}

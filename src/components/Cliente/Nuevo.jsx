@@ -74,7 +74,7 @@ class ClienteNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> DESCRIPCION</label>
+                <label className="col-md-2 control-label"> DIRECCION</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"

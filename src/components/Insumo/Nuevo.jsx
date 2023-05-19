@@ -12,6 +12,7 @@ class InsumoNuevo extends React.Component {
       fecCompra: "",
       tipoInsumo: "",
       precioInsumo: "",
+      img: ""
     },
   };
 
@@ -131,6 +132,22 @@ class InsumoNuevo extends React.Component {
                     placeholder="precioInsumo"
                     type="text"
                     value={this.state.form.precioInsumo}
+                    onChange={this.manejadorChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">IMG</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="img"
+                    placeholder="img"
+                    type="text"
+                    value={this.state.form.img}
                     onChange={this.manejadorChange}
                   />
                 </div>

@@ -2,10 +2,9 @@ import React from "react";
 import LogoutButton from "../components/CerrarSesion";
 
 class Header extends React.Component {
+  //funcion Cerra SEsion
   handleLogout = () => {
     // Aquí puedes realizar las acciones necesarias para cerrar la sesión
-    // Por ejemplo, puedes eliminar los datos de autenticación, redirigir al usuario a la página de inicio de sesión, etc.
-    // También puedes utilizar librerías o servicios específicos para manejar la lógica de cierre de sesión.
     localStorage.removeItem('token');
     localStorage.removeItem('tipoEmpleado');
     localStorage.removeItem('id');
@@ -17,6 +16,7 @@ class Header extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar navbar-light bg-warning">
+      <div className="container-fluid">
         <a className="nav-link" href="/Dashboard">Inicio</a>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
@@ -45,12 +45,14 @@ class Header extends React.Component {
               <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
             </li>
           </ul>
+          
         </div>
         <ul className="navbar-nav">
           <li>
             <LogoutButton onLogout={this.handleLogout} />
           </li>
         </ul>
+        </div>
       </nav>
     );
   }

@@ -1,0 +1,30 @@
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 1s ease forwards;
+  }
+  
+  @keyframes fadeInAnimation {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .card-img-top {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: translateX(-20px); /* Initial position off the screen */
+  }
+  
+  .fade-in .card-img-top {
+    opacity: 1;
+    transform: translateX(0); /* Move the image to its original position */
+  }
+
+  body {
+    background-color: #ffa6cd;
+  }

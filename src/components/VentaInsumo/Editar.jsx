@@ -213,7 +213,7 @@ class VentInsEditar extends React.Component {
               type="submit"
               className="btn btn-primary"
               style={{ marginRight: "10px" }}
-              onClick={() => this.put()}>Editar
+              onClick={() => this.put()}>Guardar Cambios
               </button>
 
             <button

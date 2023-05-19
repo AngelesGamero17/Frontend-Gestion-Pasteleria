@@ -29,6 +29,10 @@ import VisVentPro from './components/VentaProducto/VisVentPro';
 import EditarVP from './components/VentaProducto/EditarVP';
 import NuevoVP from './components/VentaProducto/NuevoVP';
 import NoPermisos from './components/NoPermisos';
+import MostrarProductos from './components/MostrarProductos';
+import MostrarInsumo from './components/MostrarInsumo';
+import ProformaInsumo from './components/ProformaInsumo';
+import ProformaProducto from './components/ProformaProducto';
 
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 let tipoEmpleado = JSON.parse(localStorage.getItem('tipoEmpleado'));
@@ -39,8 +43,13 @@ function App() {
     <Router>
       <Routes>
 
-      <Route path='/' element={<Login />} />
+      <Route path='/' element={<MostrarInsumo />} />
       <Route path='/NoPermisos' element={<NoPermisos/>}/>
+      <Route path='/MostrarProductos' element={<MostrarProductos/>} />
+      <Route path='/MostrarInsumo' element={<MostrarInsumo/>} />
+      <Route path='/ProfomaInsumo' element={<ProformaInsumo/>} />
+      <Route path='/ProfomaProducto' element={<ProformaProducto/>} />
+      <Route path='/Login' element={<Login />} />
 
       {(tipoEmpleado === 1 ||tipoEmpleado === 2 ||tipoEmpleado === 3)? (
             <React.Fragment>

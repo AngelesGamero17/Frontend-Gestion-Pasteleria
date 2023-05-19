@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
+import LogoutButton from "../CerrarSesion";
 
 class VisCliente extends React.Component {
   state = {
@@ -13,6 +13,18 @@ class VisCliente extends React.Component {
   //buscador
   handleSearch = (event) => {
     this.setState({ searchQuery: event.target.value });
+  };
+
+
+  //funcion Cerra SEsion
+  handleLogout = () => {
+    // Aquí puedes realizar las acciones necesarias para cerrar la sesión
+    localStorage.removeItem('token');
+    localStorage.removeItem('tipoEmpleado');
+    localStorage.removeItem('id');
+    window.location.href = "/";
+    // Ejemplo: Simplemente mostramos un mensaje en la consola
+    console.log('Sesión cerrada');
   };
 
   clickCliente(id) {
@@ -73,9 +85,13 @@ class VisCliente extends React.Component {
                   <li className="nav-item">
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
-                 
                 </ul>
               </div>
+              <ul className="navbar-nav">
+                <li>
+                  <LogoutButton onLogout={this.handleLogout} />
+                </li>
+              </ul>
             </div>
           </nav>
 

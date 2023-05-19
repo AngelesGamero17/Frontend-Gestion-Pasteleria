@@ -1,8 +1,7 @@
 import React from "react";
-import Header from "../../template/Header";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
-
+import LogoutButton from "../CerrarSesion";
 class VisProducto extends React.Component {
   state = {
     productos: [],
@@ -14,6 +13,17 @@ class VisProducto extends React.Component {
   handleSearch = (event) => {
     this.setState({ searchQuery: event.target.value });
   };
+
+    //funcion Cerra SEsion
+    handleLogout = () => {
+      // Aquí puedes realizar las acciones necesarias para cerrar la sesión
+      localStorage.removeItem('token');
+      localStorage.removeItem('tipoEmpleado');
+      localStorage.removeItem('id');
+      window.location.href = "/";
+      // Ejemplo: Simplemente mostramos un mensaje en la consola
+      console.log('Sesión cerrada');
+    };
 
   clickProducto(id) {
     window.location.href = "./editar/" + id;
@@ -72,6 +82,11 @@ class VisProducto extends React.Component {
                   </li>
                 </ul>
               </div>
+              <ul className="navbar-nav">
+                <li>
+                  <LogoutButton onLogout={this.handleLogout} />
+                </li>
+              </ul>
             </div>
 
           </nav>   
@@ -95,6 +110,7 @@ class VisProducto extends React.Component {
                 <th scope="col">CANTIDAD</th>
                 <th scope="col">PRECIO</th>
                 <th scope="col">FECHA- PRODUCCION</th>
+                <th scope="col">IMG</th>
               </tr>
             </thead>
             <tbody>
@@ -106,6 +122,7 @@ class VisProducto extends React.Component {
                     <td>{value.cantidad}</td>
                     <td>{value.precio}</td>
                     <td>{value.fechaProduccion}</td>
+                    <td><img src={value.img}  alt="Img insumo" width="90px" height="90px"/></td>
                   </tr>
                 );
               })}
