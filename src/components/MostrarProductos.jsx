@@ -124,6 +124,10 @@ class MostrarProductos extends React.Component {
                     <h5 className="card-title">{value.nombre}</h5>
                     <p style={{ color: 'blue' }}>Precio:</p>
                     <p className="card-text">S/ {parseFloat(value.precio).toFixed(2)}</p>
+                    <p style={{ color: 'blue' }}>Cantidad:</p>
+                    <input type="number"  />
+                    <br/>
+                    <br/>
                     <button
                       className="btn btn-primary btn-sm"
                       style={{ backgroundColor: "#ab3ed8", borderColor: "#bc4ed8" }}

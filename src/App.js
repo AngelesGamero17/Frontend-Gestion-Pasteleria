@@ -47,8 +47,8 @@ function App() {
       <Route path='/NoPermisos' element={<NoPermisos/>}/>
       <Route path='/MostrarProductos' element={<MostrarProductos/>} />
       <Route path='/MostrarInsumo' element={<MostrarInsumo/>} />
-      <Route path='/ProfomaInsumo' element={<ProformaInsumo/>} />
-      <Route path='/ProfomaProducto' element={<ProformaProducto/>} />
+      <Route path='/ProformaInsumo' element={<ProformaInsumo/>} />
+      <Route path='/ProformaProducto' element={<ProformaProducto/>} />
       <Route path='/Login' element={<Login />} />
 
       {(tipoEmpleado === 1 ||tipoEmpleado === 2 ||tipoEmpleado === 3)? (

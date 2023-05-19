@@ -1,31 +1,42 @@
 import React from "react";
-import Header from "../template/Header";
+import "../assets/css/ProformaInsumo.css"; // Importar archivo CSS para los estilos
 
 class ProformaInsumo extends React.Component {
-    state = {
-        proforma1: [],
-        decodedValue: null,
-      };
-    
-      componentDidMount() {
-        // Obtener la proforma del localStorage
-        const proforma1 = localStorage.getItem('proforma1');
-      
-        // Verificar si la proforma existe y actualizar el estado
-        if (proforma1) {
-          const proformaArray = JSON.parse(proforma1); // Convertir la cadena JSON a un array de objetos
-          this.setState({ proforma1: proformaArray });
-        }
-      }
-    
-  render() {
+  state = {
+    proforma1: [],
+    decodedValue: null,
+  };
 
-const { proforma1, decodedValue } = this.state;
+  componentDidMount() {
+    // Obtener la proforma del localStorage
+    const proforma1 = localStorage.getItem("proforma1");
+
+    // Verificar si la proforma existe y actualizar el estado
+    if (proforma1) {
+      const proformaArray = JSON.parse(proforma1); // Convertir la cadena JSON a un array de objetos
+      this.setState({ proforma1: proformaArray });
+    }
+  }
+
+  calcularTotal() {
+    const { proforma1 } = this.state;
+    let total = 0;
+
+    proforma1.forEach((insumo) => {
+      total += insumo.precio * insumo.cantidad;
+    });
+
+    return total;
+  }
+
+  render() {
+    const { proforma1, decodedValue } = this.state;
+    const total = this.calcularTotal();
 
     return (
       <React.Fragment>
         <h1>Proforma Insumo</h1>
-        
+
         {/* Mostrar el valor decodificado */}
         {decodedValue && (
           <div>
@@ -33,11 +44,12 @@ const { proforma1, decodedValue } = this.state;
           </div>
         )}
 
-        <table>
+        <table className="proforma-table">
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Precio</th>
+              <th>Cantidad</th>
             </tr>
           </thead>
           <tbody>
@@ -45,14 +57,22 @@ const { proforma1, decodedValue } = this.state;
               <tr key={index}>
                 <td>{insumo.nombre}</td>
                 <td>{insumo.precio}</td>
+                <td>{insumo.cantidad}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="2">Total</td>
+              <td>{total}</td>
+            </tr>
+          </tfoot>
         </table>
-
       </React.Fragment>
     );
   }
 }
 
 export default ProformaInsumo;
+
+

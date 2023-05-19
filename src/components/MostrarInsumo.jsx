@@ -5,14 +5,13 @@ import '../assets/css/Producto.css';
 import IconoInsu from '../assets/img/IconoInsu.jpeg';
 import ProductIcon from '../assets/img/ProductIcon.png';
 import IconLogo from '../assets/img/IconLogo.png'
-import Login from "./Login";
-
 class MostrarInsumo extends React.Component {
   state = {
     insumos: [],
     searchQuery: "",
     searchFields: ["nombreInsumo", "cantidadInsumo", "fecCompra", "tipoInsumo", "precioInsumo"],
-    showCards: false, // Track when to show the cards with animation
+    showCards: false, 
+    cantidad: 0,// Track when to show the cards with animation
   };
 
   // Buscador
@@ -31,26 +30,26 @@ class MostrarInsumo extends React.Component {
   }
 
   // Función para agregar a la proforma
-  addToProforma1 = (value) => {
+  addToProforma1 = (value, cantidad) => {
     // Obtener los valores del objeto "value"
     const nombre = value.nombreInsumo;
     const precio = parseFloat(value.precioInsumo).toFixed(2);
-
+  
     // Obtener la proforma actual del localStorage
     const proforma1 = localStorage.getItem('proforma1');
-
+  
     // Convertir la proforma en un arreglo si existe, o un arreglo vacío si no existe
     const proformaArray = proforma1 ? JSON.parse(proforma1) : [];
-
+  
     // Agregar el nuevo objeto a la proforma
-    const nuevoInsumo = { nombre, precio };
+    const nuevoInsumo = { nombre, precio, cantidad };
     proformaArray.push(nuevoInsumo);
-
+  
     // Guardar la proforma actualizada en el localStorage
     localStorage.setItem('proforma1', JSON.stringify(proformaArray));
-
+  
     // Redirigir a la página "/ProformaProducto"
-    window.location.href = "/ProfomaInsumo";
+    window.location.href = "./ProformaInsumo";
   };
 
 
@@ -123,10 +122,19 @@ class MostrarInsumo extends React.Component {
                     <h5 className="card-title">{value.nombreInsumo}</h5>
                     <p style={{ color: 'blue' }}>Precio:</p>
                     <p className="card-text">S/ {parseFloat(value.precioInsumo).toFixed(2)}</p>
+                    <p style={{ color: 'blue' }}>Cantidad:</p>
+                    
+                        <input
+                      type="number"
+                      value={this.state.cantidad}
+                      onChange={(event) => this.setState({ cantidad: event.target.value })}
+                    />
+                    <br/>
+                    <br/>
                     <button
                       className="btn btn-primary btn-sm"
                       style={{ backgroundColor: "#ab3ed8", borderColor: "#bc4ed8" }}
-                      onClick={() => this.addToProforma1(value)}
+                      onClick={() => this.addToProforma1(value, this.state.cantidad)}
                     >
                       Agregar a la Proforma
                     </button>
