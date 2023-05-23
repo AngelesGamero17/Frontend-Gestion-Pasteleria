@@ -1,0 +1,20 @@
+.container-redes {
+  position: fixed;
+  bottom: 20px; /* Distancia desde la parte inferior */
+  right: 20px; /* Distancia desde la parte derecha */
+  z-index: 999; /* Asegura que el botón esté por encima de otros elementos */
+}
+
+.btn {
+  display: inline-block;
+  color: white; /* Color del texto del botón */
+  padding: 10px 20px; /* Espacio interno del botón */
+  text-decoration: none; /* Quitar subrayado del enlace */
+  border-radius: 5px; /* Borde redondeado */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color */
+}
+
+.btn-img {
+  border-radius: 50%; /* Hace que la imagen sea redonda */
+}
+

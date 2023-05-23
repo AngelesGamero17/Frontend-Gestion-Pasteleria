@@ -2,9 +2,11 @@ import React from "react";
 import { Apiurl } from "../services/apirest";
 import axios from "axios";
 import '../assets/css/Producto.css';
+import '../assets/css/whatssap.css';
 import IconoInsu from '../assets/img/IconoInsu.jpeg';
 import ProductIcon from '../assets/img/ProductIcon.png';
 import IconLogo from '../assets/img/IconLogo.png'
+import what from '../assets/img/what.png';
 class MostrarInsumo extends React.Component {
   state = {
     insumos: [],
@@ -90,6 +92,12 @@ class MostrarInsumo extends React.Component {
             </ul>
           </div>
         </nav>
+
+          <div class="container-redes">
+            <a href="https://wa.link/ghgzv4" class="btn">
+              <img src={what} width="125px" alt="Img whatssap" />
+            </a>
+        </div>
 
         <div className="container">
           <br />

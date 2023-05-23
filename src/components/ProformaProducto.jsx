@@ -93,6 +93,8 @@ class ProformaProducto extends React.Component {
             </tr>
           </tfoot>
         </table>
+
+       
       </React.Fragment>
     );
   }
