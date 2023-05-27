@@ -14,7 +14,7 @@ class MostrarProductos extends React.Component {
     searchQuery: "",
     searchFields: ["nombre", "cantidad", "precio", "fechaProduccion"],
     showCards: false,
-    cantidad:0, // Track when to show the cards with animation
+    cantidades: [], // Use an array to track individual product quantities
   };
 
   // Buscador
@@ -31,9 +31,15 @@ class MostrarProductos extends React.Component {
       });
     });
   }
-
+  
+  handleChangeCantidad(event, index) {
+    const cantidades = [...this.state.cantidades];
+    cantidades[index] = event.target.value;
+    this.setState({ cantidades });
+  }
+  
   // Función para agregar a la proforma
-  addToProforma = (value,cantidad) => {
+  addToProforma = (value, cantidad) => {
     // Obtener los valores del objeto "value"
     const nombre = value.nombre;
     const precio = parseFloat(value.precio).toFixed(2);
@@ -71,17 +77,17 @@ class MostrarProductos extends React.Component {
 
     return (
       <React.Fragment>
-        
-        <nav className="navbar navbar-expand-lg navbar navbar-light bg-warning">
+        {/* Encabezado */}
+        <nav className="navbar navbar-expand-lg navbar-light bg-warning">
           <div className="container-fluid">
-          <a className="nav-link active" href="./MostrarInsumo">
+            <a className="nav-link active" href="./MostrarInsumo">
               <img src={IconoInsu} width="50px" alt="Icono Insumos" className="navbar-icon" /> Insumos
             </a>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <a className="nav-link active" href="./MostrarProductos">
-                  <img src={ProductIcon} width="50px" alt="Icono Producto" className="navbar-icon" /> Postres
+                    <img src={ProductIcon} width="50px" alt="Icono Producto" className="navbar-icon" /> Postres
                   </a>
                 </li>
               </ul>
@@ -89,63 +95,78 @@ class MostrarProductos extends React.Component {
             <ul className="navbar-nav">
               <li>
                 <a className="nav-link active" href="./Login">
-                <img src={IconLogo} width="50px" alt="Icono Logo" className="navbar-icon" /> INICIAR SESION
+                  <img src={IconLogo} width="50px" alt="Icono Logo" className="navbar-icon" /> INICIAR SESION
                 </a>
               </li>
             </ul>
           </div>
         </nav>
 
-        <div class="container-redes">
-            <a href="https://wa.link/ghgzv4" class="btn">
-              <img src={what} width="125px" alt="Img whatssap" />
-            </a>
+        <br/>
+        {/* Sección de búsqueda */}
+        <div className="container-redes">
+          <a href="https://wa.link/ghgzv4" className="btn">
+            <img src={what} width="125px" alt="Img whatssap" />
+          </a>
         </div>
 
-        <br />
-        <br />
         <div className="container">
-          <input
-            type="text"
-            placeholder="Buscar Postres"
-            value={searchQuery}
-            onChange={this.handleSearch}
-            className="form-control"
-          />
-          <br />
-          <br />
-
-          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+          <div className="row">
+            <div className="col-md-6 offset-md-3">
+              <input
+                type="text"
+                placeholder="Buscar Postres"
+                value={searchQuery}
+                onChange={this.handleSearch}
+                className="form-control mb-4"
+              />
+            </div>
+          </div>
+        
+        {/* Sección de productos */}
+          <div className="row">
             {filtroProductos.map((value, index) => (
               <div
-                className={`col ${
-                  showCards ? "fade-in" : "" // Apply fade-in class when showCards is true
-                }`}
+                className={`col-md-3 ${showCards ? "fade-in" : ""}`}
                 key={index}
               >
-                <div className="card h-100">
+                <div className="card mb-4">
                   <img
                     src={value.img}
                     alt="Img insumo"
                     className="card-img-top"
                     style={{ height: "150px", objectFit: "cover" }}
                   />
-                 <div className="card-body">
+                  <div className="card-body">
                     <h5 className="card-title">{value.nombre}</h5>
                     <p style={{ color: 'blue' }}>Precio:</p>
                     <p className="card-text">S/ {parseFloat(value.precio).toFixed(2)}</p>
+                    <p style={{ color: 'blue' }}>Stock:</p>
+                    <p className="card-text">{parseFloat(value.cantidad)}</p>
                     <p style={{ color: 'blue' }}>Cantidad:</p>
+
                     <input
-                      type="number"
-                      value={this.state.cantidad}
-                      onChange={(event) => this.setState({ cantidad: event.target.value })}
-                    />
-                    <br/>
-                    <br/>
+                        type="number"
+                        value={this.state.cantidades[index] || ""}
+                        onInput={(event) => {
+                          const currentValue = parseFloat(event.target.value);
+                          const maxValue = parseFloat(value.cantidad);
+
+                          if (currentValue > maxValue) {
+                            event.target.value = maxValue; // Establecer el valor máximo permitido
+                          }
+
+                          this.handleChangeCantidad(event, index); // Actualizar el estado con el valor ingresado
+                        }}
+                        max={value.cantidad}
+                        min='0'
+                        className="form-control mb-2"
+                      />
+
                     <button
                       className="btn btn-primary btn-sm"
                       style={{ backgroundColor: "#ab3ed8", borderColor: "#bc4ed8" }}
-                      onClick={() => this.addToProforma(value, this.state.cantidad)}
+                      onClick={() => this.addToProforma(value, this.state.cantidades[index])}
                     >
                       Agregar a la Proforma
                     </button>
@@ -155,8 +176,6 @@ class MostrarProductos extends React.Component {
             ))}
           </div>
         </div>
-
-
       </React.Fragment>
     );
   }

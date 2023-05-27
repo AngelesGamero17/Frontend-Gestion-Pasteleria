@@ -34,6 +34,7 @@ import MostrarInsumo from './components/MostrarInsumo';
 import ProformaInsumo from './components/ProformaInsumo';
 import ProformaProducto from './components/ProformaProducto';
 
+
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 let tipoEmpleado = JSON.parse(localStorage.getItem('tipoEmpleado'));
 

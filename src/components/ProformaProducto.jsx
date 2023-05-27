@@ -54,14 +54,17 @@ class ProformaProducto extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>Proforma producto</h1>
-
+      <h1> --  --  🄿🅁🄾🄵🄾🅁🄼🄰 🄿🅁🄾🄳🅄🄲🅃🄾  -- -- </h1>
         {/* Mostrar el valor decodificado */}
         {decodedValue && (
           <div>
             <h2>Valor decodificado: {decodedValue}</h2>
           </div>
         )}
+
+        <a className="nav-link active btn btn-warning d-block mx-auto" href="./MostrarInsumo">
+            Volver a la Página Principal
+        </a>
 
         <table className="proforma-table">
           <thead>
