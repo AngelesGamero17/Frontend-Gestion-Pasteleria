@@ -2,10 +2,12 @@ import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
-
+import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
 class VisVentIns extends React.Component {
   state = {
     ventaInsumo: [],
+    clientes: [],
+    empleados: [],
     searchQuery: "",
     searchFields: ["idCliente","idEmpleado","descripcion", "precioTotal","fechaVenta"],
   };
@@ -35,13 +37,24 @@ class VisVentIns extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "ventaInsumo";
-    axios.get(url).then((response) => {
-      this.setState({
-        ventaInsumo: response.data,
+    let ventaInsumoUrl = Apiurl + "ventaInsumo";
+    let clienteUrl = Apiurl + "cliente";
+    let empleadoUrl = Apiurl + "empleado";
+  
+    axios.all([axios.get(ventaInsumoUrl), axios.get(clienteUrl), axios.get(empleadoUrl)])
+      .then(axios.spread((ventaInsumoResponse, clienteResponse, empleadosResponse) => {
+        this.setState({
+          ventaInsumo: ventaInsumoResponse.data,
+          clientes: clienteResponse.data,
+          empleados: empleadosResponse.data,
+        });
+      }))
+      .catch(error => {
+        console.log(error);
       });
-    });
   }
+
+
   render() {
     const { searchQuery, searchFields, ventaInsumo } = this.state;
 
@@ -52,7 +65,8 @@ class VisVentIns extends React.Component {
   );
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
+    <div className="fondoVista-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -79,7 +93,10 @@ class VisVentIns extends React.Component {
                     <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
+                    <a className="nav-link active" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
                   </li>
                 </ul>
               </div>
@@ -101,7 +118,7 @@ class VisVentIns extends React.Component {
               className="form-control"
           />
 
-          <table className="table table-hover">
+<table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -113,12 +130,18 @@ class VisVentIns extends React.Component {
               </tr>
             </thead>
             <tbody>
+            
             {filtroVentaInsumo.map((value, index) => {
+              const cliente = this.state.clientes.find(tipo => tipo.ID === value.idCliente);
+              const empleados = this.state.empleados.find(tipo => tipo.ID === value.idEmpleado);
+              // Obtener la rol del tipoEmpleados si se encuentra
+              const nomCli =cliente ? cliente.nomCli : "";
+              const nomEmp = empleados ? empleados.nomEmp : "";
                 return (
                   <tr key={index} onClick={() => this.clickVentIns(value.ID)}>
                     <th scope="row">{value.ID}</th>
-                    <td>{value.idCliente}</td>
-                    <td>{value.idEmpleado}</td>
+                    <td>{nomCli}</td>
+                    <td>{nomEmp}</td>
                     <td>{value.descripcion}</td>
                     <td>{value.precioTotal}</td>
                     <td>{value.fechaVenta}</td>
@@ -131,6 +154,10 @@ class VisVentIns extends React.Component {
 
             </tbody>
           </table>
+        </div>
+            <footer className="bg-light text-center py-3">
+              <p>Venta Insumo</p>
+            </footer>
         </div>
       </React.Fragment>
     );

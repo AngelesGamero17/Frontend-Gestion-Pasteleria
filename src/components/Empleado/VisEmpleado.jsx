@@ -2,13 +2,15 @@ import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
-
+import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
 class VisEmpleado extends React.Component {
+    //llamar datos de la api que utilizaremos
   state = {
     empleados: [],
+    tipoEmpleados: [],
   };
 
-  //funcion Cerra SEsion
+  //funcion Cerrar Sesion
   handleLogout = () => {
     // Aquí puedes realizar las acciones necesarias para cerrar la sesión
     localStorage.removeItem('token');
@@ -27,18 +29,29 @@ class VisEmpleado extends React.Component {
     window.location.href = "./nuevo/";
   }
 
+
   componentDidMount() {
-    let url = Apiurl + "empleado";
-    axios.get(url).then((response) => {
-      this.setState({
-        empleados: response.data,
+    let empleadosUrl = Apiurl + "empleado";
+    let tipoEmpleadosUrl = Apiurl + "tipoEmpleado";
+  
+    axios.all([axios.get(empleadosUrl), axios.get(tipoEmpleadosUrl)])
+      .then(axios.spread((empleadosResponse, tipoEmpleadosResponse) => {
+        this.setState({
+          empleados: empleadosResponse.data,
+          tipoEmpleados: tipoEmpleadosResponse.data,
+        });
+      }))
+      .catch(error => {
+        console.log(error);
       });
-    });
   }
+
+
   render() {
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
+          <div className="fondoVista-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -62,13 +75,13 @@ class VisEmpleado extends React.Component {
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/Produccion/VisProduccion">Produccion</a>
-                  </li>
-                  <li className="nav-item">
                     <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
+                  </li>
+                  <li className="nav-item">
+                  <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
                   </li>
                 </ul>
               </div>
@@ -82,7 +95,7 @@ class VisEmpleado extends React.Component {
         <div className="container">
           <br />
           <br />
-          <table className="table table-hover">
+          <table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -95,7 +108,12 @@ class VisEmpleado extends React.Component {
               </tr>
             </thead>
             <tbody>
+
               {this.state.empleados.map((value, index) => {
+                   // Buscar el tipo de emplead correspondiente al ID del insumo actual
+              const tipoEmpleados = this.state.tipoEmpleados.find(tipo => tipo.ID === value.tipoEmpleado);
+              // Obtener la rol del tipoEmpleados si se encuentra
+              const rol = tipoEmpleados ? tipoEmpleados.rol : "";
                 return (
                   <tr key={index} onClick={() => this.clickEmpleado(value.ID)}>
                     <th scope="row">{value.ID}</th>
@@ -104,7 +122,7 @@ class VisEmpleado extends React.Component {
                     <td>{value.email}</td>
                     <td>{value.direccEmp}</td>
                     <td>{value.telefono}</td>
-                    <td>{value.tipoEmpleado}</td>
+                    <td>{rol}</td>
                   </tr>
                 );
               })}
@@ -115,6 +133,12 @@ class VisEmpleado extends React.Component {
             </tbody>
           </table>
         </div>
+
+        <footer className="bg-light text-center py-3">
+              <p>Empleado</p>
+            </footer>
+        </div>
+        
       </React.Fragment>
     );
   }

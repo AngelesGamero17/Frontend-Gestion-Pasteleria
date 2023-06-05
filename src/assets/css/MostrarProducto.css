@@ -25,6 +25,8 @@
     transform: translateX(0); /* Move the image to its original position */
   }
 
-  body {
-    background-color: #ffa6cd;
+  .fondoVistaMostrar-container{
+    min-height: 100vh;  /* Establece la altura mínima del componente para que abarque toda la altura de la ventana */
+    background: url('https://media.tenor.com/02kbOZVd1eMAAAAC/cake-sparklers.gif') fixed;
+    background-size: cover;
   }

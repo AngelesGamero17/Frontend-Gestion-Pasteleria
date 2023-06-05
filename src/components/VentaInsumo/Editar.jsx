@@ -13,17 +13,25 @@ class VentInsEditar extends React.Component {
       precioTotal: "",
       fechaVenta: "",
     },
+    clientes: [],
+    empleados: [],
     error: false,
     errorMsg: "",
   };
 
-  manejadorChange = async (e) => {
-    await this.setState({
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
       form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
+        ...prevState.form,
+        [name]: value,
       },
-    });
+    }));
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.put();
   };
 
   put = () => {
@@ -50,7 +58,6 @@ class VentInsEditar extends React.Component {
       });
   };
 
-  
   delete = () => {
     console.log(this.state);
     const url = window.location.href;
@@ -77,11 +84,6 @@ class VentInsEditar extends React.Component {
         alert("Ha ocurrido un error al eliminar el ventaInsumo");
       });
   };
-  
-
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
 
   componentDidMount() {
     const url = window.location.href;
@@ -89,8 +91,13 @@ class VentInsEditar extends React.Component {
     const id = match ? match[1] : null;
     if (id) {
       const urlApi = Apiurl + "ventaInsumo/" + id; // Usamos el id en la URL de la API
+      const token = localStorage.getItem("token");
       axios
-        .get(urlApi)
+        .get(urlApi, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           const ventaInsumo = response.data;
           if (ventaInsumo) {
@@ -101,8 +108,6 @@ class VentInsEditar extends React.Component {
                 descripcion: ventaInsumo.descripcion,
                 precioTotal: ventaInsumo.precioTotal,
                 fechaVenta: ventaInsumo.fechaVenta,
-                token: localStorage.getItem("token"),
-                id: id,
               },
             });
           }
@@ -111,10 +116,35 @@ class VentInsEditar extends React.Component {
           console.error(error);
         });
     }
+  
+
+    const urlcliente = Apiurl + "cliente";
+    const urlempleado = Apiurl + "empleado";
+
+    axios
+      .get(urlcliente)
+      .then((responseCliente) => {
+        const clientes = responseCliente.data;
+        this.setState({ clientes });
+      })
+      .catch((errorCliente) => {
+        console.error(errorCliente);
+      });
+
+    axios
+      .get(urlempleado)
+      .then((responseEmpleado) => {
+        const empleados = responseEmpleado.data;
+        this.setState({ empleados });
+      })
+      .catch((errorEmpleado) => {
+        console.error(errorEmpleado);
+      });
   }
 
   render() {
-    const form = this.state.form;
+    const { form, clientes, empleados } = this.state;
+
     return (
       <React.Fragment>
         <Header />
@@ -123,19 +153,24 @@ class VentInsEditar extends React.Component {
         </div>
         <div className="container">
           <br />
-          <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">CLIENTE</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="idCliente"
-                    placeholder="idCliente"
-                    type="text"
                     value={form.idCliente}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un cliente</option>
+                    {clientes.map((cliente) => (
+                      <option key={cliente.ID} value={cliente.ID}>
+                        {cliente.nomCli}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -144,14 +179,19 @@ class VentInsEditar extends React.Component {
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">EMPLEADO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="idEmpleado"
-                    placeholder="idEmpleado"
-                    type="text"
                     value={form.idEmpleado}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un empleado</option>
+                    {empleados.map((empleado) => (
+                      <option key={empleado.ID} value={empleado.ID}>
+                        {empleado.nomEmp}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -166,7 +206,7 @@ class VentInsEditar extends React.Component {
                     placeholder="descripcion"
                     type="text"
                     value={form.descripcion}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -182,12 +222,11 @@ class VentInsEditar extends React.Component {
                     placeholder="precioTotal"
                     type="text"
                     value={form.precioTotal}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
-
 
             <div className="row">
               <div className="col-sm-12">
@@ -197,24 +236,23 @@ class VentInsEditar extends React.Component {
                     className="form-control"
                     name="fechaVenta"
                     placeholder="fechaVenta"
-                    type="text"
+                    type="date"
                     value={form.fechaVenta}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
 
-
-
-            <br></br>
+            <br />
 
             <button
               type="submit"
               className="btn btn-primary"
               style={{ marginRight: "10px" }}
-              onClick={() => this.put()}>Guardar Cambios
-              </button>
+            >
+              Guardar Cambios
+            </button>
 
             <button
               type="submit"
@@ -223,8 +261,9 @@ class VentInsEditar extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/VentaInsumo/VisVentIns">Salir</a>
-            
+            <a className="btn btn-dark" href="/VentaInsumo/VisVentIns">
+              Salir
+            </a>
           </form>
         </div>
       </React.Fragment>

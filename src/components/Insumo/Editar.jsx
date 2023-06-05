@@ -7,6 +7,7 @@ import Header from "../../template/Header";
 class InsumoEditar extends React.Component {
   state = {
     form: {
+      id: "", // Agrega el campo "id" al formulario
       nombreInsumo: "",
       cantidadInsumo: "",
       fecCompra: "",
@@ -14,17 +15,24 @@ class InsumoEditar extends React.Component {
       precioInsumo: "",
       img: "",
     },
+    tiposInsumo: [],
     error: false,
     errorMsg: "",
   };
 
-  manejadorChange = async (e) => {
-    await this.setState({
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
       form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
+        ...prevState.form,
+        [name]: value,
       },
-    });
+    }));
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.put();
   };
 
   put = () => {
@@ -78,20 +86,20 @@ class InsumoEditar extends React.Component {
         alert("Ha ocurrido un error al eliminar el insumo");
       });
   };
-  
-
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
 
   componentDidMount() {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
-      const urlApi = Apiurl + "insumo/" + id; // Usamos el id en la URL de la API
+      const urlApi = Apiurl + "insumo/" + id;
+      const token = localStorage.getItem("token");
       axios
-        .get(urlApi)
+        .get(urlApi, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           const insumo = response.data;
           if (insumo) {
@@ -103,8 +111,6 @@ class InsumoEditar extends React.Component {
                 tipoInsumo: insumo.tipoInsumo,
                 precioInsumo: insumo.precioInsumo,
                 img: insumo.img,
-                token: localStorage.getItem("token"),
-                id: id,
               },
             });
           }
@@ -113,10 +119,23 @@ class InsumoEditar extends React.Component {
           console.error(error);
         });
     }
+    
+    
+    
+    const urlTiposInsumo = Apiurl + "tipoInsumo";
+    axios
+      .get(urlTiposInsumo)
+      .then((response) => {
+        const tiposInsumo = response.data;
+        this.setState({ tiposInsumo });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   render() {
-    const form = this.state.form;
+    const { form, tiposInsumo } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -125,7 +144,7 @@ class InsumoEditar extends React.Component {
         </div>
         <div className="container">
           <br />
-          <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">NOMBRE</label>
@@ -136,7 +155,7 @@ class InsumoEditar extends React.Component {
                     placeholder="nombreInsumo"
                     type="text"
                     value={form.nombreInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -144,7 +163,9 @@ class InsumoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> CANTIDAD- INSUMO</label>
+                <label className="col-md-2 control-label">
+                  CANTIDAD - INSUMO
+                </label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -152,7 +173,7 @@ class InsumoEditar extends React.Component {
                     placeholder="cantidadInsumo"
                     type="text"
                     value={form.cantidadInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -166,9 +187,9 @@ class InsumoEditar extends React.Component {
                     className="form-control"
                     name="fecCompra"
                     placeholder="fecCompra"
-                    type="text"
+                    type="date"
                     value={form.fecCompra}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -176,16 +197,21 @@ class InsumoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">TIPO -INSUMO</label>
+                <label className="col-md-2 control-label">TIPO - INSUMO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="tipoInsumo"
-                    placeholder="tipoInsumo"
-                    type="text"
                     value={form.tipoInsumo}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un tipo de insumo</option>
+                    {tiposInsumo.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.descripInsumo}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -200,7 +226,7 @@ class InsumoEditar extends React.Component {
                     placeholder="precioInsumo"
                     type="text"
                     value={form.precioInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -216,30 +242,43 @@ class InsumoEditar extends React.Component {
                     placeholder="img"
                     type="text"
                     value={form.img}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
 
-            <br></br>
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="col-md-offset-2 col-md-10">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ marginRight: "10px" }}
+                  >
+                    Guardar Cambios
+                  </button>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              style={{ marginRight: "10px" }}
-              onClick={() => this.put()}>Guardar Cambios
-              </button>
+                  <button
+                    type="button"
+                    className="btn btn-default"
+                    onClick={() => {
+                      window.location.href = "/Insumo/VisInsumo";
+                    }}
+                  >
+                    Salir
+                  </button>
 
-            <button
+                  <button
               type="submit"
               className="btn btn-danger"
               style={{ marginRight: "10px" }}
               onClick={() => this.delete()}>Eliminar
               </button>
-
-            <a className="btn btn-dark" href="/Insumo/VisInsumo">Salir</a>
-            
+              
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </React.Fragment>

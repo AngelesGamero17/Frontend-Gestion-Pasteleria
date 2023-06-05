@@ -3,18 +3,10 @@ import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
 import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
-class VisCliente extends React.Component {
+class VisTipoPro extends React.Component {
   state = {
-    clientes: [],
-    searchQuery: "",
-    searchFields: ["nomCli", "direCli","telefono","dni"],
+    tipoPro: [],
   };
-
-  //buscador
-  handleSearch = (event) => {
-    this.setState({ searchQuery: event.target.value });
-  };
-
 
   //funcion Cerra SEsion
   handleLogout = () => {
@@ -27,7 +19,7 @@ class VisCliente extends React.Component {
     console.log('Sesión cerrada');
   };
 
-  clickCliente(id) {
+  clickTipoProducto(id) {
     window.location.href = "./editar/" + id;
   }
 
@@ -36,27 +28,19 @@ class VisCliente extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "cliente";
+    let url = Apiurl + "tipoProducto";
     axios.get(url).then((response) => {
       this.setState({
-        clientes: response.data,
+        tipoPro: response.data,
       });
     });
   }
-
+  
   render() {
-    const { searchQuery, searchFields, clientes } = this.state;
-
-    const filtroClientes = clientes.filter((cliente) =>
-      searchFields.some((field) =>
-        cliente[field].toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-
     return (
       <React.Fragment>
     <div className="fondoVista-container">
-<nav className="navbar navbar-expand-lg navbar-light bg-custom">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -68,13 +52,13 @@ class VisCliente extends React.Component {
                     <a className="nav-link " aria-current="page" href="/Producto/VisProducto">Producto</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link active " href="/Cliente/VisCliente">Cliente</a>
+                    <a className="nav-link " href="/Cliente/VisCliente">Cliente</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/tipoEmpleado/VisTipoEmp">Tipo Empleado</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/tipoInsumo/VisTipoIns"> Tipo Insumo</a>
+                    <a className="nav-link " href="/tipoInsumo/VisTipoIns"> Tipo Insumo</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
@@ -86,8 +70,8 @@ class VisCliente extends React.Component {
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
                   <li className="nav-item">
-                  <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
-                  </li>
+                  <a className="nav-link active" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
+                </li>
                 </ul>
               </div>
               <ul className="navbar-nav">
@@ -97,60 +81,40 @@ class VisCliente extends React.Component {
               </ul>
             </div>
           </nav>
-
-
         <div className="container">
           <br />
           <br />
-
-          <input
-              type="text"
-              placeholder="Buscar"
-              value={searchQuery}
-              onChange={this.handleSearch}
-              className="form-control"
-          />
-          <br />
-          <br />
-
           <table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
-                <th scope="col">NOMBRE</th>
-                <th scope="col">DIRECCION</th>
-                <th scope="col">TELEFONO</th>
-                <th scope="col">DNI</th>
-
+                <th scope="col">DESCRIPCION</th>
               </tr>
             </thead>
             <tbody>
-              {filtroClientes.map((value, index) => {
+              {this.state.tipoPro.map((value, index) => {
                 return (
-                  <tr key={index} onClick={() => this.clickCliente(value.ID)}>
+                  <tr key={index} onClick={() => this.clickTipoProducto(value.ID)}>
                     <th scope="row">{value.ID}</th>
-                    <td>{value.nomCli}</td>
-                    <td>{value.direCli}</td>
-                    <td>{value.telefono}</td>
-                    <td>{value.dni}</td>
+                    <td>{value.descripProducto}</td>
                   </tr>
                 );
               })}
 
               <br></br>
-              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar cliente</button>
+              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar tipoProducto</button>
 
             </tbody>
           </table>
         </div>
-        <footer className="bg-light text-center py-3">
-              <p>Cliente</p>
-            </footer>
 
+        <footer className="bg-light text-center py-3">
+              <p>Tipo Producto</p>
+            </footer>
         </div>
       </React.Fragment>
     );
   }
 }
 
-export default VisCliente; 
+export default VisTipoPro; 

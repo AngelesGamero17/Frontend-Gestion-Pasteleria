@@ -5,28 +5,49 @@ import axios from "axios";
 import Header from "../../template/Header";
 
 class ProductoNuevo extends React.Component {
+
+    //llamar datos que llamamos de la api
   state = {
     form: {
       nombre: "",
       cantidad: "",
       precio: "",
       fechaProduccion: "",
+      tipoProducto: "",
       img: "",
     },
+    tiposProducto:[]
   };
 
-  handleSubmit = (e) => { const token = localStorage.getItem("token"); 
-  e.preventDefault();
-  const config = {
-    headers: {
-      'Authorization': `Bearer ${token}`// Reemplace "token" con su token de autenticación
-    }
-  };
+  componentDidMount() {
+    let url = Apiurl + "tipoProducto";
+    axios.get(url)
+      .then((response) => {
+        this.setState({
+          tiposProducto: response.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+
+  //permite consumir un servicio de una api
   axios
     .post(Apiurl + "producto", this.state.form, config)
     .then((res) => {
       console.log(res);
-      alert("Se registro preoducto correctamente.");
+      alert("Se registro producto correctamente.");
       window.location.href = "/Producto/VisProducto";
       // Aquí puedes redireccionar al usuario a otra página después de registrar el empleado
     })
@@ -35,18 +56,18 @@ class ProductoNuevo extends React.Component {
       alert("No se pudo registrar producto");
     });
 };
-  manejadorChange = async (e) => {
-    await this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
-  };
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
 
+handleChange = (e) => {
+  this.setState({
+    form: {
+      ...this.state.form,
+      [e.target.name]: e.target.value,
+    },
+  });
+};
+
+
+  //vizualizar
   render() {
     return (
       <React.Fragment>
@@ -67,7 +88,7 @@ class ProductoNuevo extends React.Component {
                     placeholder="nombre"
                     type="text"
                     value={this.state.form.nombre}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -83,7 +104,7 @@ class ProductoNuevo extends React.Component {
                     placeholder="cantidad"
                     type="text"
                     value={this.state.form.cantidad}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -99,7 +120,7 @@ class ProductoNuevo extends React.Component {
                     placeholder="precio"
                     type="number"
                     value={this.state.form.precio}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -113,13 +134,44 @@ class ProductoNuevo extends React.Component {
                     className="form-control"
                     name="fechaProduccion"
                     placeholder="fechaProduccion"
-                    type="text"
+                    type="date"
                     value={this.state.form.fechaProduccion}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
+
+
+            <div className="container">
+          <br />
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
+            {/* Resto del formulario */}
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">TIPO - PRODUCTO</label>
+                <div className="col-md-10">
+                  <select
+                    className="form-control"
+                    name="tipoProducto"
+                    value={this.state.form.tipoProducto}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un tipo de producto</option>
+                    {this.state.tiposProducto.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.descripProducto}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            {/* Resto del formulario */}
+          </form>
+        </div>
+
+
 
             <div className="row">
               <div className="col-sm-12">
@@ -131,7 +183,7 @@ class ProductoNuevo extends React.Component {
                     placeholder="img"
                     type="text"
                     value={this.state.form.img}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>

@@ -15,7 +15,23 @@ class EmpleadoNuevo extends React.Component {
       telefono: "",
       tipoEmpleado: "",
     },
+    tipoEmpleado: [] //estado para almacenar los tipos de empleado
   };
+
+
+  componentDidMount() {
+    let url = Apiurl + "tipoEmpleado";
+    axios.get(url)
+      .then((response) => {
+        this.setState({
+          tipoEmpleado: response.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -152,21 +168,35 @@ class EmpleadoNuevo extends React.Component {
               </div>
             </div>
 
+
+            <div className="container">
+          <br />
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
+            {/* Resto del formulario */}
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">TIPO DE EMPLEADO</label>
+                <label className="col-md-2 control-label">TIPO - EMPLEADO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="tipoEmpleado"
-                    placeholder="tipoEmpleado"
-                    type="text"
                     value={this.state.form.tipoEmpleado}
                     onChange={this.manejadorChange}
-                  />
+                  >
+                    <option value="">Seleccione un tipo de Empleado</option>
+                    {this.state.tipoEmpleado.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.rol}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
+            {/* Resto del formulario */}
+          </form>
+        </div>
+
             <br></br>
             <button
               type="submit"

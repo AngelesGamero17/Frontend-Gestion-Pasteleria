@@ -13,17 +13,25 @@ class EditarVP extends React.Component {
       precioTotal: "",
       fechaVenta: "",
     },
+    clientes: [],
+    empleados: [],
     error: false,
     errorMsg: "",
   };
 
-  manejadorChange = async (e) => {
-    await this.setState({
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
       form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
+        ...prevState.form,
+        [name]: value,
       },
-    });
+    }));
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.put();
   };
 
   put = () => {
@@ -50,7 +58,6 @@ class EditarVP extends React.Component {
       });
   };
 
-  
   delete = () => {
     console.log(this.state);
     const url = window.location.href;
@@ -74,13 +81,8 @@ class EditarVP extends React.Component {
       .catch((error) => {
         console.log(error);
         // Mostrar alerta de error
-        alert("Ha ocurrido un error al eliminar el ventProducto");
+        alert("Ha ocurrido un error al eliminar el ventaProducto");
       });
-  };
-  
-
-  manejadorSubmit = (e) => {
-    e.preventDefault();
   };
 
   componentDidMount() {
@@ -89,20 +91,23 @@ class EditarVP extends React.Component {
     const id = match ? match[1] : null;
     if (id) {
       const urlApi = Apiurl + "ventaProducto/" + id; // Usamos el id en la URL de la API
+      const token = localStorage.getItem("token");
       axios
-        .get(urlApi)
+        .get(urlApi, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
-          const ventaInsumo = response.data;
-          if (ventaInsumo) {
+          const ventaProducto = response.data;
+          if (ventaProducto) {
             this.setState({
               form: {
-                idCliente: ventaInsumo.idCliente,
-                idEmpleado: ventaInsumo.idEmpleado,
-                descripcion: ventaInsumo.descripcion,
-                precioTotal: ventaInsumo.precioTotal,
-                fechaVenta: ventaInsumo.fechaVenta,
-                token: localStorage.getItem("token"),
-                id: id,
+                idCliente: ventaProducto.idCliente,
+                idEmpleado: ventaProducto.idEmpleado,
+                descripcion: ventaProducto.descripcion,
+                precioTotal: ventaProducto.precioTotal,
+                fechaVenta: ventaProducto.fechaVenta,
               },
             });
           }
@@ -111,10 +116,35 @@ class EditarVP extends React.Component {
           console.error(error);
         });
     }
+  
+
+    const urlcliente = Apiurl + "cliente";
+    const urlempleado = Apiurl + "empleado";
+
+    axios
+      .get(urlcliente)
+      .then((responseCliente) => {
+        const clientes = responseCliente.data;
+        this.setState({ clientes });
+      })
+      .catch((errorCliente) => {
+        console.error(errorCliente);
+      });
+
+    axios
+      .get(urlempleado)
+      .then((responseEmpleado) => {
+        const empleados = responseEmpleado.data;
+        this.setState({ empleados });
+      })
+      .catch((errorEmpleado) => {
+        console.error(errorEmpleado);
+      });
   }
 
   render() {
-    const form = this.state.form;
+    const { form, clientes, empleados } = this.state;
+
     return (
       <React.Fragment>
         <Header />
@@ -123,19 +153,24 @@ class EditarVP extends React.Component {
         </div>
         <div className="container">
           <br />
-          <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">CLIENTE</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="idCliente"
-                    placeholder="idCliente"
-                    type="text"
                     value={form.idCliente}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un cliente</option>
+                    {clientes.map((cliente) => (
+                      <option key={cliente.ID} value={cliente.ID}>
+                        {cliente.nomCli}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -144,14 +179,19 @@ class EditarVP extends React.Component {
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">EMPLEADO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="idEmpleado"
-                    placeholder="idEmpleado"
-                    type="text"
                     value={form.idEmpleado}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un empleado</option>
+                    {empleados.map((empleado) => (
+                      <option key={empleado.ID} value={empleado.ID}>
+                        {empleado.nomEmp}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -166,7 +206,7 @@ class EditarVP extends React.Component {
                     placeholder="descripcion"
                     type="text"
                     value={form.descripcion}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -182,12 +222,11 @@ class EditarVP extends React.Component {
                     placeholder="precioTotal"
                     type="text"
                     value={form.precioTotal}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
-
 
             <div className="row">
               <div className="col-sm-12">
@@ -197,24 +236,23 @@ class EditarVP extends React.Component {
                     className="form-control"
                     name="fechaVenta"
                     placeholder="fechaVenta"
-                    type="text"
+                    type="date"
                     value={form.fechaVenta}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
 
-
-
-            <br></br>
+            <br />
 
             <button
               type="submit"
               className="btn btn-primary"
               style={{ marginRight: "10px" }}
-              onClick={() => this.put()}>Guardar Cambios
-              </button>
+            >
+              Guardar Cambios
+            </button>
 
             <button
               type="submit"
@@ -223,8 +261,9 @@ class EditarVP extends React.Component {
               onClick={() => this.delete()}>Eliminar
               </button>
 
-            <a className="btn btn-dark" href="/VentaProducto/VisVentPro">Salir</a>
-            
+            <a className="btn btn-dark" href="/VentaProducto/VisVentPro">
+              Salir
+            </a>
           </form>
         </div>
       </React.Fragment>

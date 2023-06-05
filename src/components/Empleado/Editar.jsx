@@ -15,6 +15,7 @@ class EmpleadoEditar extends React.Component {
       tipoEmpleado: "",
       password: "",
     },
+    tipoEmpleado:[],
     error: false,
     errorMsg: "",
   };
@@ -26,6 +27,11 @@ class EmpleadoEditar extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
+  };
+
+
+  manejadorSubmit = (e) => {
+    e.preventDefault();
   };
 
   put = () => {
@@ -81,18 +87,19 @@ class EmpleadoEditar extends React.Component {
   };
   
 
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
-
   componentDidMount() {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     if (id) {
       const urlApi = Apiurl + "empleado/" + id; // Usamos el id en la URL de la API
+      const token = localStorage.getItem("token");
       axios
-        .get(urlApi)
+        .get(urlApi, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           const empleado = response.data;
           if (empleado) {
@@ -105,8 +112,6 @@ class EmpleadoEditar extends React.Component {
                 telefono: empleado.telefono,
                 tipoEmpleado: empleado.tipoEmpleado,
                 password: empleado.password,
-                token: localStorage.getItem("token"),
-                id: id,
               },
             });
           }
@@ -115,10 +120,23 @@ class EmpleadoEditar extends React.Component {
           console.error(error);
         });
     }
-  }
+
+
+  const urlTipoEmpleado = Apiurl + "tipoEmpleado";
+  axios
+    .get(urlTipoEmpleado)
+    .then((response) => {
+      const tipoEmpleado = response.data;
+      this.setState({ tipoEmpleado });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 
   render() {
-    const form = this.state.form;
+    const { form, tipoEmpleado } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -226,19 +244,25 @@ class EmpleadoEditar extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">TIPO DE EMPLEADO</label>
+                <label className="col-md-2 control-label">TIPO - EMPLEADO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="tipoEmpleado"
-                    placeholder="tipoEmpleado"
-                    type="text"
                     value={form.tipoEmpleado}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un tipo de empleado</option>
+                    {tipoEmpleado.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.rol}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
+
             <br></br>
 
             <button

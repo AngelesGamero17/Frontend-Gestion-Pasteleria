@@ -2,10 +2,13 @@ import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
+import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
 
 class VisInsumo extends React.Component {
+    //llamar datos de la api que utilizaremos
   state = {
     insumos: [],
+    tipoIns: [],
     searchQuery: "",
     searchFields: ["nombreInsumo","cantidadInsumo","fecCompra", "tipoInsumo","precioInsumo"],
   };
@@ -35,17 +38,25 @@ class VisInsumo extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "insumo";
-    axios.get(url).then((response) => {
-      this.setState({
-        insumos: response.data,
+    let insumosUrl = Apiurl + "insumo";
+    let tipoInsUrl = Apiurl + "tipoInsumo";
+  
+    axios.all([axios.get(insumosUrl), axios.get(tipoInsUrl)])
+      .then(axios.spread((insumosResponse, tipoInsResponse) => {
+        this.setState({
+          insumos: insumosResponse.data,
+          tipoIns: tipoInsResponse.data,
+        });
+      }))
+      .catch(error => {
+        console.log(error);
       });
-    });
   }
+  
+
   render() {
-
     const { searchQuery, searchFields, insumos } = this.state;
-
+    
     const filtroInsumo = insumos.filter((insumo) =>
     searchFields.some((field) =>
       insumo[field] && insumo[field]
@@ -57,7 +68,8 @@ class VisInsumo extends React.Component {
 
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
+    <div className="fondoVista-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -86,6 +98,9 @@ class VisInsumo extends React.Component {
                   <li className="nav-item">
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
+                  <li className="nav-item">
+                  <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
+                  </li>
                 </ul>
               </div>
               <ul className="navbar-nav">
@@ -108,7 +123,7 @@ class VisInsumo extends React.Component {
               className="form-control"
           />
 
-          <table className="table table-hover">
+<table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -123,13 +138,17 @@ class VisInsumo extends React.Component {
             <tbody>
 
             {filtroInsumo.map((value, index) => {
+              // Buscar el tipo de insumo correspondiente al ID del insumo actual
+              const tipoInsumo = this.state.tipoIns.find(tipo => tipo.ID === value.tipoInsumo);
+              // Obtener la descripción del insumo si se encuentra
+              const descripInsumo = tipoInsumo ? tipoInsumo.descripInsumo : "";
                 return (
                   <tr key={index} onClick={() => this.clickInsumo(value.ID)}>
                     <th scope="row">{value.ID}</th>
                     <td>{value.nombreInsumo}</td>
                     <td>{value.cantidadInsumo}</td>
                     <td>{value.fecCompra}</td>
-                    <td>{value.tipoInsumo}</td>
+                    <td>{descripInsumo}</td>
                     <td>{value.precioInsumo}</td>
                     <td><img src={value.img}  alt="Img insumo" width="90px" height="90px"/></td>
                   </tr>
@@ -141,6 +160,10 @@ class VisInsumo extends React.Component {
 
             </tbody>
           </table>
+        </div>
+            <footer className="bg-light text-center py-3">
+              <p>Insumo</p>
+            </footer>
         </div>
       </React.Fragment>
     );

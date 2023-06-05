@@ -47,57 +47,63 @@ class ProformaInsumo extends React.Component {
     localStorage.setItem("proforma1", JSON.stringify(updatedProforma));
   };
 
-
   render() {
     const { proforma1, decodedValue } = this.state;
     const total = this.calcularTotal();
 
     return (
       <React.Fragment>
-        <h1>Proforma Insumo</h1>
+  <div className="fondoVistaProforma-container">
+          <a className="nav-link active btn btn-warning d-block mx-auto" href="./MostrarInsumo">
+            Volver a la Página Principal
+          </a> 
+        <div className="container containerFondoProforma ">
+          <h1>🄿🅁🄾🄵🄾🅁🄼🄰 🄸🄽🅂🅄🄼🄾</h1>
+          {/* Mostrar el valor decodificado */}
+          {decodedValue && (
+            <div>
+              <h2>Valor decodificado: {decodedValue}</h2>
+            </div>
+          )}
 
-        {/* Mostrar el valor decodificado */}
-        {decodedValue && (
-          <div>
-            <h2>Valor decodificado: {decodedValue}</h2>
-          </div>
-        )}
 
-        <table className="proforma-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Costo Total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {proforma1.map((insumo, index) => (
-              <tr key={index}>
-                <td>{insumo.nombre}</td>
-                <td>S/ {insumo.precio}</td>
-                <td>{insumo.cantidad}</td>
-                <td>S/ {(insumo.precio * insumo.cantidad).toFixed(2)}</td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => this.borrarProforma(index)}>Eliminar</button>
-                </td>
+          <table className="proforma-table custom1-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Costo Total</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan="3">Total</td>
-              <td>S/ {(total).toFixed(2)}</td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {proforma1.map((insumo, index) => (
+                <tr key={index}>
+                  <td>{insumo.nombre}</td>
+                  <td>S/ {insumo.precio}</td>
+                  <td>{insumo.cantidad}</td>
+                  <td>S/ {(insumo.precio * insumo.cantidad).toFixed(2)}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => this.borrarProforma(index)}>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="3">Total</td>
+                <td>S/ {total.toFixed(2)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        </div>
       </React.Fragment>
     );
   }
 }
 
 export default ProformaInsumo;
-
-

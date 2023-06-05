@@ -15,7 +15,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar navbar-light bg-warning">
+      <nav className="navbar navbar-expand-lg navbar-light bg-custom">
       <div className="container-fluid">
         <a className="nav-link" href="/Dashboard">Inicio</a>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -44,6 +44,9 @@ class Header extends React.Component {
             <li className="nav-item">
               <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
+            </li>
           </ul>
           
         </div>
@@ -53,7 +56,9 @@ class Header extends React.Component {
           </li>
         </ul>
         </div>
+
       </nav>
+      
     );
   }
 }

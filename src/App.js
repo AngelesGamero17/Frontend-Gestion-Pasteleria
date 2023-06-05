@@ -22,6 +22,9 @@ import TipoEmpEditar from './components/tipoEmpleado/Editar';
 import VisTipoIns from './components/tipoInsumo/VisTipoIns';
 import TipoInsumoNuevo from './components/tipoInsumo/Nuevo';
 import TipoInsumoEditar from './components/tipoInsumo/Editar';
+import VisTipoPro from './components/tipoProducto/VisTipoPro';
+import TipoProductoNuevo from './components/tipoProducto/Nuevo';
+import TipoProductoEditar from './components/tipoProducto/Editar';
 import VisVentIns from './components/VentaInsumo/VisVentIns';
 import VentInsEditar from './components/VentaInsumo/Editar';
 import NuevoVI from './components/VentaInsumo/NuevoVI';
@@ -33,9 +36,10 @@ import MostrarProductos from './components/MostrarProductos';
 import MostrarInsumo from './components/MostrarInsumo';
 import ProformaInsumo from './components/ProformaInsumo';
 import ProformaProducto from './components/ProformaProducto';
-
+import Prueba from './components/prueba';
 
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
 let tipoEmpleado = JSON.parse(localStorage.getItem('tipoEmpleado'));
 
 function App() {
@@ -43,13 +47,13 @@ function App() {
     <React.Fragment>
     <Router>
       <Routes>
-
       <Route path='/' element={<MostrarInsumo />} />
       <Route path='/NoPermisos' element={<NoPermisos/>}/>
       <Route path='/MostrarProductos' element={<MostrarProductos/>} />
       <Route path='/MostrarInsumo' element={<MostrarInsumo/>} />
       <Route path='/ProformaInsumo' element={<ProformaInsumo/>} />
       <Route path='/ProformaProducto' element={<ProformaProducto/>} />
+      <Route path='/prueba' element={<Prueba/>} />
       <Route path='/Login' element={<Login />} />
 
       {(tipoEmpleado === 1 ||tipoEmpleado === 2 ||tipoEmpleado === 3)? (
@@ -85,6 +89,9 @@ function App() {
               <Route path='/tipoInsumo/VisTipoIns' element={<VisTipoIns/>} />
               <Route path='/tipoInsumo/Nuevo' element={<TipoInsumoNuevo />} />
               <Route path='/tipoInsumo/Editar/:id' element={<TipoInsumoEditar />} />
+              <Route path='/tipoProducto/VisTipoPro' element={<VisTipoPro/>} />
+              <Route path='/tipoProducto/Nuevo' element={<TipoProductoNuevo />} />
+              <Route path='/tipoProducto/Editar/:id' element={<TipoProductoEditar />} />
               <Route path='/VentaInsumo/VisVentIns' element={<VisVentIns/>} />
               <Route path='/VentaInsumo/Editar/:id' element={<VentInsEditar/>} />
               <Route path='/VentaInsumo/Nuevo' element={<NuevoVI/>} />
@@ -137,6 +144,9 @@ function App() {
               <Route path='/VentaProducto/VisVentPro' element={<VisVentPro/>} />
               <Route path='/VentaProducto/Editar/:id' element={<EditarVP />} />
               <Route path='/VentaProducto/Nuevo' element={<NuevoVP/>} />
+              <Route path='/tipoProducto/VisTipoPro' element={<VisTipoPro/>} />
+              <Route path='/tipoProducto/Nuevo' element={<TipoProductoNuevo />} />
+              <Route path='/tipoProducto/Editar/:id' element={<TipoProductoEditar />} />
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -146,6 +156,9 @@ function App() {
               <Route path='/VentaProducto/VisVentPro' element={<NoPermisos/>} />
               <Route path='/VentaProducto/Editar/:id' element={<NoPermisos/>} />
               <Route path='/VentaProducto/Nuevo' element={<NoPermisos/>} />
+              <Route path='/tipoProducto/VisTipoPro' element={<NoPermisos/>} />
+              <Route path='/tipoProducto/Nuevo' element={<NoPermisos/>} />
+              <Route path='/tipoProducto/Editar/:id' element={<NoPermisos />} />
             </React.Fragment>
           )}
       </Routes>

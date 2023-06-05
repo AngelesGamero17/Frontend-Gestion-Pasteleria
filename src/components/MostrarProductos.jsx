@@ -1,7 +1,7 @@
 import React from "react";
 import { Apiurl } from "../services/apirest";
 import axios from "axios";
-import '../assets/css/Producto.css';
+import '../assets/css/MostrarProducto.css';
 import '../assets/css/whatssap.css';
 import IconoInsu from '../assets/img/IconoInsu.jpeg';
 import ProductIcon from '../assets/img/ProductIcon.png';
@@ -9,27 +9,105 @@ import IconLogo from '../assets/img/IconLogo.png';
 import what from '../assets/img/what.png';
 
 class MostrarProductos extends React.Component {
+ 
   state = {
     productos: [],
     searchQuery: "",
-    searchFields: ["nombre", "cantidad", "precio", "fechaProduccion"],
+    searchFields: [
+      "nombre",
+      "cantidad",
+      "precio",
+      "fechaProduccion",
+      "tipoProducto",
+    ],
     showCards: false,
-    cantidades: [], // Use an array to track individual product quantities
+    cantidades: [],
+    tipoProductoFilter: "",
+    tiposProducto: [],
+    filtroProducto: [], // Agrega esta línea para inicializar la propiedad filtroInsumo
   };
 
-  // Buscador
+
   handleSearch = (event) => {
-    this.setState({ searchQuery: event.target.value });
+    const searchQuery = event.target.value;
+
+    const { productos, tipoProductoFilter, searchFields } = this.state;
+
+    const filtroProducto = productos
+      .filter((producto) =>
+        searchFields.some(
+          (field) =>
+            producto[field] &&
+            (field === "precioProducto"
+              ? producto[field].toString()
+              : producto[field]
+            )
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+        )
+      )
+      .filter(
+        (producto) =>
+          tipoProductoFilter === "" ||
+          producto.tipoProducto ===
+            (tipoProductoFilter !== ""
+              ? parseInt(tipoProductoFilter)
+              : tipoProductoFilter)
+      );
+
+    this.setState({ searchQuery: searchQuery, filtroProducto: filtroProducto });
   };
+
+
+  handleTipoProductoFilter = (event) => {
+    const tipoProducto = event.target.value;
+    this.setState({ tipoProductoFilter: tipoProducto });
+
+    const { productos } = this.state;
+
+    const filtroProducto = productos.filter((producto) =>
+      tipoProducto !== "" ? producto.tipoProducto === tipoProducto : true
+    );
+
+    this.setState({ filtroProducto: filtroProducto || productos });
+  };
+
 
   componentDidMount() {
-    let url = Apiurl + "producto";
-    axios.get(url).then((response) => {
-      this.setState({
-        productos: response.data,
-        showCards: true, // Set showCards to true after fetching the data
+    let urlTipoProducto = Apiurl + "tipoProducto";
+    let urlProducto = Apiurl + "producto";
+
+    axios
+      .all([axios.get(urlTipoProducto), axios.get(urlProducto)])
+      .then(
+        axios.spread((responseTipoProducto, responseProducto) => {
+          const tipoProductoData = responseTipoProducto.data;
+          const productoData = responseProducto.data;
+
+          const productos = productoData.map((producto) => ({
+            ...producto,
+            tipoProducto: tipoProductoData.find(
+              (tipo) => tipo.ID === producto.tipoProducto
+            ).descripProducto,
+          }));
+
+          const tiposProducto = [
+            ...new Set(productos.map((producto) => producto.tipoProducto)),
+          ];
+
+          const filtroProducto = productos; // Mostrar todos los productos inicialmente
+
+          this.setState({
+            productos: productos,
+            showCards: true,
+            tiposProducto: tiposProducto,
+            filtroProducto: filtroProducto, // Actualizar el estado del filtro
+          });
+        })
+      )
+      .catch((error) => {
+        console.log(error);
       });
-    });
   }
   
   handleChangeCantidad(event, index) {
@@ -62,7 +140,14 @@ class MostrarProductos extends React.Component {
   };
 
   render() {
-    const { searchQuery, searchFields, productos, showCards } = this.state;
+    const { 
+      searchQuery,
+      searchFields,
+      productos, 
+      showCards ,
+      tipoProductoFilter,
+      tiposProducto,
+      } = this.state;
 
     const filtroProductos = productos.filter((producto) =>
       searchFields.some(
@@ -73,14 +158,22 @@ class MostrarProductos extends React.Component {
             .toLowerCase()
             .includes(searchQuery.toLowerCase())
       )
-    );
+      )
+      .filter(
+        (producto) =>
+          tipoProductoFilter === "" ||
+          producto.tipoProducto ===
+            (tipoProductoFilter !== ""
+              ? parseInt(tipoProductoFilter)
+              : tipoProductoFilter)
+      );
 
     return (
       <React.Fragment>
-        {/* Encabezado */}
-        <nav className="navbar navbar-expand-lg navbar-light bg-warning">
-          <div className="container-fluid">
-            <a className="nav-link active" href="./MostrarInsumo">
+            <div className="fondoVistaMostrar-container">
+        <nav className="navbar navbar-expand-lg navbar-light bg-custom">
+              <div className="container-fluid">
+              <a className="nav-link" href="./MostrarInsumo">
               <img src={IconoInsu} width="50px" alt="Icono Insumos" className="navbar-icon" /> Insumos
             </a>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -110,6 +203,27 @@ class MostrarProductos extends React.Component {
           </a>
         </div>
 
+
+        {/* prueba */}
+              
+        <div className="content-select ">
+              <select
+              value={tipoProductoFilter}
+                          onChange={this.handleTipoProductoFilter}
+                        >
+                          <option value="">Todas las Categorias </option>
+                          {tiposProducto.map((tipo) => (
+                            <option key={tipo} value={tipo}>
+                              {tipo}
+                            </option>
+                          ))}
+              </select>
+              <i></i>
+            </div>
+                      
+            {/* prueba */}
+        
+
         <div className="container">
           <div className="row">
             <div className="col-md-6 offset-md-3">
@@ -125,7 +239,7 @@ class MostrarProductos extends React.Component {
         
         {/* Sección de productos */}
           <div className="row">
-            {filtroProductos.map((value, index) => (
+          {this.state.filtroProducto.map((value, index) => (
               <div
                 className={`col-md-3 ${showCards ? "fade-in" : ""}`}
                 key={index}
@@ -175,6 +289,7 @@ class MostrarProductos extends React.Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </React.Fragment>
     );

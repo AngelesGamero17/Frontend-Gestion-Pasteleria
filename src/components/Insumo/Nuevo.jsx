@@ -1,7 +1,6 @@
 import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
-//template
 import Header from "../../template/Header";
 
 class InsumoNuevo extends React.Component {
@@ -14,41 +13,57 @@ class InsumoNuevo extends React.Component {
       precioInsumo: "",
       img: ""
     },
+    tiposInsumo: [] // Estado para almacenar los tipos de insumo
   };
 
-  handleSubmit = (e) => { const token = localStorage.getItem("token"); 
-  e.preventDefault();
-  const config = {
-    headers: {
-      'Authorization': `Bearer ${token}`// Reemplace "token" con su token de autenticación
-    }
+  componentDidMount() {
+    let url = Apiurl + "tipoInsumo";
+    axios.get(url)
+      .then((response) => {
+        this.setState({
+          tiposInsumo: response.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    
+    axios
+      .post(Apiurl + "insumo", this.state.form, config)
+      .then((res) => {
+        console.log(res);
+        alert("Se registró el insumo correctamente.");
+        window.location.href = "/Insumo/VisInsumo";
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("No se pudo registrar el insumo");
+      });
   };
-  axios
-    .post(Apiurl + "insumo", this.state.form, config)
-    .then((res) => {
-      console.log(res);
-      alert("Se registro insumo correctamente.");
-      window.location.href = "/Insumo/VisInsumo";
-      // Aquí puedes redireccionar al usuario a otra página después de registrar el insumo
-    })
-    .catch((error) => {
-      console.log(error);
-      alert("No se pudo registrar insumo");
-    });
-};
-  manejadorChange = async (e) => {
-    await this.setState({
+
+
+  handleChange = (e) => {
+    this.setState({
       form: {
         ...this.state.form,
         [e.target.name]: e.target.value,
       },
     });
   };
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
 
   render() {
+
     return (
       <React.Fragment>
         <Header />
@@ -60,7 +75,7 @@ class InsumoNuevo extends React.Component {
           <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label"> NOMBRE</label>
+                <label className="col-md-2 control-label">NOMBRE</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -68,7 +83,7 @@ class InsumoNuevo extends React.Component {
                     placeholder="nombreInsumo"
                     type="text"
                     value={this.state.form.nombreInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -76,7 +91,7 @@ class InsumoNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">CANTIDAD -INSUMO</label>
+                <label className="col-md-2 control-label">CANTIDAD - INSUMO</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -84,7 +99,7 @@ class InsumoNuevo extends React.Component {
                     placeholder="cantidadInsumo"
                     type="text"
                     value={this.state.form.cantidadInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -98,29 +113,41 @@ class InsumoNuevo extends React.Component {
                     className="form-control"
                     name="fecCompra"
                     placeholder="fecCompra"
-                    type="text"
+                    type="date"
                     value={this.state.form.fecCompra}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
 
+        <div className="container">
+          <br />
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
+            {/* Resto del formulario */}
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">TIPO - INSUMO</label>
                 <div className="col-md-10">
-                  <input
+                  <select
                     className="form-control"
                     name="tipoInsumo"
-                    placeholder="tipoInsumo"
-                    type="text"
                     value={this.state.form.tipoInsumo}
-                    onChange={this.manejadorChange}
-                  />
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un tipo de insumo</option>
+                    {this.state.tiposInsumo.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.descripInsumo}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
+            {/* Resto del formulario */}
+          </form>
+        </div>
 
             <div className="row">
               <div className="col-sm-12">
@@ -132,7 +159,7 @@ class InsumoNuevo extends React.Component {
                     placeholder="precioInsumo"
                     type="text"
                     value={this.state.form.precioInsumo}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -148,7 +175,7 @@ class InsumoNuevo extends React.Component {
                     placeholder="img"
                     type="text"
                     value={this.state.form.img}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -158,7 +185,10 @@ class InsumoNuevo extends React.Component {
             <button
               type="submit"
               className="btn btn-success"
-              style={{ marginRight: "10px" }}>Registrar</button>
+              style={{ marginRight: "10px" }}
+            >
+              Registrar
+            </button>
           </form>
         </div>
       </React.Fragment>

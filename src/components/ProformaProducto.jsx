@@ -54,7 +54,14 @@ class ProformaProducto extends React.Component {
 
     return (
       <React.Fragment>
-      <h1> --  --  🄿🅁🄾🄵🄾🅁🄼🄰 🄿🅁🄾🄳🅄🄲🅃🄾  -- -- </h1>
+      <div className="fondoVistaProforma1-container">
+
+      <a className="nav-link active btn btn-warning d-block mx-auto" href="./MostrarProductos">
+        Volver a la Página Principal
+    </a>
+
+    <div className="container containerFondoProforma1">
+      <h1>  🄿🅁🄾🄵🄾🅁🄼🄰 🄿🅁🄾🄳🅄🄲🅃🄾  </h1>
         {/* Mostrar el valor decodificado */}
         {decodedValue && (
           <div>
@@ -62,11 +69,7 @@ class ProformaProducto extends React.Component {
           </div>
         )}
 
-        <a className="nav-link active btn btn-warning d-block mx-auto" href="./MostrarInsumo">
-            Volver a la Página Principal
-        </a>
-
-        <table className="proforma-table">
+        <table className="proforma-table  custom2-table">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -97,7 +100,8 @@ class ProformaProducto extends React.Component {
           </tfoot>
         </table>
 
-       
+        </div>
+        </div>
       </React.Fragment>
     );
   }

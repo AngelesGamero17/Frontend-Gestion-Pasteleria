@@ -2,11 +2,13 @@ import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
-
+import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
 class VisVentPro extends React.Component {
 
   state = {
     ventaProducto: [],
+    clientes: [],
+    empleados: [],
     searchQuery: "",
     searchFields: ["idCliente","idEmpleado","descripcion", "precioTotal","fechaVenta"],
   };
@@ -35,13 +37,24 @@ class VisVentPro extends React.Component {
   }
 
   componentDidMount() {
-    let url = Apiurl + "ventaProducto";
-    axios.get(url).then((response) => {
-      this.setState({
-        ventaProducto: response.data,
+    let ventaProductoUrl = Apiurl + "ventaProducto";
+    let clienteUrl = Apiurl + "cliente";
+    let empleadoUrl = Apiurl + "empleado";
+  
+    axios.all([axios.get(ventaProductoUrl), axios.get(clienteUrl), axios.get(empleadoUrl)])
+      .then(axios.spread((ventaProductoResponse, clienteResponse, empleadosResponse) => {
+        this.setState({
+          ventaProducto: ventaProductoResponse.data,
+          clientes: clienteResponse.data,
+          empleados: empleadosResponse.data,
+        });
+      }))
+      .catch(error => {
+        console.log(error);
       });
-    });
   }
+
+
   render() {
     const { searchQuery, searchFields, ventaProducto } = this.state;
 
@@ -52,7 +65,8 @@ class VisVentPro extends React.Component {
   );
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
+    <div className="fondoVista-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -76,11 +90,14 @@ class VisVentPro extends React.Component {
                     <a className="nav-link" href="/Insumo/VisInsumo">Insumo</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/VentaProducto/VisVentPro">Venta Producto</a>
+                    <a className="nav-link active" href="/VentaProducto/VisVentPro">Venta Producto</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
+                  <li className="nav-item">
+                  <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
+                </li>
                 </ul>
               </div>
               <ul className="navbar-nav">
@@ -102,7 +119,7 @@ class VisVentPro extends React.Component {
               className="form-control"
           />
 
-          <table className="table table-hover">
+<table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -114,12 +131,18 @@ class VisVentPro extends React.Component {
               </tr>
             </thead>
             <tbody>
+            
             {filtroVentaProducto.map((value, index) => {
+              const cliente = this.state.clientes.find(tipo => tipo.ID === value.idCliente);
+              const empleados = this.state.empleados.find(tipo => tipo.ID === value.idEmpleado);
+              // Obtener la rol del tipoEmpleados si se encuentra
+              const nomCli =cliente ? cliente.nomCli : "";
+              const nomEmp = empleados ? empleados.nomEmp : "";
                 return (
                   <tr key={index} onClick={() => this.clickVentPro(value.ID)}>
                     <th scope="row">{value.ID}</th>
-                    <td>{value.idCliente}</td>
-                    <td>{value.idEmpleado}</td>
+                    <td>{nomCli}</td>
+                    <td>{nomEmp}</td>
                     <td>{value.descripcion}</td>
                     <td>{value.precioTotal}</td>
                     <td>{value.fechaVenta}</td>
@@ -132,6 +155,11 @@ class VisVentPro extends React.Component {
 
             </tbody>
           </table>
+        </div>
+            <footer className="bg-light text-center py-3">
+              <p>Venta Producto</p>
+            </footer>
+
         </div>
       </React.Fragment>
     );

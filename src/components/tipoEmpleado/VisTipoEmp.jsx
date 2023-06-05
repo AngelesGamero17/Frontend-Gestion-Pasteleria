@@ -2,6 +2,7 @@ import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
+import "../../assets/css/FondodeVistas.css"; // Importar archivo CSS para los estilos
 class VisTipoEmp extends React.Component {
   state = {
     tipoEmp: [],
@@ -37,7 +38,8 @@ class VisTipoEmp extends React.Component {
   render() {
     return (
       <React.Fragment>
-<nav className="navbar navbar-expand-lg navbar navbar-light bg-info">
+    <div className="fondoVista-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-custom">
             <div className="container-fluid">
               <a className="nav-link " href="/dashboard">Inicio</a>
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -66,6 +68,9 @@ class VisTipoEmp extends React.Component {
                   <li className="nav-item">
                     <a className="nav-link" href="/VentaInsumo/VisVentIns">Venta Insumo</a>
                   </li>
+                  <li className="nav-item">
+                  <a className="nav-link" href="/TipoProducto/VisTipoPro">Tipo Producto</a>
+                </li>
                 </ul>
               </div>
               <ul className="navbar-nav">
@@ -78,7 +83,7 @@ class VisTipoEmp extends React.Component {
         <div className="container">
           <br />
           <br />
-          <table className="table table-hover">
+          <table className="table table-striped table-bordered custom-table">
             <thead>
               <tr>
                 <th scope="col">ID</th>
@@ -100,6 +105,10 @@ class VisTipoEmp extends React.Component {
 
             </tbody>
           </table>
+        </div>
+        <footer className="bg-light text-center py-3">
+              <p>Tipo Empleado</p>
+            </footer>
         </div>
       </React.Fragment>
     );

@@ -1,0 +1,111 @@
+/* 
+estilos para el buscador del mostrar insumo */
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 1s ease forwards;
+  }
+  
+  @keyframes fadeInAnimation {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .card-img-top {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: translateX(-20px); 
+  }
+  
+  .fade-in .card-img-top {
+    opacity: 1;
+    transform: translateX(0); 
+  }
+
+/*   fondo de imagen del mostrar insumo */
+  .fondoVistaMostrar1-container{
+    min-height: 100vh;  /* Establece la altura mínima del componente para que abarque toda la altura de la ventana */
+    background: url('https://estudiarcocina.com/wp-content/uploads/2023/01/Utensilios-de-resposteria-y-pasteleria.jpg') fixed;
+    background-size: cover;
+  }
+
+/* poniendo estilos al selesct de categorias insumos */
+.content-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Eliminamos la fecha que por defecto aparece en el desplegable */
+.content-select select::-ms-expand {
+  display: none;
+}
+
+  .content-select {
+  max-width: 250px;
+  position: relative;
+}
+
+.content-select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 7px 10px;
+  height: 42px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 1em;
+  color:black;
+  font-family: "Quicksand", sans-serif;
+  border: 5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.25s ease;
+  border-color:orange ;
+  
+}
+
+.content-select select:hover {
+  background: #b1e8cd !important;
+}
+
+
+/* 
+Creamos la fecha que aparece a la izquierda del select.
+Realmente este elemento es un cuadrado que sólo tienen
+dos bordes con color y que giramos con transform: rotate(-45deg);
+*/
+.content-select i {
+  position: absolute;
+  right: 20px;
+  top: calc(50% - 13px);
+  width: 16px;
+  height: 16px;
+  display: block;
+  border-left: 4px solid #2ac176;
+  border-bottom: 4px solid #2ac176;
+  transform: rotate(-45deg); /* Giramos el cuadrado */
+  transition: all 0.25s ease;
+}
+
+.content-select:hover i {
+  margin-top: 3px;
+}
+
+/* animacion al incono de navegacion */
+.navbar-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+
+.navbar-icon:hover {
+  transform: rotate(360deg);
+}

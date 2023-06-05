@@ -5,27 +5,38 @@ import axios from "axios";
 import Header from "../../template/Header";
 
 class ProductoEditar extends React.Component {
+  //llamar datos de la api que utilizaremos
   state = {
-    form: {
+    form: { 
       nombre:"",
       cantidad: "",
       precio: "",
       fechaProduccion:"",
+      tipoProducto:"",
       img:""
     },
+    tiposProducto:[],
     error: false,
     errorMsg: "",
   };
 
-  manejadorChange = async (e) => {
-    await this.setState({
+  //funcion para que actualice los datos  automaticamente
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
       form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
+        ...prevState.form,
+        [name]: value,
       },
-    });
+    }));
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.put();
+  };
+
+  //funcion para actualizar los datos
   put = () => {
     console.log(this.state);
     const url = window.location.href;
@@ -34,6 +45,8 @@ class ProductoEditar extends React.Component {
     const urlApi = Apiurl + "producto/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
+
+    //permite hacer solicitudes http  para actualizar los datos
     axios
       .put(urlApi, this.state.form, {
         headers: {
@@ -50,7 +63,7 @@ class ProductoEditar extends React.Component {
       });
   };
 
-  
+  //funcion para elimar los datos
   delete = () => {
     console.log(this.state);
     const url = window.location.href;
@@ -77,12 +90,8 @@ class ProductoEditar extends React.Component {
         alert("Ha ocurrido un error al eliminar el producto");
       });
   };
-  
 
-  manejadorSubmit = (e) => {
-    e.preventDefault();
-  };
-
+  //funcion para obtener los datos , para poder editar
   componentDidMount() {
     const url = window.location.href;
     const match = url.match(/\/editar\/(\d+)$/);
@@ -100,6 +109,7 @@ class ProductoEditar extends React.Component {
                 cantidad: producto.cantidad,
                 precio: producto.precio,
                 fechaProduccion: producto.fechaProduccion,
+                tipoProducto: producto.tipoProducto,
                 img: producto.img,
                 token: localStorage.getItem("token"),
                 id: id,
@@ -111,10 +121,25 @@ class ProductoEditar extends React.Component {
           console.error(error);
         });
     }
-  }
 
+
+  const urlTiposProducto = Apiurl + "tipoProducto";
+  axios
+    .get(urlTiposProducto)
+    .then((response) => {
+      const tiposProducto = response.data;
+      this.setState({ tiposProducto });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+
+  //para vizualizar
   render() {
-    const form = this.state.form;
+    const { form, tiposProducto } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -123,7 +148,7 @@ class ProductoEditar extends React.Component {
         </div>
         <div className="container">
           <br />
-          <form className="form-horizontal" onSubmit={this.manejadorSubmit}>
+          <form className="form-horizontal" onSubmit={this.handleSubmit}>
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label"> NOMBRE</label>
@@ -134,7 +159,7 @@ class ProductoEditar extends React.Component {
                     placeholder="nombre"
                     type="text"
                     value={form.nombre}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -150,7 +175,7 @@ class ProductoEditar extends React.Component {
                     placeholder="cantidad"
                     type="text"
                     value={form.cantidad}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -166,7 +191,7 @@ class ProductoEditar extends React.Component {
                     placeholder="precio"
                     type="text"
                     value={form.precio}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -180,13 +205,35 @@ class ProductoEditar extends React.Component {
                     className="form-control"
                     name="fechaProduccion"
                     placeholder="fechaProduccion"
-                    type="text"
+                    type="date"
                     value={form.fechaProduccion}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">TIPO - PRODUCTO</label>
+                <div className="col-md-10">
+                  <select
+                    className="form-control"
+                    name="tipoProducto"
+                    value={form.tipoProducto}
+                    onChange={this.handleChange}
+                  >
+                    <option value="">Seleccione un tipo de producto</option>
+                    {tiposProducto.map((tipo) => (
+                      <option key={tipo.ID} value={tipo.ID}>
+                        {tipo.descripProducto}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
 
             <div className="row">
               <div className="col-sm-12">
@@ -198,7 +245,7 @@ class ProductoEditar extends React.Component {
                     placeholder="img"
                     type="text"
                     value={form.img}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>

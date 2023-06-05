@@ -1,7 +1,5 @@
 import React from "react";
 import Header from "../template/Header";
-import accesoNegado from '../assets/img/accesoNegado.png';
-
 class NoPermisos extends React.Component {
  
   render() {
@@ -10,9 +8,12 @@ class NoPermisos extends React.Component {
         <Header />
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <br />
-          <img src={accesoNegado} width="1500px" height="900px" alt="Img dashboard" />
+          <img src="https://thumbs.gfycat.com/WigglyExaltedGnu-size_restricted.gif" alt="GIF de texto no acceso" />
           <br />
+          <img src="https://cdn.jsdelivr.net/gh/sircam-html/ipfs.pg@main/store-front/access_not_allowed.gif" alt="GIF de la chica" />
         </div>
+
+
       </React.Fragment>
     );
   }
