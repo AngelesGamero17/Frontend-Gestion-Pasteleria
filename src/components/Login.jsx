@@ -14,10 +14,20 @@ class Login extends React.Component {
   state = {
     form: {
       "email": "",
-      "password": ""
+      "password": "",
     },
+    imagen:[],
     error:false,
     errorMsg: ""
+  }
+
+  componentDidMount() {
+    let url = Apiurl + "imagen";
+    axios.get(url).then((response) => {
+      this.setState({
+        imagen: response.data,
+      });
+    });
   }
 
   manejadorSubmit = e => {
@@ -67,6 +77,9 @@ class Login extends React.Component {
   };
 
   render() {
+
+    let firstImage = this.state.imagen[0] ? this.state.imagen[0].imgLogin : "";
+
     return (
       <React.Fragment>
       <div
@@ -76,7 +89,9 @@ class Login extends React.Component {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         width: '100%',
-        height: '100vh'
+        height: '100vh',
+        backgroundImage: `url('${firstImage}')`,
+        backgroundAttachment: "fixed",
       }}
     >
 

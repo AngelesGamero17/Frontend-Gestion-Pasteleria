@@ -3,6 +3,7 @@ import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 //template
 import Header from "../../template/Header";
+import "../../assets/css/VentaInsumo.css"; // Importar archivo CSS para los estilos
 
 class VentInsEditar extends React.Component {
   state = {
@@ -148,6 +149,7 @@ class VentInsEditar extends React.Component {
     return (
       <React.Fragment>
         <Header />
+
         <div className="container">
           <h3>Editar ventaInsumo</h3>
         </div>

@@ -36,9 +36,13 @@ import MostrarProductos from './components/MostrarProductos';
 import MostrarInsumo from './components/MostrarInsumo';
 import ProformaInsumo from './components/ProformaInsumo';
 import ProformaProducto from './components/ProformaProducto';
+import EditarImg from './components/Imagen/EditarImg';
+import NuevoImg from './components/Imagen/NuevoImg';
+import VisImg from './components/Imagen/VisImg';
 import Prueba from './components/prueba';
 
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
 
 let tipoEmpleado = JSON.parse(localStorage.getItem('tipoEmpleado'));
 
@@ -98,6 +102,9 @@ function App() {
               <Route path='/VentaProducto/VisVentPro' element={<VisVentPro/>} />
               <Route path='/VentaProducto/Editar/:id' element={<EditarVP />} />
               <Route path='/VentaProducto/Nuevo' element={<NuevoVP/>} />
+              <Route path='/Imagen/VisImg' element={<VisImg />} />
+              <Route path='/Imagen/Nuevo' element={<NuevoImg />} />
+              <Route path='/Imagen/Editar/:id' element={<EditarImg />} />
               </React.Fragment>
           ) : (
             <React.Fragment>

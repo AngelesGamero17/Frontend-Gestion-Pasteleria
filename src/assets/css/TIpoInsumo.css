@@ -1,0 +1,55 @@
+.fondoTipoInsumo {
+    min-height: 100vh;  /* Establece la altura mínima del componente para que abarque toda la altura de la ventana */
+    background: url('https://pasteleriasmarisa.com.mx/wp-content/uploads/2022/03/Compartir-Marisa.gif') fixed;
+    background-size: cover;
+    display: flex; /* Agrega esto para utilizar flexbox */
+  }
+  
+  .custom-TipoInsumo-table {
+    background-color: #aafffb; /* Personaliza el color de fondo aquí */
+    margin-left: 40px;
+    margin-right: 40px;
+    flex: 1; /* Agrega esto para que el contenido se ajuste automáticamente */
+  }
+  
+  .sidebar-TipoInsumo {
+    width: 250px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    background-color: #1bedf044;
+  }
+  
+  .sidebar-TipoInsumo > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+  }
+  
+  .sidebar-TipoInsumo > ul > li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-TipoInsumo > ul > li > a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+  }
+  
+  .sidebar-TipoInsumo > ul > li > a.active {
+    background-color: #50a5a1;
+    color: white;
+  }
+  
+  .sidebar-TipoInsumo > ul > li > a:hover:not(.active) {
+    background-color: #048785;
+    color: white;
+  }
+  
+  .sidebar-TipoInsumo > .content {
+    margin-left: 220px;
+    padding: 20px;
+  }
+  

@@ -22,6 +22,7 @@ class MostrarProductos extends React.Component {
     ],
     showCards: false,
     cantidades: [],
+    imagen:[],
     tipoProductoFilter: "",
     tiposProducto: [],
     filtroProducto: [], // Agrega esta línea para inicializar la propiedad filtroInsumo
@@ -76,13 +77,22 @@ class MostrarProductos extends React.Component {
   componentDidMount() {
     let urlTipoProducto = Apiurl + "tipoProducto";
     let urlProducto = Apiurl + "producto";
+    let urlImagen = Apiurl + "imagen";
 
     axios
-      .all([axios.get(urlTipoProducto), axios.get(urlProducto)])
+      .all([
+        axios.get(urlTipoProducto), 
+        axios.get(urlProducto),
+        axios.get(urlImagen),
+      ])
       .then(
-        axios.spread((responseTipoProducto, responseProducto) => {
+        axios.spread((responseTipoProducto, responseProducto, responseImagen) => {
           const tipoProductoData = responseTipoProducto.data;
           const productoData = responseProducto.data;
+
+          this.setState({
+            imagen: responseImagen.data,
+          });
 
           const productos = productoData.map((producto) => ({
             ...producto,
@@ -168,9 +178,16 @@ class MostrarProductos extends React.Component {
               : tipoProductoFilter)
       );
 
+let firstImage = this.state.imagen[0] ? this.state.imagen[0].imgPro : "";
     return (
       <React.Fragment>
-            <div className="fondoVistaMostrar-container">
+            <div className="fondoVistaMostrar-container"
+            style={{
+            backgroundImage: `url('${firstImage}')`,
+            backgroundAttachment: "fixed",
+          }}
+        >
+            
         <nav className="navbar navbar-expand-lg navbar-light bg-custom">
               <div className="container-fluid">
               <a className="nav-link" href="./MostrarInsumo">

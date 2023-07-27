@@ -239,6 +239,13 @@ class ProductoEditar extends React.Component {
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">IMG</label>
                 <div className="col-md-10">
+                <img
+                    className="form-control"
+                    name="img"
+                    alt=""
+                    src={form.img}
+                    style={{ width: "300px" }} // Ajusta el ancho deseado
+                  />
                   <input
                     className="form-control"
                     name="img"

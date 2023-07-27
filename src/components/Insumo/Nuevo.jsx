@@ -1,6 +1,7 @@
 import React from "react";
 import { Apiurl } from "../../services/apirest";
 import axios from "axios";
+import moment from "moment";
 import Header from "../../template/Header";
 
 class InsumoNuevo extends React.Component {
@@ -8,12 +9,14 @@ class InsumoNuevo extends React.Component {
     form: {
       nombreInsumo: "",
       cantidadInsumo: "",
-      fecCompra: "",
+      fecCompra: moment().format("YYYY-MM-DD"),
       tipoInsumo: "",
       precioInsumo: "",
       img: ""
     },
-    tiposInsumo: [] // Estado para almacenar los tipos de insumo
+    imgPreview: "",
+    tiposInsumo: [], // Estado para almacenar los tipos de insumo
+    errorMessage: "" // Estado para almacenar el mensaje de error
   };
 
   componentDidMount() {
@@ -31,6 +34,16 @@ class InsumoNuevo extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const { nombreInsumo, cantidadInsumo, fecCompra, tipoInsumo, precioInsumo } = this.state.form;
+
+    if (!nombreInsumo || !cantidadInsumo || !fecCompra || !tipoInsumo || !precioInsumo) {
+      this.setState({
+        errorMessage: "Por favor, complete todos los campos obligatorios."
+      });
+      return;
+    }
+
     const token = localStorage.getItem("token");
     const config = {
       headers: {
@@ -38,7 +51,6 @@ class InsumoNuevo extends React.Component {
       }
     };
 
-    
     axios
       .post(Apiurl + "insumo", this.state.form, config)
       .then((res) => {
@@ -52,17 +64,28 @@ class InsumoNuevo extends React.Component {
       });
   };
 
-
   handleChange = (e) => {
-    this.setState({
-      form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
-      },
-    });
+    const { name, value } = e.target;
+    if (name === "img") {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+        imgPreview: value,
+      });
+    } else {
+      this.setState({
+        form: {
+          ...this.state.form,
+          [name]: value,
+        },
+      });
+    }
   };
-
+  
   render() {
+    const { tiposInsumo,imgPreview, errorMessage } = this.state;
 
     return (
       <React.Fragment>
@@ -121,10 +144,6 @@ class InsumoNuevo extends React.Component {
               </div>
             </div>
 
-        <div className="container">
-          <br />
-          <form className="form-horizontal" onSubmit={this.handleSubmit}>
-            {/* Resto del formulario */}
             <div className="row">
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">TIPO - INSUMO</label>
@@ -136,7 +155,7 @@ class InsumoNuevo extends React.Component {
                     onChange={this.handleChange}
                   >
                     <option value="">Seleccione un tipo de insumo</option>
-                    {this.state.tiposInsumo.map((tipo) => (
+                    {tiposInsumo.map((tipo) => (
                       <option key={tipo.ID} value={tipo.ID}>
                         {tipo.descripInsumo}
                       </option>
@@ -145,9 +164,6 @@ class InsumoNuevo extends React.Component {
                 </div>
               </div>
             </div>
-            {/* Resto del formulario */}
-          </form>
-        </div>
 
             <div className="row">
               <div className="col-sm-12">
@@ -169,6 +185,14 @@ class InsumoNuevo extends React.Component {
               <div className="col-sm-12">
                 <label className="col-md-2 control-label">IMG</label>
                 <div className="col-md-10">
+                  {imgPreview && (
+                    <img
+                      className="form-control"
+                      alt="Preview"
+                      src={imgPreview}
+                      style={{ width: "300px" }}
+                    />
+                  )}
                   <input
                     className="form-control"
                     name="img"
@@ -181,7 +205,9 @@ class InsumoNuevo extends React.Component {
               </div>
             </div>
 
-            <br></br>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+            <br />
             <button
               type="submit"
               className="btn btn-success"
@@ -189,6 +215,11 @@ class InsumoNuevo extends React.Component {
             >
               Registrar
             </button>
+
+
+            <a className="btn btn-dark" href="/Insumo/VisInsumo">
+              Volver
+            </a>
           </form>
         </div>
       </React.Fragment>

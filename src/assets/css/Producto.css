@@ -1,0 +1,97 @@
+.fondoProducto {
+    min-height: 100vh;  /* Establece la altura mínima del componente para que abarque toda la altura de la ventana */
+    background: url('https://pasteleriasmarisa.com.mx/wp-content/uploads/2022/03/Compartir-Marisa.gif') fixed;
+    background-size: cover;
+    display: flex; /* Agrega esto para utilizar flexbox */
+  }
+  
+  .custom-Producto-table {
+    background-color:  #f0b6f7; /* Personaliza el color de fondo aquí */
+    margin-left: 40px;
+    margin-right: 40px;
+    flex: 1; /* Agrega esto para que el contenido se ajuste automáticamente */
+  }
+  
+  .sidebar-Producto {
+    width: 250px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    background-color: #cb5be493;
+  }
+  
+  .sidebar-Producto > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+  }
+  
+  .sidebar-Producto > ul > li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-Producto > ul > li > a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+  }
+  
+  .sidebar-Producto > ul > li > a.active {
+    background-color: #9d0e8c;
+    color: white;
+  }
+  
+  .sidebar-Producto > ul > li > a:hover:not(.active) {
+    background-color: #a80a9b;
+    color: white;
+  }
+  
+  .sidebar-Producto > .content {
+    margin-left: 220px;
+    padding: 20px;
+  }
+  
+  
+
+
+
+
+
+
+  /* ProductoNuevo.css */
+
+.container {
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.product-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.control-label {
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.img-preview {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  margin-bottom: 10px;
+}

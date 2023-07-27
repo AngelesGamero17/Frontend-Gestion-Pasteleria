@@ -1,0 +1,49 @@
+.fondoTipoProducto {
+  min-height: 100vh;
+  background: url('https://pasteleriasmarisa.com.mx/wp-content/uploads/2022/03/Compartir-Marisa.gif') fixed;
+  background-size: cover;
+  display: flex; /* Agrega esto para utilizar flexbox */
+}
+
+.custom-TipoProducto-table {
+  background-color: #f0b6f7;
+  margin-left: 40px;
+  margin-right: 40px;
+  flex: 1; /* Agrega esto para que el contenido se ajuste automáticamente */
+}
+
+.sidebar-tipoProducto {
+  width: 250px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  background-color: #cb5be493;
+}
+
+.sidebar-tipoProducto > ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.sidebar-tipoProducto > ul > li {
+  margin-bottom: 10px;
+}
+
+.sidebar-tipoProducto > ul > li > a {
+  display: block;
+  color: #000;
+  padding: 8px 0 8px 16px;
+  text-decoration: none;
+}
+
+.sidebar-tipoProducto > ul > li > a.active {
+  background-color: #9d0e8c;
+  color: white;
+}
+
+.sidebar-tipoProducto > ul > li > a:hover:not(.active) {
+  background-color: #a80a9b;
+  color: white;
+}

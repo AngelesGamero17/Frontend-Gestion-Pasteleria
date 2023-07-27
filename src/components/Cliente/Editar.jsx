@@ -31,12 +31,26 @@ class ClienteEditar extends React.Component {
     const match = url.match(/\/editar\/(\d+)$/);
     const id = match ? match[1] : null;
     const urlApi = Apiurl + "cliente/" + id;
-    const token = localStorage.getItem("token"); // Obtener el token desde localStorage
+    const token = localStorage.getItem("token");
 
+
+    const { telefono } = this.state.form;
+    if (telefono.length !== 9) {
+      alert("El campo telefono debe tener exactamente 9 caracteres.");
+      return;
+    }
+  
+    const { dni } = this.state.form;
+    if (dni.length !== 8) {
+      alert("El campo DNI debe tener exactamente 8 caracteres.");
+      return;
+    }
+
+  
     axios
       .put(urlApi, this.state.form, {
         headers: {
-          Authorization: `Bearer ${token}`, // Incluir el token en el header
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
@@ -117,7 +131,7 @@ class ClienteEditar extends React.Component {
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar Cliente</h3>
+          <h3>𝔼𝕕𝕚𝕥𝕒𝕣 ℂ𝕝𝕚𝕖𝕟𝕥𝕖</h3>
         </div>
         <div className="container">
           <br />
@@ -160,6 +174,8 @@ class ClienteEditar extends React.Component {
                 <div className="col-md-10">
                   <input
                     className="form-control"
+                    maxLength={9}
+                    minLength={9}
                     name="telefono"
                     placeholder="telefono"
                     type="text"
@@ -176,6 +192,8 @@ class ClienteEditar extends React.Component {
                 <div className="col-md-10">
                   <input
                     className="form-control"
+                    maxLength={8}
+                    minLength={8}
                     name="dni"
                     placeholder="dni"
                     type="text"

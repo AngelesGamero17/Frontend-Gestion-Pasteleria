@@ -15,16 +15,17 @@ class EmpleadoNuevo extends React.Component {
       telefono: "",
       tipoEmpleado: "",
     },
-    tipoEmpleado: [] //estado para almacenar los tipos de empleado
+    tipoEmpleado: [], // estado para almacenar los tipos de empleado
+    errorMessage: "", // estado para almacenar el mensaje de error
   };
-
 
   componentDidMount() {
     let url = Apiurl + "tipoEmpleado";
-    axios.get(url)
+    axios
+      .get(url)
       .then((response) => {
         this.setState({
-          tipoEmpleado: response.data
+          tipoEmpleado: response.data,
         });
       })
       .catch((error) => {
@@ -32,41 +33,51 @@ class EmpleadoNuevo extends React.Component {
       });
   }
 
-
   handleSubmit = (e) => {
     e.preventDefault();
+
+    const { nomEmp, apellEmp, email, password, direccEmp, telefono, tipoEmpleado } = this.state.form;
+
+    if (!nomEmp || !apellEmp || !email || !password || !direccEmp || !telefono || !tipoEmpleado) {
+      this.setState({
+        errorMessage: "Por favor, complete todos los campos obligatorios."
+      });
+      return;
+    }
+
     axios
       .post(Apiurl + "empleado", this.state.form)
       .then((res) => {
         console.log(res);
-        alert("Se registro empleado correctamente.");
+        alert("Se registró el empleado correctamente.");
         window.location.href = "/Empleado/VisEmpleado";
         // Aquí puedes redireccionar al usuario a otra página después de registrar el empleado
       })
       .catch((error) => {
         console.log(error);
-        alert("Nose registro empleado correctamente.");
+        alert("No se pudo registrar el empleado.");
       });
   };
 
-  manejadorChange = async (e) => {
-    await this.setState({
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
       form: {
-        ...this.state.form,
-        [e.target.name]: e.target.value,
+        ...prevState.form,
+        [name]: value,
       },
-    });
-  };
-  manejadorSubmit = (e) => {
-    e.preventDefault();
+      errorMessage: ""
+    }));
   };
 
   render() {
+    const { tipoEmpleado, errorMessage } = this.state;
+
     return (
       <React.Fragment>
         <Header />
         <div className="container">
-          <h3>Editar Empleado</h3>
+          <h3>Nuevo Empleado</h3>
         </div>
         <div className="container">
           <br />
@@ -81,7 +92,7 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="nomEmp"
                     type="text"
                     value={this.state.form.nomEmp}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -97,7 +108,7 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="apellEmp"
                     type="text"
                     value={this.state.form.apellEmp}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -113,7 +124,7 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="email"
                     type="text"
                     value={this.state.form.email}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -121,7 +132,7 @@ class EmpleadoNuevo extends React.Component {
 
             <div className="row">
               <div className="col-sm-12">
-                <label className="col-md-2 control-label">CONTRASEÑA</label>
+                <label className="col-md-2 control-label"> CONTRASEÑA</label>
                 <div className="col-md-10">
                   <input
                     className="form-control"
@@ -129,12 +140,11 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="password"
                     type="password"
                     value={this.state.form.password}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
-
 
             <div className="row">
               <div className="col-sm-12">
@@ -146,7 +156,7 @@ class EmpleadoNuevo extends React.Component {
                     placeholder="direccEmp"
                     type="text"
                     value={this.state.form.direccEmp}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
@@ -158,50 +168,61 @@ class EmpleadoNuevo extends React.Component {
                 <div className="col-md-10">
                   <input
                     className="form-control"
+                    maxLength={9}
+                    minLength={9}
                     name="telefono"
                     placeholder="telefono"
                     type="text"
                     value={this.state.form.telefono}
-                    onChange={this.manejadorChange}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
             </div>
 
-
             <div className="container">
-          <br />
-          <form className="form-horizontal" onSubmit={this.handleSubmit}>
-            {/* Resto del formulario */}
-            <div className="row">
-              <div className="col-sm-12">
-                <label className="col-md-2 control-label">TIPO - EMPLEADO</label>
-                <div className="col-md-10">
-                  <select
-                    className="form-control"
-                    name="tipoEmpleado"
-                    value={this.state.form.tipoEmpleado}
-                    onChange={this.manejadorChange}
-                  >
-                    <option value="">Seleccione un tipo de Empleado</option>
-                    {this.state.tipoEmpleado.map((tipo) => (
-                      <option key={tipo.ID} value={tipo.ID}>
-                        {tipo.rol}
-                      </option>
-                    ))}
-                  </select>
+              <br />
+              <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                {/* Resto del formulario */}
+                <div className="row">
+                  <div className="col-sm-12">
+                    <label className="col-md-2 control-label">TIPO - EMPLEADO</label>
+                    <div className="col-md-10">
+                      <select
+                        className="form-control"
+                        name="tipoEmpleado"
+                        value={this.state.form.tipoEmpleado}
+                        onChange={this.handleChange}
+                      >
+                        <option value="">Seleccione un tipo de Empleado</option>
+                        {tipoEmpleado.map((tipo) => (
+                          <option key={tipo.ID} value={tipo.ID}>
+                            {tipo.rol}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
+                {/* Resto del formulario */}
+              </form>
             </div>
-            {/* Resto del formulario */}
-          </form>
-        </div>
 
-            <br></br>
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+            <br />
             <button
               type="submit"
               className="btn btn-success"
-              style={{ marginRight: "10px" }}>Registrar</button>
+              style={{ marginRight: "10px" }}
+            >
+              Registrar
+            </button>
+
+            <a className="btn btn-dark" href="/Empleado/VisEmpleado">
+              Volver
+            </a>
+
           </form>
         </div>
       </React.Fragment>

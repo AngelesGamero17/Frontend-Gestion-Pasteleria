@@ -42,6 +42,13 @@ class EmpleadoEditar extends React.Component {
     const urlApi = Apiurl + "empleado/" + id;
     const token = localStorage.getItem("token"); // Obtener el token desde localStorage
 
+
+    const { telefono } = this.state.form;
+    if (telefono.length !== 9) {
+      alert("El campo telefono debe tener exactamente 9 caracteres.");
+      return;
+    }
+
     axios
       .put(urlApi, this.state.form, {
         headers: {
@@ -232,6 +239,8 @@ class EmpleadoEditar extends React.Component {
                 <div className="col-md-10">
                   <input
                     className="form-control"
+                    maxLength={9}
+                    minLength={9}
                     name="telefono"
                     placeholder="telefono"
                     type="text"

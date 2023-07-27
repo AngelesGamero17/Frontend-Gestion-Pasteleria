@@ -109,3 +109,13 @@ dos bordes con color y que giramos con transform: rotate(-45deg);
 .navbar-icon:hover {
   transform: rotate(360deg);
 }
+
+
+
+/* coolores fondo dashboard*/
+.bg-custom {
+  background: #A1FFCE;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #FAFFD1, #A1FFCE);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #FAFFD1, #A1FFCE); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+

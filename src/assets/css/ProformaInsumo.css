@@ -14,14 +14,17 @@
   }
   
 
-
   .containerFondoProforma {
     display: flex;
+    flex-direction: column; /* Cambiar a dirección de columna */
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Opcional: ajusta la altura a tus necesidades */
+    height: 100vh;
   }
   
+  .text-center {
+    margin-top: 10px; /* Añadir un margen superior */
+  }
 
   .fondoVistaProforma-container{
     min-height: 100vh;  /* Establece la altura mínima del componente para que abarque toda la altura de la ventana */
