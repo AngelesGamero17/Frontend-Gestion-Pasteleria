@@ -66,20 +66,16 @@ const NuevoVP = () => {
       },
     };
 
-    // Sumar los valores de venta al estado form
-    const formWithVenta = {
-      ...form,
-      venta: venta.map((producto) => ({
-        ...producto,
-        cantidad: producto.cantidadIngresada, // Utilizar la cantidad ingresada en lugar de la cantidad original
-      })),
-    };
-
     axios
-      .post(Apiurl + "ventaProducto", formWithVenta, config)
-      .then((res) => {
-        console.log(res);
+      .post(Apiurl + "ventaProducto", form, config)
+      .then(async (res) => {
         alert("Se registró la venta correctamente.");
+
+
+        // Actualizar la cantidad disponible de los insumos en el servidor
+        for (const producto of venta) {
+          await handleUpdateProducto(producto.id, producto.cantidad);
+        }
         window.location.href = "/VentaProducto/VisVentPro";
         // Eliminar datos de la tabla del LocalStorage solo si el registro es exitoso
         localStorage.removeItem("venta");
@@ -93,8 +89,11 @@ const NuevoVP = () => {
         setForm({
           idCliente: "",
           idEmpleado: "",
+          descripcion: "",
+          precioTotal: "",
           fechaVenta: moment().format("YYYY-MM-DD"),
         });
+        setVenta([]);
       });
   };
 
@@ -188,6 +187,30 @@ const NuevoVP = () => {
     }));
   }, [venta]);
 
+
+  const handleUpdateProducto = async (productoId, newCantidadProducto) => {
+    try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // Petición al servidor para actualizar la cantidadInsumo del insumo con el nuevo valor ingresado por el usuario
+      await axios.put(
+        `${Apiurl}producto/${productoId}`,
+        { cantidad: newCantidadProducto },
+        config
+      );
+
+      alert("Se actualizó la cantidad disponible del producto correctamente.");
+    } catch (error) {
+      console.log(error);
+      alert("Hubo un error al actualizar la cantidad disponible del producto.");
+    }
+  };
+
   return (
     <React.Fragment>
       <Header />
@@ -251,6 +274,7 @@ const NuevoVP = () => {
           <table className="venta-table custom3-table">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Cantidad Disponible</th>
@@ -265,6 +289,7 @@ const NuevoVP = () => {
 
                 return (
                   <tr key={index}>
+                  <td>{producto.id}</td>
                     <td>{producto.nombre}</td>
                     <td>S/ {producto.precio}</td>
                     <td>

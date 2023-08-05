@@ -158,10 +158,10 @@ class VisImg extends React.Component {
               </tbody>
             </table>
             <br></br>
-                {/* <button
-                  type="submit"
-                  className="btn btn-success"
-                  onClick={() => this.clickAgregar()} > Registrar Imagen </button>  */}
+              {/*  <button
+                type="submit"
+                className="btn btn-success"
+                onClick={() => this.clickAgregar()} > Registrar Imagen </button>   */}
           </div>
 
       

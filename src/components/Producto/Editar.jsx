@@ -12,6 +12,7 @@ class ProductoEditar extends React.Component {
       cantidad: "",
       precio: "",
       fechaProduccion:"",
+      fechaVencimiento:"",
       tipoProducto:"",
       img:""
     },
@@ -109,6 +110,7 @@ class ProductoEditar extends React.Component {
                 cantidad: producto.cantidad,
                 precio: producto.precio,
                 fechaProduccion: producto.fechaProduccion,
+                fechaVencimiento: producto.fechaVencimiento,
                 tipoProducto: producto.tipoProducto,
                 img: producto.img,
                 token: localStorage.getItem("token"),
@@ -212,6 +214,23 @@ class ProductoEditar extends React.Component {
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VECIMIENTO</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fechaVencimiento"
+                    placeholder="fechaVencimiento"
+                    type="date"
+                    value={form.fechaProduccion}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
 
             <div className="row">
               <div className="col-sm-12">

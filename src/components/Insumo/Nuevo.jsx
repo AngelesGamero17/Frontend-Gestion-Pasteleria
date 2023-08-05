@@ -10,6 +10,7 @@ class InsumoNuevo extends React.Component {
       nombreInsumo: "",
       cantidadInsumo: "",
       fecCompra: moment().format("YYYY-MM-DD"),
+      fecVen: "",
       tipoInsumo: "",
       precioInsumo: "",
       img: ""
@@ -35,9 +36,9 @@ class InsumoNuevo extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { nombreInsumo, cantidadInsumo, fecCompra, tipoInsumo, precioInsumo } = this.state.form;
+    const { nombreInsumo, cantidadInsumo, fecCompra,fecVen, tipoInsumo, precioInsumo } = this.state.form;
 
-    if (!nombreInsumo || !cantidadInsumo || !fecCompra || !tipoInsumo || !precioInsumo) {
+    if (!nombreInsumo || !cantidadInsumo || !fecCompra || !fecCompra ||!tipoInsumo || !precioInsumo) {
       this.setState({
         errorMessage: "Por favor, complete todos los campos obligatorios."
       });
@@ -103,7 +104,7 @@ class InsumoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="nombreInsumo"
-                    placeholder="nombreInsumo"
+                    placeholder="Nombre"
                     type="text"
                     value={this.state.form.nombreInsumo}
                     onChange={this.handleChange}
@@ -119,7 +120,7 @@ class InsumoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="cantidadInsumo"
-                    placeholder="cantidadInsumo"
+                    placeholder="Cantidad"
                     type="text"
                     value={this.state.form.cantidadInsumo}
                     onChange={this.handleChange}
@@ -135,7 +136,7 @@ class InsumoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="fecCompra"
-                    placeholder="fecCompra"
+                    placeholder="Fecha Compra"
                     type="date"
                     value={this.state.form.fecCompra}
                     onChange={this.handleChange}
@@ -143,6 +144,23 @@ class InsumoNuevo extends React.Component {
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VENCIMIENTO</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fecVen"
+                    placeholder="Fecha Vencimiento"
+                    type="date"
+                    value={this.state.form.fecVen}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
 
             <div className="row">
               <div className="col-sm-12">
@@ -154,7 +172,7 @@ class InsumoNuevo extends React.Component {
                     value={this.state.form.tipoInsumo}
                     onChange={this.handleChange}
                   >
-                    <option value="">Seleccione un tipo de insumo</option>
+                    <option value="">Seleccione un Tipo de Insumo</option>
                     {tiposInsumo.map((tipo) => (
                       <option key={tipo.ID} value={tipo.ID}>
                         {tipo.descripInsumo}
@@ -172,7 +190,7 @@ class InsumoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="precioInsumo"
-                    placeholder="precioInsumo"
+                    placeholder="Precio"
                     type="text"
                     value={this.state.form.precioInsumo}
                     onChange={this.handleChange}

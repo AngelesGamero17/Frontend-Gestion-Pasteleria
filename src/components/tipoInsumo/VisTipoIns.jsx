@@ -111,7 +111,7 @@ class VisTipoIns extends React.Component {
             </tbody>
           </table>
           <br></br>
-              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar tipoInsumo</button>
+              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar Tipo Insumo</button>
 
         </div>
 

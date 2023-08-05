@@ -3,23 +3,30 @@ import { Apiurl } from "../../services/apirest";
 import axios from "axios";
 import LogoutButton from "../CerrarSesion";
 import "../../assets/css/Producto.css"; // Importar archivo CSS para los estilos
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class VisProducto extends React.Component {
-  state = {
-    productos: [],
-    tipoPro:[],
-    searchQuery: "",
-    searchFields: ["nombre", "cantidad", "precio", "fechaProduccion"],
-    currentPage: 1,
-    perPage: 5
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      productos: [],
+      tipoPro: [],
+      searchQuery: "",
+      searchFields: ["nombre", "cantidad", "precio", "fechaProduccion"],
+      currentPage: 1,
+      perPage: 5,
+      showInventario: false,
+      showEmpleado: false,
+      showVentas: false,
+    };
+  }
 
   handleSearch = (event) => {
     this.setState({
       searchQuery: event.target.value,
-      currentPage: 1
+      currentPage: 1,
     });
   };
 
@@ -29,6 +36,24 @@ class VisProducto extends React.Component {
     localStorage.removeItem("id");
     window.location.href = "/";
     console.log("Sesión cerrada");
+  };
+
+  handleInventarioClick = () => {
+    this.setState((prevState) => ({
+      showInventario: !prevState.showInventario,
+    }));
+  };
+
+  handleEmpleadoClick = () => {
+    this.setState((prevState) => ({
+      showEmpleado: !prevState.showEmpleado,
+    }));
+  };
+
+  handleVentasClick = () => {
+    this.setState((prevState) => ({
+      showVentas: !prevState.showVentas,
+    }));
   };
 
   clickProducto(id) {
@@ -46,7 +71,7 @@ class VisProducto extends React.Component {
   componentDidMount() {
     let productosUrl = Apiurl + "producto";
     let tipoProUrl = Apiurl + "tipoProducto";
-  
+
     axios
       .all([axios.get(productosUrl), axios.get(tipoProUrl)])
       .then(
@@ -55,7 +80,7 @@ class VisProducto extends React.Component {
           const sortedProductos = productosResponse.data.sort(
             (a, b) => a.ID - b.ID
           );
-  
+
           this.setState({
             productos: sortedProductos,
             tipoPro: tipoProResponse.data,
@@ -70,31 +95,41 @@ class VisProducto extends React.Component {
   addToVenta = (value) => {
     const nombre = value.nombre;
     const cantidad = value.cantidad;
+    const id = value.ID;
     const precio = parseFloat(value.precio).toFixed(2);
 
     const venta = localStorage.getItem("venta");
     const ventaArray = venta ? JSON.parse(venta) : [];
 
-    const nuevoProducto = { nombre, cantidad, precio };
+    const nuevoProducto = { nombre, cantidad, precio, id };
     ventaArray.push(nuevoProducto);
 
     localStorage.setItem("venta", JSON.stringify(ventaArray));
 
-    toast.success('Producto agregado a la venta exitosamente');
+    toast.success("Producto agregado a la venta exitosamente");
   };
 
   handlePageChange = (page) => {
     this.setState({
-      currentPage: page
+      currentPage: page,
     });
   };
 
   render() {
-    const { searchQuery, searchFields, productos, currentPage, perPage } = this.state;
+    const {
+      searchQuery,
+      searchFields,
+      productos,
+      currentPage,
+      perPage,
+   
+    } = this.state;
 
     const filtroProductos = productos.filter((producto) =>
-      searchFields.some((field) =>
-          producto[field] && producto[field]
+      searchFields.some(
+        (field) =>
+          producto[field] &&
+          producto[field]
             .toString()
             .toLowerCase()
             .includes(searchQuery.toLowerCase())
@@ -157,7 +192,7 @@ class VisProducto extends React.Component {
               <br/>
             </ul>
           </div>
-          
+
           <div className="container">
             <br />
             <br />
@@ -188,7 +223,9 @@ class VisProducto extends React.Component {
                   const tipoProducto = this.state.tipoPro.find(
                     (tipo) => tipo.ID === value.tipoProducto
                   );
-                  const descripProducto = tipoProducto ? tipoProducto.descripProducto : "";
+                  const descripProducto = tipoProducto
+                    ? tipoProducto.descripProducto
+                    : "";
                   return (
                     <tr key={index}>
                       <th scope="row">{value.ID}</th>
@@ -222,7 +259,9 @@ class VisProducto extends React.Component {
                           onClick={() => this.clickProducto(value.ID)}
                           className="edit-button"
                         >
-                          <button className="btn btn-primary btn-sm">Editar</button>
+                          <button className="btn btn-primary btn-sm">
+                            Editar
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -247,12 +286,18 @@ class VisProducto extends React.Component {
             </button>
             <div className="pagination">
               {currentPage > 1 && (
-                <button className="btn btn-primary" onClick={() => this.handlePageChange(currentPage - 1)}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.handlePageChange(currentPage - 1)}
+                >
                   Anterior
                 </button>
               )}
               {currentPage < totalPages && (
-                <button className="btn btn-primary" onClick={() => this.handlePageChange(currentPage + 1)}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => this.handlePageChange(currentPage + 1)}
+                >
                   Siguiente
                 </button>
               )}

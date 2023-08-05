@@ -11,6 +11,7 @@ class ProductoNuevo extends React.Component {
       cantidad: "",
       precio: "",
       fechaProduccion: moment().format("YYYY-MM-DD"),
+      fechaVencimiento: "",
       tipoProducto: "",
       img: ""
     },
@@ -36,11 +37,11 @@ class ProductoNuevo extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { nombre, cantidad, precio, fechaProduccion, tipoProducto } =
+    const { nombre, cantidad, precio, fechaProduccion,fechaVencimiento, tipoProducto } =
       this.state.form;
 
     // Validar si todos los campos requeridos están completos
-    if (!nombre || !cantidad || !precio || !fechaProduccion || !tipoProducto) {
+    if (!nombre || !cantidad || !precio || !fechaProduccion || !fechaVencimiento || !tipoProducto) {
       this.setState({
         errorMessage: "Por favor, complete todos los campos obligatorios."
       });
@@ -147,6 +148,20 @@ class ProductoNuevo extends React.Component {
                 placeholder="Fecha de Producción"
                 type="date"
                 value={form.fechaProduccion}
+                onChange={this.handleChange}
+              />
+            </div>
+
+
+            <div className="form-group">
+              <label htmlFor="fechaProduccion" className="control-label">FECHA - VENCIMIENTO</label>
+              <input
+                className="form-control"
+                id="fechaVencimiento"
+                name="fechaVencimiento"
+                placeholder="Fecha de Vencimiento"
+                type="date"
+                value={form.fechaVencimiento}
                 onChange={this.handleChange}
               />
             </div>

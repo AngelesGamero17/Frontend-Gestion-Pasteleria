@@ -11,6 +11,7 @@ class InsumoEditar extends React.Component {
       nombreInsumo: "",
       cantidadInsumo: "",
       fecCompra: "",
+      fecVen: "",
       tipoInsumo: "",
       precioInsumo: "",
       img: "",
@@ -108,6 +109,7 @@ class InsumoEditar extends React.Component {
                 nombreInsumo: insumo.nombreInsumo,
                 cantidadInsumo: insumo.cantidadInsumo,
                 fecCompra: insumo.fecCompra,
+                fecCompra: insumo.fecVen,
                 tipoInsumo: insumo.tipoInsumo,
                 precioInsumo: insumo.precioInsumo,
                 img: insumo.img,
@@ -194,6 +196,23 @@ class InsumoEditar extends React.Component {
                 </div>
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-sm-12">
+                <label className="col-md-2 control-label">FECHA - VENCIMIENTO</label>
+                <div className="col-md-10">
+                  <input
+                    className="form-control"
+                    name="fecVen"
+                    placeholder="fecVen"
+                    type="date"
+                    value={form.fecVen}
+                    onChange={this.handleChange}
+                  />
+                </div>
+              </div>
+            </div>
+
 
             <div className="row">
               <div className="col-sm-12">

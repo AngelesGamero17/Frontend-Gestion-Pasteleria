@@ -112,7 +112,7 @@ class VisTipoPro extends React.Component {
 
             <br/>
             <br/>
-            <button type="submit" className="btn btn-success" onClick={() => this.clickAgregar()}>Registrar tipoProducto</button>
+            <button type="submit" className="btn btn-success" onClick={() => this.clickAgregar()}>Registrar Tipo Producto</button>
           </div>
         </div>
 

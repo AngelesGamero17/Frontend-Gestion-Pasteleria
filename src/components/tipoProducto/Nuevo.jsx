@@ -76,7 +76,7 @@ class tipoProductoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="descripProducto"
-                    placeholder="descripProducto"
+                    placeholder="Tipo Producto"
                     type="text"
                     value={descripProducto}
                     onChange={this.handleChange}

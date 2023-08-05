@@ -89,7 +89,7 @@ class EmpleadoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="nomEmp"
-                    placeholder="nomEmp"
+                    placeholder="Nombre"
                     type="text"
                     value={this.state.form.nomEmp}
                     onChange={this.handleChange}
@@ -105,7 +105,7 @@ class EmpleadoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="apellEmp"
-                    placeholder="apellEmp"
+                    placeholder="Apellidos"
                     type="text"
                     value={this.state.form.apellEmp}
                     onChange={this.handleChange}
@@ -137,7 +137,7 @@ class EmpleadoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="password"
-                    placeholder="password"
+                    placeholder="Contraseña"
                     type="password"
                     value={this.state.form.password}
                     onChange={this.handleChange}
@@ -153,7 +153,7 @@ class EmpleadoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="direccEmp"
-                    placeholder="direccEmp"
+                    placeholder="Direccion"
                     type="text"
                     value={this.state.form.direccEmp}
                     onChange={this.handleChange}
@@ -171,7 +171,7 @@ class EmpleadoNuevo extends React.Component {
                     maxLength={9}
                     minLength={9}
                     name="telefono"
-                    placeholder="telefono"
+                    placeholder="Telefono"
                     type="text"
                     value={this.state.form.telefono}
                     onChange={this.handleChange}
@@ -194,7 +194,7 @@ class EmpleadoNuevo extends React.Component {
                         value={this.state.form.tipoEmpleado}
                         onChange={this.handleChange}
                       >
-                        <option value="">Seleccione un tipo de Empleado</option>
+                        <option value="">Seleccione un Tipo de Empleado</option>
                         {tipoEmpleado.map((tipo) => (
                           <option key={tipo.ID} value={tipo.ID}>
                             {tipo.rol}

@@ -79,7 +79,7 @@ class ClienteNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="nomCli"
-                    placeholder="nomCli"
+                    placeholder="Nombre"
                     type="text"
                     value={nomCli}
                     onChange={this.handleChange}
@@ -95,7 +95,7 @@ class ClienteNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="direCli"
-                    placeholder="direCli"
+                    placeholder="direccion"
                     type="text"
                     value={direCli}
                     onChange={this.handleChange}
@@ -113,7 +113,7 @@ class ClienteNuevo extends React.Component {
                     name="telefono"
                     maxLength={9}
                     minLength={9}
-                    placeholder="telefono"
+                    placeholder="Telefono"
                     type="text"
                     value={telefono}
                     onChange={this.handleChange}
@@ -131,7 +131,7 @@ class ClienteNuevo extends React.Component {
                     name="dni"
                     maxLength={8}
                     minLength={8}
-                    placeholder="dni"
+                    placeholder="Dni"
                     type="text"
                     value={dni}
                     onChange={this.handleChange}

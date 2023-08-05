@@ -109,7 +109,7 @@ class VisTipoEmp extends React.Component {
             </tbody>
           </table>
               <br/>
-              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar tipoEmpleado</button>
+              <button type="submit" className="btn btn-success"onClick={() => this.clickAgregar()}>Registrar Tipo Empleado</button>
 
         </div>
       
@@ -119,4 +119,4 @@ class VisTipoEmp extends React.Component {
   }
 }
 
-export default VisTipoEmp; 
+export default VisTipoEmp;  

@@ -59,7 +59,7 @@ const NuevoVI = () => {
   }, []);
 
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const config = {
@@ -67,42 +67,37 @@ const NuevoVI = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-  
-    // Calcular la cantidad total que se va a actualizar para cada insumo
-    const cantidadTotalPorInsumo = venta2.reduce((acc, insumo) => {
-      const cantidadIngresada = insumo.cantidadIngresada;
-      return acc + cantidadIngresada;
-    }, 0);
-  
-    // Actualizar cantidad disponible en el estado venta2 antes de enviar los datos al servidor
-    const updatedVenta2 = venta2.map((insumo) => ({
-      ...insumo,
-      cantidadInsumo: insumo.cantidadInsumo - insumo.cantidadIngresada,
-    }));
-  
+
     // Registrar la venta en el servidor
-    try {
-      const res = await axios.post(Apiurl + "ventaInsumo", form, config);
-      console.log(res);
-      alert("Se registró la venta correctamente.");
-  
-      // Actualizar la cantidad disponible de los insumos en el servidor (solo una vez)
-      await handleUpdateInsumo(updatedVenta2[0].id, updatedVenta2[0].cantidadInsumo + cantidadTotalPorInsumo);
-    } catch (error) {
-      console.log(error);
-      alert("No se pudo registrar la venta.");
-    } finally {
-      window.location.href = "/VentaInsumo/VisVentIns";
-      // Eliminar datos de la tabla del LocalStorage solo si el registro es exitoso
-      localStorage.removeItem("venta2");
-  
-      // Limpiar tabla y campos del formulario solo si el registro es exitoso
-      setForm({
-        idCliente: "",
-        idEmpleado: "",
-        fechaVenta: moment().format("YYYY-MM-DD"), // Restablecer la fecha actual
+    axios
+      .post(Apiurl + "ventaInsumo", form, config)
+      .then(async (res) => {
+        alert("Se registró la venta correctamente.");
+
+        // Actualizar la cantidad disponible de los insumos en el servidor
+        for (const insumo of venta2) {
+          await handleUpdateInsumo(insumo.id, insumo.cantidadInsumo);
+        }
+
+        window.location.href = "/VentaInsumo/VisVentIns";
+        // Eliminar datos de la tabla del LocalStorage solo si el registro es exitoso
+        localStorage.removeItem("venta2");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("No se pudo registrar la venta.");
+      })
+      .finally(() => {
+        // Limpiar tabla y campos del formulario solo si el registro es exitoso
+        setForm({
+          idCliente: "",
+          idEmpleado: "",
+          descripcion: "",
+          precioTotal: "",
+          fechaVenta: moment().format("YYYY-MM-DD"), // Restablecer la fecha actual
+        });
+        setVenta2([]);
       });
-    }
   };
   
   const manejadorChange = (e) => {
@@ -194,7 +189,7 @@ const NuevoVI = () => {
       precioTotal: total.toFixed(2),
     }));
   }, [venta2]);
-
+  
   const handleUpdateInsumo = async (insumoId, newCantidadInsumo) => {
     try {
       const token = localStorage.getItem("token");
@@ -204,7 +199,7 @@ const NuevoVI = () => {
         },
       };
 
-      // Petición al servidor para actualizar la cantidadInsumo del insumo
+      // Petición al servidor para actualizar la cantidadInsumo del insumo con el nuevo valor ingresado por el usuario
       await axios.put(
         `${Apiurl}insumo/${insumoId}`,
         { cantidadInsumo: newCantidadInsumo },
@@ -405,5 +400,4 @@ const NuevoVI = () => {
     </React.Fragment>
   );
 };
-
 export default NuevoVI;

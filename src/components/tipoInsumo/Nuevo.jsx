@@ -77,7 +77,7 @@ class tipoInsumoNuevo extends React.Component {
                   <input
                     className="form-control"
                     name="descripInsumo"
-                    placeholder="descripInsumo"
+                    placeholder="Tipo Insumo"
                     type="text"
                     value={descripInsumo}
                     onChange={this.handleChange}

@@ -12,7 +12,7 @@ class VisInsumo extends React.Component {
     insumos: [],
     tipoIns: [],
     searchQuery: "",
-    searchFields: ["nombreInsumo", "cantidadInsumo", "fecCompra", "tipoInsumo", "precioInsumo"],
+    searchFields: ["nombreInsumo", "cantidadInsumo", "fecCompra", "fecVen","tipoInsumo", "precioInsumo"],
     currentPage: 1,
     perPage: 5
   };
@@ -189,6 +189,7 @@ class VisInsumo extends React.Component {
                   <th scope="col">NOMBRE</th>
                   <th scope="col">CANTIDAD - INSUMO</th>
                   <th scope="col">FECHA - COMPRA</th>
+                  <th scope="col">FECHA - VENCIMIENTO</th>
                   <th scope="col">TIPO - INSUMO</th>
                   <th scope="col">PRECIO - INSUMO</th>
                   <th scope="col">IMG</th>
@@ -209,6 +210,7 @@ class VisInsumo extends React.Component {
                       <td>{value.nombreInsumo}</td>
                       <td>{value.cantidadInsumo}</td>
                       <td>{value.fecCompra}</td>
+                      <td>{value.fecVen}</td>
                       <td>{descripInsumo}</td>
                       <td>s/ {value.precioInsumo}</td>
                       <td>
@@ -228,7 +230,7 @@ class VisInsumo extends React.Component {
                           }}
                           onClick={() => this.addToVenta2(value)}
                         >
-                          Agregar a la Venta2
+                          Agregar a la Venta
                         </button>
                       </td>
                       <td>
@@ -249,7 +251,7 @@ class VisInsumo extends React.Component {
               className="btn btn-dark btn-sm"
               onClick={() => this.clickVenta2()}
             >
-              Realizar Venta2
+              Realizar Venta
             </button>
             <br></br>
             <button
